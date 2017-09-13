@@ -1,26 +1,33 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
- * The Welcome Page is a splash page that quickly describes the app,
- * and then directs the user to create an account or log in.
- * If you'd like to immediately put the user onto a login/signup page,
- * we recommend not using the Welcome page.
-*/
+ * Generated class for the WelcomePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
 @IonicPage()
 @Component({
   selector: 'page-welcome',
-  templateUrl: 'welcome.html'
+  templateUrl: 'welcome.html',
 })
 export class WelcomePage {
 
-  constructor(public navCtrl: NavController) { }
+  constructor(
+    private modalCtrl: ModalController
+  ) { }
 
   login() {
-    this.navCtrl.push('LoginPage');
+    this.modalCtrl.create('LoginPage').present();
   }
 
   signup() {
-    this.navCtrl.push('SignupPage');
+    this.modalCtrl.create('SignupPage').present();
   }
+  selectEndereco(endereco) {
+    console.log(endereco);
+  }
+
 }

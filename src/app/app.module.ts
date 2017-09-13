@@ -4,17 +4,43 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Camera } from '@ionic-native/camera';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Geolocation } from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-import { Items } from '../mocks/providers/items';
+import { Items } from '../mocks/providers/items'; 
 import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
+// Configuration Firebase
+import { FacebookModule } from 'ngx-facebook';
+//Modulos Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { BrMaskerModule } from "brmasker-ionic-3";
+import { DropdownService } from "../services/dropdown.service";
+import { ConsultaCepService } from "../services/consulta-cep.service";
+import { MaskShared } from "../shared/masks";
+import { NativeGeocoder } from "@ionic-native/native-geocoder";
+import { GoogleApis } from "../services/consulta-google-apis";
+import { AuthServiceProvider } from "../providers/auth-service";
+import { Facebook } from "@ionic-native/facebook";
+import { UserService } from "../providers/database/database-providers";
+
+// AF2 Settings
+export const firebaseConfig = {
+  apiKey: "AIzaSyA3winfnztWrbW_k5U7PgRzOCldhPsXSDg",
+  authDomain: "aguamineral-f4e5f.firebaseapp.com",
+  databaseURL: "https://aguamineral-f4e5f.firebaseio.com",
+  projectId: "aguamineral-f4e5f",
+  storageBucket: "aguamineral-f4e5f.appspot.com",
+  messagingSenderId: "259485126796"
+};
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -52,7 +78,12 @@ export function provideSettings(storage: Storage) {
       }
     }),
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule, 
+    AngularFireAuthModule,
+    FacebookModule.forRoot(),
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -68,7 +99,16 @@ export function provideSettings(storage: Storage) {
     StatusBar,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AuthServiceProvider,
+    Facebook,    
+    DropdownService, 
+    ConsultaCepService,
+    MaskShared,
+    Geolocation,
+    NativeGeocoder,
+    GoogleApis,
+    UserService 
   ]
 })
 export class AppModule { }

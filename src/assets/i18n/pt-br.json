@@ -1,21 +1,75 @@
 {
-  "BACK_BUTTON_TEXT": "Voltar",
-
+  "APP_NAME":"Água Mineral  ", 
+  "BACK_BUTTON_TEXT" : "Voltar",
+  "CLOSE_BUTTON_TEXT" : "Fechar",
+  "OK_BUTTON_TEXT" : "Ok",
+  "SEARCH":"Buscar",
+  "NEW_SEARCH":"Nova Busca",
   "NAME": "Nome",
+  "SIGNUP_DISTRIBUTOR":"Cadastre sua distribuidora!",
+
+  "CEP": "CEP",
+  "CEP_PLACEHOLDER": "Digite seu CEP",
+  "CEP_UNKNOW": "Não sabe o CEP?",
+  "CEP_KNOW": "Buscar por CEP?",
+  "CEP_MESSAGE_INVALID": "CEP inválido.",
+  "CEP_MESSAGE_INVALID_REQUIRED": "CEP é obrigatório.",
+  "USE_LOCATION": "Usar minha localização",
+  "ADDRESS_VALIDATION_ERROR": "Erro na validação do endereço. Revise seus dados e tente novamente.",
+  
+  "NUMERO": "Número",
+  "NUMERO_MESSAGE_INVALID": "Número é obrigatório.",
+  "NUMERO_PLACEHOLDER": "Digite o número",
+
+  "COMPLEMENTO": "Complemento",
+  "COMPLEMENTO_MESSAGE_INVALID": "Complemento é obrigatório.",
+  "COMPLEMENTO_PLACEHOLDER": "Digite o Complemento",
+
+  "RUA": "Rua",
+  "RUA_MESSAGE_INVALID": "Rua é obrigatório.",
+  "RUA_PLACEHOLDER": "Digite a rua",
+
+  "BAIRRO": "Bairro",
+  "BAIRRO_MESSAGE_INVALID": "Bairrro é obrigatório.",
+  "BAIRRO_PLACEHOLDER": "Digite o bairro",
+  
+  "CIDADE": "Cidade",
+  "CIDADE_MESSAGE_INVALID": "Cidade é obrigatório.",
+  "CIDADE_PLACEHOLDER": "Digite a cidade",
+ 
+  "ESTADO": "Estado",
+  "ESTADO_MESSAGE_INVALID": "Estado é obrigatório.",
+  "ESTADO_PLACEHOLDER": "Digite o estado",
+
+  "USE_THIS_ADDRESS": "Usar este endereço",
+  
+  "ADDRESS_NOT_FOUND": "CEP não encontado, melhore seus critérios de pesquisa.",
+   "CEP_NOT_FOUND" : "Endereço não encontado para o CEP informado.",
+
+
+   "ADDRESS_SELECTION": "Selecione um endereço",
+
+  "NAME_PLACEHOLDER": "Digite seu nome",
   "EMAIL": "Email",
+  "EMAIL_PLACEHOLDER": "Digite seu email",
   "USERNAME": "Nome de Usuário",
   "PASSWORD": "Senha",
+  "PASSWORD_PLACEHOLDER": "Digite sua senha",
   "LOGIN": "Entrar",
+  "LOGIN_WHIT_FACEBOOK": "Entrar com facebook",
   "SIGNUP": "Cadastre-se",
-
+  "FORGOT_PASSWORD": "Esqueceu sua senha?",
+  "RESET_PASSWORD": "Recuperar senha",
+  "RESET_PASSWORD_SENT": "Enviar e-mail",
+  
   "TAB1_TITLE": "Itens",
   "TAB2_TITLE": "Busca",
   "TAB3_TITLE": "Configurações",
 
   "MAP_TITLE": "Mapa",
 
-  "TUTORIAL_SKIP_BUTTON": "Pular",
-  "TUTORIAL_CONTINUE_BUTTON": "Continuar",
+  "TUTORIAL_SKIP_BUTTON" : "Pular",
+  "TUTORIAL_CONTINUE_BUTTON" : "Continuar",
 
   "TUTORIAL_SLIDE1_TITLE": "Bem-vindo ao Ionic Super Starter",
   "TUTORIAL_SLIDE1_DESCRIPTION": "O <b>Ionic Super Starter</b> é um starter para Ionic completo, com diversos componentes e páginas prontas para ser utilizado como guia de melhores práticas.",
@@ -28,7 +82,7 @@
 
   "TUTORIAL_SLIDE4_TITLE": "Pronto para Usar?",
 
-  "WELCOME_INTRO": "O ponto de partida para seu próximo app feito no Ionic",
+  "WELCOME_INTRO" : "Entrega de água mineral pelo celular",
 
   "SETTINGS_TITLE": "Configurações",
   "SETTINGS_OPTION1": "Opção 1",
@@ -36,7 +90,7 @@
   "SETTINGS_OPTION3": "Opção 3",
   "SETTINGS_OPTION4": "Opção 4",
 
-  "SETTINGS_PROFILE_BUTTON": "Editar Perfil",
+  "SETTINGS_PROFILE_BUTTON" : "Editar Perfil",
 
   "SETTINGS_PAGE_PROFILE": "Editar Perfil",
 
@@ -48,21 +102,37 @@
   "SIGNUP_TITLE": "Cadastre-se",
   "SIGNUP_ERROR": "Não foi possível criar sua conta. Verifique seus dados e tente novamente.",
   "SIGNUP_BUTTON": "Cadastre-se",
-
+  
   "LIST_MASTER_TITLE": "Itens",
 
   "ITEM_CREATE_TITLE": "Novo Item",
   "ITEM_CREATE_CHOOSE_IMAGE": "Adicionar Imagem",
 
-  "ITEM_NAME_PLACEHOLDER": "Nome",
-  "ITEM_ABOUT_PLACEHOLDER": "Sobre",
+  "ITEM_NAME_PLACEHOLDER" : "Nome",
+  "ITEM_ABOUT_PLACEHOLDER" : "Sobre",
 
-  "DONE_BUTTON": "Pronto",
-  "CANCEL_BUTTON": "Cancelar",
-  "DELETE_BUTTON": "Apagar",
+  "DONE_BUTTON" : "Pronto",
+  "CANCEL_BUTTON" : "Cancelar",
+  "DELETE_BUTTON" : "Apagar",
 
   "CARDS_TITLE": "Social",
 
   "SEARCH_TITLE": "Busca",
-  "SEARCH_PLACEHOLDER": "Procure um item da lista, ex: \"Donald Duck\""
+  "SEARCH_PLACEHOLDER" : "Procure um item da lista, ex: \"Donald Duck\"",
+
+  "PASSWORD_MESSAGE_INVALID": "Sua senha precisa ter no mínimo 8 caracteres",
+  "EMAIL_MESSAGE_INVALID": "Digite um e-mail válido",  
+
+  "AUTH_INVALID_EMAIL": "E-mail inválido.",
+  "AUTH_USER_DISABLED": "Usuário não está ativo.",
+  "AUTH_USER_NOT_FOUND": "Usuário não encontrado. Efetue seu cadastro.",
+  "AUTH_USER_NOT_FOUND_RESET": "Usuário não encontrado.",
+  "AUTH_WRONG_PASSWORD": "Senha inválida",
+
+  "AUTH_EMAIL_ALREADY_IN_USE" : "Já existe um usuário cadastrado para este e-mail.",
+  "AUTH_OPERATION_NOT_ALLOWED" : "Cadastro não autorizado, verifique as regras de utilização de e-mail para este aplicativo",
+  "AUTH_WEAK_PASSWORD": "Redefina sua senha, a senha informada foi considerada muito fraca.",
+  
+  "AUTH_SUCCESS_SIGNIN": "Seu cadastro foi realizado com sucesso.",
+  "AUTH_SUCCESS_RESET_PASSWORD": "Uma mensagem de redefinição de senha será enviada ao seu endereço de e-mail para recuperação."
 }

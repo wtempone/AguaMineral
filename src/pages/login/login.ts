@@ -1,50 +1,108 @@
 import { Component } from '@angular/core';
+import { NavController, AlertController, NavParams, LoadingController, ToastController, ModalController, IonicPage } from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
+
+import { MainPage } from '../../pages/pages';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
-
-import { User } from '../../providers/providers';
-import { MainPage } from '../pages';
-
+import { AuthServiceProvider } from '../../providers/auth-service';
 @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
-  account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
-  };
 
-  // Our translated text strings
-  private loginErrorString: string;
+  public loginForm;
+  emailChanged: boolean = false;
+  passwordChanged: boolean = false;
+  submitAttempt: boolean = false;
+  loading: any;
 
   constructor(public navCtrl: NavController,
-    public user: User,
-    public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    private authService: AuthServiceProvider,
+    private navParams: NavParams,
+    private modalCtrl: ModalController,
+    private formBuilder: FormBuilder,
+    private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,    
+    private translate: TranslateService) {
 
-    this.translateService.get('LOGIN_ERROR').subscribe((value) => {
-      this.loginErrorString = value;
-    })
-  }
+    let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
-  // Attempt to login in through our User service
-  doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
-      this.navCtrl.push(MainPage);
-      // Unable to log in
-      let toast = this.toastCtrl.create({
-        message: this.loginErrorString,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEXP)])],
+      password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
   }
+  register(){
+    this.navCtrl.pop();
+    this.modalCtrl.create('SignupPage').present();
+  }
+
+  resetPwd() {
+    this.navCtrl.pop();
+    this.modalCtrl.create('ResetpwdPage').present();
+  }
+  facebookLogin() {
+    this.authService.signInWithFacebook();
+      
+  }
+  loginUser() {
+    this.submitAttempt = true;
+
+    if (!this.loginForm.valid) {
+      console.log(this.loginForm.value);
+    } else {
+      this.authService.signInWithEmail(this.loginForm.value.email, this.loginForm.value.password).then(authService => {
+        this.navCtrl.setRoot(MainPage);
+      }, error => { 
+        this.loading.dismiss().then(() => {
+          var messageErrorTranslated: string;
+          this.translate.get([
+            "AUTH_INVALID_EMAIL", "AUTH_USER_DISABLED", "AUTH_USER_NOT_FOUND", "AUTH_WRONG_PASSWORD"
+          ]).subscribe(
+            (values) => {
+              switch (error.code) {
+                case 'auth/invalid-email':
+                  messageErrorTranslated = values.AUTH_INVALID_EMAIL;
+                  break;
+                case 'auth/user-disabled':
+                  messageErrorTranslated = values.AUTH_USER_DISABLED;
+                  break;
+                case 'auth/user-not-found':
+                  messageErrorTranslated = values.AUTH_USER_NOT_FOUND;
+                  break;
+                case 'auth/wrong-password':
+                  messageErrorTranslated = values.AUTH_WRONG_PASSWORD;
+                  break;
+              }
+              // let alert = this.alertCtrl.create({
+              //   message: messageErrorTranslated,
+              //   buttons: [
+              //     {
+              //       text: "Ok",
+              //       role: 'cancel'
+              //     }
+              //   ]
+              // });
+              // alert.present();
+              let toast = this.toastCtrl.create({
+                message: messageErrorTranslated,
+                duration: 3000,
+                position: 'top'
+              });
+              toast.present();
+            });
+
+        });
+      });
+
+      this.loading = this.loadingCtrl.create({
+        dismissOnPageChange: true,
+      });
+      this.loading.present();
+    }
+  }
+
 }
