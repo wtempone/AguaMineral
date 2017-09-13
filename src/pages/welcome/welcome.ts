@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { MainPage } from '../pages'
 
 /**
  * Generated class for the WelcomePage page.
@@ -16,7 +17,8 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 export class WelcomePage {
 
   constructor(
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private navCtrl: NavController
   ) { }
 
   login() {
@@ -28,6 +30,7 @@ export class WelcomePage {
   }
   selectEndereco(endereco) {
     console.log(endereco);
+    this.navCtrl.push(MainPage)
   }
 
 }

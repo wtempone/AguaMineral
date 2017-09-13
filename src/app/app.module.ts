@@ -22,7 +22,6 @@ import { FacebookModule } from 'ngx-facebook';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { BrMaskerModule } from "brmasker-ionic-3";
 import { DropdownService } from "../services/dropdown.service";
 import { ConsultaCepService } from "../services/consulta-cep.service";
 import { MaskShared } from "../shared/masks";
@@ -82,8 +81,7 @@ export function provideSettings(storage: Storage) {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule, 
     AngularFireAuthModule,
-    FacebookModule.forRoot(),
-    BrMaskerModule
+    FacebookModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

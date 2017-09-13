@@ -3,7 +3,6 @@ import { IonicPageModule } from 'ionic-angular';
 import { WelcomePage } from './welcome';
 import { TranslateModule } from "@ngx-translate/core";
 import { EnderecoPage } from "../endereco/endereco";
-
 @NgModule({
   declarations: [
     WelcomePage,
