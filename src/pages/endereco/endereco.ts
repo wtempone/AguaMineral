@@ -64,7 +64,7 @@ export class EnderecoPage {
 
     this.formulario = this.formBuilder.group({
 
-      cep: [null, Validators.compose([Validators.required, Validators.pattern(this.masks.teleforneFormat)])],
+      cep: [null, Validators.compose([Validators.required, Validators.pattern(this.masks.cep.pattern)])],
       numero: [null, Validators.required],
       complemento: [null],
       rua: [null, Validators.required],

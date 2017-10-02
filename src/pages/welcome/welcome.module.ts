@@ -3,6 +3,8 @@ import { IonicPageModule } from 'ionic-angular';
 import { WelcomePage } from './welcome';
 import { TranslateModule } from "@ngx-translate/core";
 import { EnderecoPage } from "../endereco/endereco";
+import { DirectivesModule } from '../../directives/directives.module';
+
 @NgModule({
   declarations: [
     WelcomePage,
@@ -10,7 +12,8 @@ import { EnderecoPage } from "../endereco/endereco";
   ],
   imports: [
     IonicPageModule.forChild(WelcomePage),
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    DirectivesModule
   ],
 })
 export class WelcomePageModule {}

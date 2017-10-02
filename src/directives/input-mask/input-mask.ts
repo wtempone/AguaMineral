@@ -16,6 +16,7 @@ export class InputMaskDirective {
         public model: NgModel,
         @Attribute('mask') pattern: string
     ) {
+        console.log('USING DIRECTIVE: InputMaskDirective')
         this.pattern = pattern;
     }
 
@@ -51,10 +52,11 @@ export class InputMaskDirective {
                     formatted += pattern[maskIndex];
                     maskIndex++;
                 }
+            } else {
+                formatted = value.substring(0, pattern.length);
             }
             value = formatted;
         }
-        this.model.update.emit(value);
-    }
-
+        event.target.value = value;
+   }
 }

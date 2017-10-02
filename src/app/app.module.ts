@@ -30,6 +30,7 @@ import { GoogleApis } from "../services/consulta-google-apis";
 import { AuthServiceProvider } from "../providers/auth-service";
 import { Facebook } from "@ionic-native/facebook";
 import { UserService } from "../providers/database/database-providers";
+import { DirectivesModule } from '../directives/directives.module';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -81,7 +82,8 @@ export function provideSettings(storage: Storage) {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule, 
     AngularFireAuthModule,
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    DirectivesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
