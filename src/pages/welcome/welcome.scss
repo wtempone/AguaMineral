@@ -1,4 +1,9 @@
 page-welcome {
+    .image-profile {
+      border-radius: 50%;
+      max-height: 50px;
+      max-width: 50px;
+    } 
     ion-content {
       background: url('../assets/img/splashbg.png') no-repeat center center fixed;    
       -webkit-background-size: cover;

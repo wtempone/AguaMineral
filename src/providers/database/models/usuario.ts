@@ -1,14 +1,18 @@
-export class User {
-  $key: string;
-  usr_fb_id: string; 
+import { Endereco } from './geral';
+export interface Usuario {
+  $key?: string;
+  usr_fb_id?: string; 
+  usr_fb_foto?: any; 
   usr_nome: string;
   usr_email: string;
-  usr_foto: string;
-  usr_senha: string;
+  usr_foto?: string;
+  usr_senha?: string;
   usr_data: Date;
-  usr_nivel: number; 
-  usr_status: number;
+  usr_nivel?: number; 
+  usr_status?: number;
+  usr_endereco?: Endereco;
 }
+
 /*
 
 CREATE TABLE `usuario` (

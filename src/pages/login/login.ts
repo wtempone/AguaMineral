@@ -41,11 +41,18 @@ export class LoginPage {
   }
 
   resetPwd() {
-    this.navCtrl.pop();
     this.modalCtrl.create('ResetpwdPage').present();
   }
+
   facebookLogin() {
-    this.authService.signInWithFacebook();
+    this.loading = this.loadingCtrl.create({
+      dismissOnPageChange: true,
+    });
+    this.loading.present();    this.authService.signInWithFacebook().then(()=>{
+      this.navCtrl.pop().then(() => {
+        this.loading.dismiss();
+      });
+    });
       
   }
   loginUser() {
@@ -55,7 +62,9 @@ export class LoginPage {
       console.log(this.loginForm.value);
     } else {
       this.authService.signInWithEmail(this.loginForm.value.email, this.loginForm.value.password).then(authService => {
-        this.navCtrl.setRoot(MainPage);
+        this.navCtrl.pop().then(() => {
+          this.loading.dismiss();
+        }) 
       }, error => { 
         this.loading.dismiss().then(() => {
           var messageErrorTranslated: string;

@@ -1,4 +1,5 @@
-import { UserService } from './database/services/users';
+import { Usuario } from './database/models/usuario';
+import { UsuarioService } from './database/services/usuario';
 //import { User } from './database/models/user';
 import { Platform, ToastController } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook'
@@ -20,52 +21,97 @@ export class AuthServiceProvider {
     private facebook: Facebook,
     private toastController: ToastController,
     private http: Http,
-    public userService: UserService
-    ) { }
+    public usuarioSrvc: UsuarioService
+  ) { }
 
   signInWithFacebook(): firebase.Promise<any> {
     if (this.platform.is('cordova')) {
       return this.facebook.login(['email', 'public_profile']).then(res => {
         this.facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        return this.saveUserFacebook();
+        return this.setUserFacebook();
         //return this.afAuth.auth.signInWithCredential(this.facebookCredential);
       });
     } else {
       return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).then((res => {
         this.facebookCredential = res.credential;
         this.facebookUser = res.additionalUserInfo;
-        return this.saveUserFacebook();
+        return this.setUserFacebook();
       }));
     }
   }
 
-  signInWithEmail(email: string, password: string): any {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  setUserFacebook() {
+    this.getMe().then((facebookUser: any) => {
+      this.usuarioSrvc.getOnce('usr_fb_id', facebookUser.id).then((res) => {
+        let usuario: Usuario = res.val();
+        if (usuario) {
+          usuario.usr_email = facebookUser.email;
+          usuario.usr_nome = facebookUser.name;
+          usuario.usr_fb_foto = facebookUser.picture;
+          usuario.usr_data = new Date(Date.now());
+          let key = res.val();
+          this.usuarioSrvc.update(Object.keys(res.val())[0], usuario).then(() => {
+            this.usuarioSrvc.usuarioAtual = usuario;
+          })
+        } else {
+          let usuario: Usuario = {
+            usr_email: facebookUser.email,
+            usr_nome: facebookUser.name,
+            usr_fb_id: facebookUser.id,
+            usr_data: new Date(Date.now()),
+            usr_fb_foto: facebookUser.picture
+          }
+          this.usuarioSrvc.create(usuario).then((res) => {
+            this.usuarioSrvc.usuarioAtual = usuario;
+          });
+        }
+      })
+    })
   }
 
-  registerWithEmail(email: string, password: string): any {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+  signInWithEmail(email: string, password: string): any {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(() => {
+      return this.usuarioSrvc.getOnce('usr_email', email).then((res) => {
+        let usuario: Usuario = res.val();
+        if (usuario) {
+          this.usuarioSrvc.usuarioAtual = usuario;
+        }
+      });
+    });
   }
+
+  registerWithEmail(nome: string, email: string, password: string): any {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(() => {
+      return this.setUserEmail(nome, email);
+    });
+  }
+
+  setUserEmail(nome: string, email: string) {
+    return new Promise(resolve => {
+      this.usuarioSrvc.getOnce('usr_email', email).then((res) => {
+        let usuario: Usuario = res.val();
+        if (!usuario) {
+          let usuario: Usuario = {
+            usr_email: email,
+            usr_nome: nome,
+            usr_data: new Date(Date.now())
+          }
+          this.usuarioSrvc.create(usuario).then((res) => {
+            this.usuarioSrvc.usuarioAtual = usuario;
+            resolve(this.usuarioSrvc.usuarioAtual);
+          });
+        }
+      });
+    })
+  }
+
+
   resetPassword(email: string): any {
     return this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
   doLogout(): any {
     return this.afAuth.auth.signOut();
-  }
-  saveUserFacebook() { 
-    this.getMe().then((userAuth: any) => {
-    /*  this.user.usr_fb_id = userAuth.id;
-      this.user.usr_nome = userAuth.name;
-      this.user.usr_email = userAuth.email;
-      this.user.usr_foto = userAuth.picture;
-
-      if (this.userService.getOnce('usr_email', this.user.usr_email)) {
-        this.userService.getOnce('usr_email', this.user.usr_email)
-      } else {
-        return this.userService.create(this.user);
-      }*/
-    })
   }
 
   public getMe() {

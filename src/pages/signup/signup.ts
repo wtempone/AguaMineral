@@ -61,7 +61,7 @@ export class SignupPage {
       console.log(this.signupForm.value);
     } else {
       this.authService.signInWithEmail(this.signupForm.value.email, this.signupForm.value.password).then(authService => {
-        this.navCtrl.setRoot('MainPage');
+        this.navCtrl.pop().then(() => this.loading.dismiss());
       }, error => {
         this.loading.dismiss().then(() => {
           var messageErrorTranslated: string;
@@ -116,7 +116,7 @@ export class SignupPage {
     if (!this.signupForm.valid) {
       console.log(this.signupForm.value);
     } else {
-      this.authService.registerWithEmail(this.signupForm.value.email, this.signupForm.value.password).then(authService => {
+      this.authService.registerWithEmail(this.signupForm.value.nome, this.signupForm.value.email, this.signupForm.value.password).then(authService => {
         this.loading.dismiss().then(() => {
           this.translate.get("AUTH_SUCCESS_SIGNIN").subscribe(
             (messageOk) => {

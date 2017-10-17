@@ -1,12 +1,16 @@
+import { DistribuidorService } from './services/distribuidor';
+import { Distribuidor } from './models/distribuidor';
 
 import { Item } from './models/item';
 import { ItemService } from './services/items';
-import { User } from './models/user';
-import { UserService } from './services/users';
+import { Usuario } from './models/usuario';
+import { UsuarioService } from './services/usuario';
 
 export {
     Item,
     ItemService ,
-    User,
-    UserService
+    Usuario,
+    UsuarioService,
+    Distribuidor,
+    DistribuidorService    
 };
