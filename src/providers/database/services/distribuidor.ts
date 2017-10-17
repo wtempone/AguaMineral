@@ -5,23 +5,22 @@ import { Distribuidor } from '../database-providers';
 
 @Injectable()
 export class DistribuidorService {
-  private basePath: string = '/Distribuidores';
-  public Distribuidores: FirebaseListObservable<Distribuidor[]> = null; //  list of objects
-  public Distribuidor: FirebaseObjectObservable<Distribuidor> = null; //   single object
-  public DistribuidorAtual: Distribuidor;
+  private basePath: string = '/distribuidores';
+  public distribuidores: FirebaseListObservable<Distribuidor[]> = null; //  list of objects
+  public distribuidor: FirebaseObjectObservable<Distribuidor> = null; //   single object
   constructor(private db: AngularFireDatabase) { 
-    this.Distribuidores = this.db.list(this.basePath);
+    this.distribuidores = this.db.list(this.basePath);
   }
 
   getList(query = {}): FirebaseListObservable<Distribuidor[]> {
-    this.Distribuidores = this.db.list(this.basePath, { query: query });
-    return this.Distribuidores;
+    this.distribuidores = this.db.list(this.basePath, { query: query });
+    return this.distribuidores;
   }
 
   get(key: string): FirebaseObjectObservable<Distribuidor> {
     const itemPath = `${this.basePath}/${key}`;
-    this.Distribuidor = this.db.object(itemPath)
-    return this.Distribuidor
+    this.distribuidor = this.db.object(itemPath)
+    return this.distribuidor
   } 
 
   getOnce(field: string, value: string)  {
@@ -29,20 +28,20 @@ export class DistribuidorService {
   }
   
   create(Distribuidor: Distribuidor) {
-    return this.Distribuidores.push(Distribuidor);
+    return this.distribuidores.push(Distribuidor);
   }
 
   update(key: string, value: any) {
-    return this.Distribuidores.update(key, value);
+    return this.distribuidores.update(key, value);
   }
 
   delete(key: string): void {
-    this.Distribuidores.remove(key)
+    this.distribuidores.remove(key)
       .catch(error => this.handleError(error))
   }
 
   deleteAll(): void {
-    this.Distribuidores.remove()
+    this.distribuidores.remove()
       .catch(error => this.handleError(error))
   }
 

@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar color="customColor1">
+    <ion-title (click)="show()">{{ 'APP_NAME' | translate }}</ion-title>
+    <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
+      <button ion-button icon-only (click)="signup()">{{ 'SIGNUP' | translate }}</button>
+      <button ion-button icon-only (click)="login()">{{ 'LOGIN' | translate }}</button>
+    </ion-buttons>
+    <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
+      <button ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
+      <button ion-button icon-only>
+          <img *ngIf="usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" [src]="usuarioSrvc.usuarioAtual.usr_fb_foto.data.url"/>
+          <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" src="assets/img/user-placeholder-1.jpg"/>
+        </button>
+      <button ion-button icon-only>
+          <ion-icon name="more"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+<ion-content>
+  <div class="content-desktop">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-2 col-md-6 *ngFor='let distribuidor of distribuidorSrvc.distribuidores | async'>
+          <ion-item>
+            <ion-thumbnail item-start>
+              <img src="assets/img/appicon.png">
+            </ion-thumbnail>
+            <h2> {{ distribuidor.dist_nome }} </h2>
+            <p> {{ distribuidor.dist_endereco.bairro }}</p>
+            <button ion-button clear item-end>View</button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<ion-footer color="customColor1">
+  <button ion-button block (click)="signup()" color="customColor1">{{ 'SIGNUP_DISTRIBUTOR' | translate }}</button>
+</ion-footer>

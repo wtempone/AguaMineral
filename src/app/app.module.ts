@@ -29,7 +29,7 @@ import { NativeGeocoder } from "@ionic-native/native-geocoder";
 import { GoogleApis } from "../services/consulta-google-apis";
 import { AuthServiceProvider } from "../providers/auth-service";
 import { Facebook } from "@ionic-native/facebook";
-import { UsuarioService } from "../providers/database/database-providers";
+import { UsuarioService, DistribuidorService } from "../providers/database/database-providers";
 import { DirectivesModule } from '../directives/directives.module';
 
 // AF2 Settings
@@ -108,7 +108,8 @@ export function provideSettings(storage: Storage) {
     Geolocation,
     NativeGeocoder,
     GoogleApis,
-    UsuarioService 
+    UsuarioService,
+    DistribuidorService     
   ]
 })
 export class AppModule { }

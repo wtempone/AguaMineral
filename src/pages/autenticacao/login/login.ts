@@ -1,10 +1,10 @@
+import { UsuarioService } from './../../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, LoadingController, ToastController, ModalController, IonicPage } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { MainPage } from '../../pages/pages';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthServiceProvider } from '../../providers/auth-service';
+import { AuthServiceProvider } from '../../../providers/auth-service';
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -25,8 +25,9 @@ export class LoginPage {
     private formBuilder: FormBuilder,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,    
-    private translate: TranslateService) {
+    private toastCtrl: ToastController,
+    private translate: TranslateService,
+    public usuarioSrvc: UsuarioService) {
 
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
@@ -35,7 +36,7 @@ export class LoginPage {
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
   }
-  register(){
+  register() {
     this.navCtrl.pop();
     this.modalCtrl.create('SignupPage').present();
   }
@@ -48,12 +49,16 @@ export class LoginPage {
     this.loading = this.loadingCtrl.create({
       dismissOnPageChange: true,
     });
-    this.loading.present();    this.authService.signInWithFacebook().then(()=>{
+    this.loading.present(); this.authService.signInWithFacebook().then(() => {
       this.navCtrl.pop().then(() => {
-        this.loading.dismiss();
+        this.loading.dismiss().then(() => {
+          if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
+            this.navCtrl.push('DistribuidorListaPage')
+          }
+        });
       });
     });
-      
+
   }
   loginUser() {
     this.submitAttempt = true;
@@ -63,9 +68,13 @@ export class LoginPage {
     } else {
       this.authService.signInWithEmail(this.loginForm.value.email, this.loginForm.value.password).then(authService => {
         this.navCtrl.pop().then(() => {
-          this.loading.dismiss();
-        }) 
-      }, error => { 
+          this.loading.dismiss().then(() => {
+            if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
+              this.navCtrl.push('DistribuidorListaPage')
+            }
+          });
+        })
+      }, error => {
         this.loading.dismiss().then(() => {
           var messageErrorTranslated: string;
           this.translate.get([

@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { AuthServiceProvider } from './../../providers/auth-service';
+import { AuthServiceProvider } from '../../../providers/auth-service';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, LoadingController, ToastController, ModalController, IonicPage } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';

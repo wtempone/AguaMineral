@@ -41,17 +41,19 @@ export class AuthServiceProvider {
   }
 
   setUserFacebook() {
+    return new Promise(resolve => {
     this.getMe().then((facebookUser: any) => {
-      this.usuarioSrvc.getOnce('usr_fb_id', facebookUser.id).then((res) => {
-        let usuario: Usuario = res.val();
-        if (usuario) {
+      this.usuarioSrvc.getOnce('usr_fb_id', facebookUser.id).subscribe((res) => {
+        if (res.length > 0) {
+          let usuario: Usuario = res[0];
+          let key = res[0].$key;
           usuario.usr_email = facebookUser.email;
           usuario.usr_nome = facebookUser.name;
           usuario.usr_fb_foto = facebookUser.picture;
           usuario.usr_data = new Date(Date.now());
-          let key = res.val();
-          this.usuarioSrvc.update(Object.keys(res.val())[0], usuario).then(() => {
+          this.usuarioSrvc.update(key, usuario).then(() => {
             this.usuarioSrvc.usuarioAtual = usuario;
+            resolve(this.usuarioSrvc.usuarioAtual);
           })
         } else {
           let usuario: Usuario = {
@@ -63,17 +65,19 @@ export class AuthServiceProvider {
           }
           this.usuarioSrvc.create(usuario).then((res) => {
             this.usuarioSrvc.usuarioAtual = usuario;
+            resolve(this.usuarioSrvc.usuarioAtual);
           });
         }
       })
     })
+    });
   }
 
   signInWithEmail(email: string, password: string): any {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(() => {
-      return this.usuarioSrvc.getOnce('usr_email', email).then((res) => {
-        let usuario: Usuario = res.val();
-        if (usuario) {
+      return this.usuarioSrvc.getOnce('usr_email', email).subscribe((res) => {
+        if (res.length > 0) {
+          let usuario: Usuario = res[0];
           this.usuarioSrvc.usuarioAtual = usuario;
         }
       });
@@ -88,9 +92,8 @@ export class AuthServiceProvider {
 
   setUserEmail(nome: string, email: string) {
     return new Promise(resolve => {
-      this.usuarioSrvc.getOnce('usr_email', email).then((res) => {
-        let usuario: Usuario = res.val();
-        if (!usuario) {
+      this.usuarioSrvc.getOnce('usr_email', email).subscribe((res) => {
+        if (res.length == 0) {
           let usuario: Usuario = {
             usr_email: email,
             usr_nome: nome,

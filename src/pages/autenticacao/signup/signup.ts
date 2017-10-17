@@ -1,8 +1,9 @@
+import { UsuarioService } from './../../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, LoadingController, ToastController, ModalController, IonicPage } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthServiceProvider } from '../../providers/auth-service';
+import { AuthServiceProvider } from '../../../providers/auth-service';
 /*
   Generated class for the Login page.
 
@@ -30,7 +31,8 @@ export class SignupPage {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    public usuarioSrvc: UsuarioService) {
 
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
@@ -53,15 +55,21 @@ export class SignupPage {
   goToLogin() {
     this.navCtrl.pop();
     this.modalCtrl.create('LoginPage').present();
-    
+
   }
+
   loginUser() {
 
     if (!this.signupForm.valid) {
       console.log(this.signupForm.value);
     } else {
       this.authService.signInWithEmail(this.signupForm.value.email, this.signupForm.value.password).then(authService => {
-        this.navCtrl.pop().then(() => this.loading.dismiss());
+        this.navCtrl.pop().then(() => this.loading.dismiss().then(() => {
+          if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
+            this.navCtrl.push('DistribuidorListaPage')
+          }
+        })
+        );
       }, error => {
         this.loading.dismiss().then(() => {
           var messageErrorTranslated: string;
@@ -83,16 +91,7 @@ export class SignupPage {
                   messageErrorTranslated = values.AUTH_WRONG_PASSWORD;
                   break;
               }
-              // let alert = this.alertCtrl.create({
-              //   message: messageErrorTranslated,
-              //   buttons: [
-              //     {
-              //       text: "Ok",
-              //       role: 'cancel'
-              //     }
-              //   ]
-              // });
-              // alert.present();
+
               let toast = this.toastCtrl.create({
                 message: messageErrorTranslated,
                 duration: 3000,
@@ -158,16 +157,6 @@ export class SignupPage {
               });
               toast.present();
 
-              // let alert = this.alertCtrl.create({
-              //   message: messageErrorTranslated,
-              //   buttons: [
-              //     {
-              //       text: "Ok",
-              //       role: 'cancel'
-              //     }
-              //   ]
-              // });
-              // alert.present();
             });
         });
       });

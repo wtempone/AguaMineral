@@ -80,3 +80,8 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+.content-desktop {
+  width: 60% !important;
+  margin: auto;
+}

@@ -9,7 +9,7 @@ export class UsuarioService {
   public usuarios: FirebaseListObservable<Usuario[]> = null; //  list of objects
   public usuario: FirebaseObjectObservable<Usuario> = null; //   single object
   public usuarioAtual: Usuario;
-  constructor(private db: AngularFireDatabase) { 
+  constructor(private db: AngularFireDatabase) {
     this.usuarios = this.db.list(this.basePath);
   }
 
@@ -22,12 +22,19 @@ export class UsuarioService {
     const itemPath = `${this.basePath}/${key}`;
     this.usuario = this.db.object(itemPath)
     return this.usuario
-  } 
-
-  getOnce(field: string, value: string)  {
-    return this.db.list(this.basePath).$ref.orderByChild(field).equalTo(value).limitToFirst(1).once('value');
   }
-  
+
+  getOnce(field: string, value: string) {
+    return this.db.list(this.basePath, {
+      query: {
+        orderByChild: field,
+        equalTo: value,
+        limitToFirst: 1
+      }
+    }
+    ).take(1);
+  }
+
   create(usuario: Usuario) {
     return this.usuarios.push(usuario);
   }
@@ -38,11 +45,6 @@ export class UsuarioService {
 
   delete(key: string): void {
     this.usuarios.remove(key)
-      .catch(error => this.handleError(error))
-  }
-
-  deleteAll(): void {
-    this.usuarios.remove()
       .catch(error => this.handleError(error))
   }
 
