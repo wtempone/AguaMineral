@@ -6,6 +6,7 @@
   "SEARCH":"Buscar",
   "NEW_SEARCH":"Nova Busca",
   "NAME": "Nome",
+  "SAVE": "Salvar",
   "SIGNUP_DISTRIBUTOR":"Cadastre sua distribuidora!",
 
   "CEP": "CEP",
@@ -15,8 +16,9 @@
   "CEP_MESSAGE_INVALID": "CEP inválido.",
   "CEP_MESSAGE_INVALID_REQUIRED": "CEP é obrigatório.",
   "USE_LOCATION": "Usar minha localização",
-  "ADDRESS_VALIDATION_ERROR": "Erro na validação do endereço. Revise seus dados e tente novamente.",
-  
+  "ADDRESS_VALIDATION_ERROR": "Erro na validação do endereço. Revise seus dados e tente novamente.",  
+
+
   "NUMERO": "Número",
   "NUMERO_MESSAGE_INVALID": "Número é obrigatório.",
   "NUMERO_PLACEHOLDER": "Digite o número",
@@ -44,10 +46,34 @@
   "USE_THIS_ADDRESS": "Usar este endereço",
   
   "ADDRESS_NOT_FOUND": "CEP não encontado, melhore seus critérios de pesquisa.",
-   "CEP_NOT_FOUND" : "Endereço não encontado para o CEP informado.",
+  "CEP_NOT_FOUND" : "Endereço não encontado para o CEP informado.",
 
+  "DIST_TITLE": "Distribuidora",
+  "DIST_NAME": "Nome",
+  "DIST_NAME_MESSAGE_INVALID": "Nome da distribuidora é obrigatório.",
+  "DIST_NAME_PLACEHOLDER": "Digite o nome da distribuidora.",
 
-   "ADDRESS_SELECTION": "Selecione um endereço",
+  "DIST_CNPJ": "CNPJ",
+  "DIST_CNPJ_MESSAGE_INVALID": "CNPJ da distribuidora inválido.",
+  "DIST_CNPJ_MESSAGE_INVALID_REQUIRED": "CNPJ da distribuidora é obrigatório.",
+  "DIST_CNPJ_PLACEHOLDER": "Digite o CNPJ da distribuidora.",
+
+  "DIST_PHONE": "Telefone",
+  "DIST_PHONE_MESSAGE_INVALID": "Telefone da distribuidora inválido.",
+  "DIST_PHONE_MESSAGE_INVALID_REQUIRED": "Telefone da distribuidora é obrigatório.",
+  "DIST_PHONE_PLACEHOLDER": "Digite o Telefone da distribuidora.",
+
+  "DIST_MOBILE": "Celular",
+  "DIST_MOBILE_MESSAGE_INVALID": "Celular da distribuidora inválido.",
+  "DIST_MOBILE_MESSAGE_INVALID_REQUIRED": "Celular da distribuidora é obrigatório.",
+  "DIST_MOBILE_PLACEHOLDER": "Digite o celular da distribuidora.",
+
+  "DIST_EMAIL": "Celular",
+  "DIST_EMAIL_MESSAGE_INVALID": "E-mail da distribuidora inválido.",
+  "DIST_EMAIL_MESSAGE_INVALID_REQUIRED": "E-mail da distribuidora é obrigatório.",
+  "DIST_EMAIL_PLACEHOLDER": "Digite o e-mail da distribuidora.",
+
+  "ADDRESS_SELECTION": "Selecione um endereço",
 
   "NAME_PLACEHOLDER": "Digite seu nome",
   "EMAIL": "Email",

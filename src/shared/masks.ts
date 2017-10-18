@@ -10,8 +10,8 @@ export class MaskShared {
   */
   data = { mask:'00/00/0000', len:10 };
   cep = { mask:'**.***-***', pattern: /\d{2}\.\d{3}\-\d{3}$/, len:10 };
-  cpf = { mask:'000.000.000-00', len:14 };
-  cnpj = { mask:'00.000.000/0000-00', len:18 };
-  telefone = { mask:'(00) 0000-0000', len:14 };
-  whatsapp = { mask:'(00) 00000-0000', len:15 };
+  cpf = { mask:'000.000.000-00', pattern: /\d{3}\.\d{3}\.\d{3}\-\d{2}$/, len:14 };
+  cnpj = { mask:'00.000.000/0000-00', pattern: /\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, len:18 };
+  telefone = { mask:'(00) 0000-0000', pattern: /\d{2}\\d{3}\-\d{3}$/, len:14 };
+  whatsapp = { mask:'(00) 00000-0000', pattern: /\d{2}\\d{3}\-\d{3}$/, len:15 };
 }

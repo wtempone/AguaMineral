@@ -1,7 +1,6 @@
 <ion-header>
-
   <ion-navbar color="customColor1">
-    <ion-title (click)="show()">{{ 'APP_NAME' | translate }}</ion-title>
+    <ion-title>{{ 'APP_NAME' | translate }}</ion-title>
     <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
       <button ion-button icon-only (click)="signup()">{{ 'SIGNUP' | translate }}</button>
       <button ion-button icon-only (click)="login()">{{ 'LOGIN' | translate }}</button>
@@ -23,14 +22,14 @@
   <div class="content-desktop">
     <ion-grid>
       <ion-row>
-        <ion-col col-2 col-md-6 *ngFor='let distribuidor of distribuidorSrvc.distribuidores | async'>
+        <ion-col col-12 col-md-6 *ngFor='let distribuidor of distribuidorSrvc.distribuidores | async'>
           <ion-item>
             <ion-thumbnail item-start>
               <img src="assets/img/appicon.png">
             </ion-thumbnail>
             <h2> {{ distribuidor.dist_nome }} </h2>
             <p> {{ distribuidor.dist_endereco.bairro }}</p>
-            <button ion-button clear item-end>View</button>
+            <button (click)="editDistribuidor(distribuidor)" ion-button clear item-end>View</button>
           </ion-item>
         </ion-col>
       </ion-row>

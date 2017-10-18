@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-navbar color="customColor1">
+    <ion-title>{{ 'DIST_TITLE' | translate }}</ion-title>
+    <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
+      <button ion-button icon-only (click)="signup()">{{ 'SIGNUP' | translate }}</button>
+      <button ion-button icon-only (click)="login()">{{ 'LOGIN' | translate }}</button>
+    </ion-buttons>
+    <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
+      <button ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
+      <button ion-button icon-only>
+        <img *ngIf="usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" [src]="usuarioSrvc.usuarioAtual.usr_fb_foto.data.url"
+        />
+        <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" src="assets/img/user-placeholder-1.jpg" />
+      </button>
+      <button ion-button icon-only>
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+<ion-content>
+  <div class="content-desktop">
+    <form [formGroup]="formulario" novalidate>
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>{{ 'DIST_NAME' | translate }}</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('dist_nome')" formControlName="dist_nome" type="text" placeholder="{{ 'DIST_NAME_PLACEHOLDER' | translate }}"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('dist_nome')">
+          <p class="error-message">{{ 'DIST_NAME_MESSAGE_INVALID' | translate }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>{{ 'DIST_CNPJ' | translate }}</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('dist_cnpj')" type="text" mask="**.***.***/****-**" maxlength="18" formControlName="dist_cnpj"
+            placeholder="{{ 'DIST_CNPJ_PLACEHOLDER' | translate }}"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('dist_cnpj')">
+          <p *ngIf="formulario.get('dist_cnpj').hasError('required')" class="error-message">{{ 'DIST_CNPJ_MESSAGE_INVALID_REQUIRED' | translate }}</p>
+          <p *ngIf="formulario.get('dist_cnpj').hasError('pattern')" class="error-message">{{ 'DIST_CNPJ_MESSAGE_INVALID' | translate }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>{{ 'DIST_PHONE' | translate }}</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('dist_telefone')" type="text" mask="(**) ****-****" maxlength="15" formControlName="dist_telefone"
+            placeholder="{{ 'DIST_PHONE_PLACEHOLDER' | translate }}"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('dist_telefone')">
+          <p *ngIf="formulario.get('dist_telefone').hasError('required')" class="error-message">{{ 'DIST_PHONE_MESSAGE_INVALID_REQUIRED' | translate }}</p>
+          <p *ngIf="formulario.get('dist_telefone').hasError('pattern')" class="error-message">{{ 'DIST_PHONE_MESSAGE_INVALID' | translate }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>{{ 'DIST_MOBILE' | translate }}</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('dist_celular')" type="text" mask="(**) ****-****" maxlength="15" formControlName="dist_celular"
+            placeholder="{{ 'DIST_MOBILE_PLACEHOLDER' | translate }}"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('dist_celular')">
+          <p *ngIf="formulario.get('dist_celular').hasError('required')" class="error-message">{{ 'DIST_MOBILE_MESSAGE_INVALID_REQUIRED' | translate }}</p>
+          <p *ngIf="formulario.get('dist_celular').hasError('pattern')" class="error-message">{{ 'DIST_MOBILE_MESSAGE_INVALID' | translate }}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>{{ 'DIST_EMAIL' | translate }}</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('dist_email')" type="text" formControlName="dist_email" placeholder="{{ 'DIST_EMAIL_PLACEHOLDER' | translate }}"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('dist_email')">
+          <p *ngIf="formulario.get('dist_email').hasError('required')" class="error-message">{{ 'DIST_EMAIL_MESSAGE_INVALID_REQUIRED' | translate }}</p>
+          <p *ngIf="formulario.get('dist_email').hasError('email')" class="error-message">{{ 'DIST_EMAIL_MESSAGE_INVALID' | translate }}</p>
+        </ion-item>
+        <endereco (selectEndereco)="selectEndereco($event)" [noButtonSet]="true" [endereco]="distribuidor.dist_endereco"></endereco>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col class="center-col">
+              <button ion-button block color="customColor2" (click)="saveDistribuidor()">{{ 'SAVE' | translate }}</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

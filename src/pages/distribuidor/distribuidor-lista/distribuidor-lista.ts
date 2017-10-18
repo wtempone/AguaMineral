@@ -1,3 +1,4 @@
+import { Distribuidor } from './../../../providers/database/models/distribuidor';
 import { UsuarioService } from './../../../providers/database/services/usuario';
 import { DistribuidorService } from './../../../providers/database/services/distribuidor';
 import { Component } from '@angular/core';
@@ -27,6 +28,10 @@ export class DistribuidorListaPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DistribuidorListaPage');
+  }
+
+  editDistribuidor(distribuidor: Distribuidor){
+    this.navCtrl.push('DistribuidorEditPage',distribuidor)
   }
 
 }

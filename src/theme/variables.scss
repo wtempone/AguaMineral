@@ -85,3 +85,13 @@ $colors: (
   width: 60% !important;
   margin: auto;
 }
+
+.invalid {
+  border-bottom: 1px solid #FF6153;
+}
+
+.image-profile {
+  border-radius: 50%;
+  max-height: 50px;
+  max-width: 50px;
+} 

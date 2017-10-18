@@ -1,3 +1,6 @@
+import { Endereco } from './../../providers/database/models/geral';
+import { Http } from '@angular/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GoogleApis } from './../../services/consulta-google-apis';
 import { MaskShared } from './../../shared/masks';
 import { TranslateService } from '@ngx-translate/core';
@@ -5,32 +8,24 @@ import { EnderecoPesquisa } from './../../models/endereco-pesquisa.model';
 import { EstadoBr } from './../../models/estado-br.model';
 import { ConsultaCepService } from './../../services/consulta-cep.service';
 import { DropdownService } from './../../services/dropdown.service';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
-import { Http } from '@angular/http';
-
-@IonicPage()
 @Component({
-  selector: 'page-endereco',
+  selector: 'endereco',
   templateUrl: 'endereco.html'
 })
-
-export class EnderecoPage {
+export class EnderecoComponent {
+  @Input() noButtonSet: boolean;
+  @Input() endereco: Endereco;
   @Output() selectEndereco = new EventEmitter();
 
   formulario: FormGroup;
   estados: EstadoBr[];
   buscaPorEndereco: boolean;
-  cadastro: boolean; 
+  cadastro: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,12 +41,7 @@ export class EnderecoPage {
     private nativeGeocoder: NativeGeocoder,
     private googleApis: GoogleApis
   ) {
-    console.log('masks');
-    console.log(masks);
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EnderecoPage');
   }
 
   ngOnInit() {
@@ -60,10 +50,7 @@ export class EnderecoPage {
       this.estados = dados;
       console.log(dados);
     });
-
-
     this.formulario = this.formBuilder.group({
-
       cep: [null, Validators.compose([Validators.required, Validators.pattern(this.masks.cep.pattern)])],
       numero: [null, Validators.required],
       complemento: [null],
@@ -71,9 +58,23 @@ export class EnderecoPage {
       bairro: [null, Validators.required],
       cidade: [null, Validators.required],
       estado: [null, Validators.required]
-
     });
 
+    if (this.endereco) {
+      this.cadastro = true;
+      this.setValue(this.endereco);
+    }
+  }
+
+  setValue(endereco: Endereco) {
+    this.formulario.patchValue({
+      rua: endereco.rua,
+      complemento: endereco.complemento,
+      bairro: endereco.bairro,
+      cidade: endereco.cidade,
+      estado: endereco.estado,
+      cep: endereco.cep
+    });
   }
 
   setAddress() {
@@ -81,7 +82,7 @@ export class EnderecoPage {
       this.googleApis.geocodeingEndereco(this.formulario.value).subscribe(dadosGoogle => {
         console.log(dadosGoogle);
         if (dadosGoogle.status == "OK") {
-          let dados =  {
+          let dados = {
             cep: this.formulario.get('cep').value,
             numero: this.formulario.get('numero').value,
             complemento: this.formulario.get('complemento').value,
@@ -100,14 +101,14 @@ export class EnderecoPage {
                 message: value,
                 duration: 3000,
                 position: 'top'
-              }); 
+              });
               toast.present();
-            });          
-          
+            });
+
         }
 
       })
-    } else { 
+    } else {
       this.verificaValidacoesForm(this.formulario);
     }
   }
@@ -275,28 +276,31 @@ export class EnderecoPage {
       console.log(resp.coords.latitude);
       console.log(resp.coords.longitude);
       this.getGeoAddress(resp.coords.latitude, resp.coords.longitude)
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
   }
 
-  getGeoAddress(latitude, longitude) { 
+  getGeoAddress(latitude, longitude) {
     this.nativeGeocoder.reverseGeocode(latitude, longitude)
-    .then((result: NativeGeocoderReverseResult) => {
-      let dados = {
-        logradouro: result.thoroughfare,
-        bairro: result.subLocality,
-        localidade: result.locality,
-        uf: this.getSiglaEstado(result.administrativeArea),
-        cep: result.postalCode 
-      }
-      console.log(JSON.stringify(result))
-      return this.populaDadosForm(dados)            
-    })
-    .catch((error: any) => console.log(error));    
+      .then((result: NativeGeocoderReverseResult) => {
+        let dados = {
+          logradouro: result.thoroughfare,
+          bairro: result.subLocality,
+          localidade: result.locality,
+          uf: this.getSiglaEstado(result.administrativeArea),
+          cep: result.postalCode
+        }
+        console.log(JSON.stringify(result))
+        return this.populaDadosForm(dados)
+      })
+      .catch((error: any) => console.log(error));
   }
-  getSiglaEstado(nome:string):string {
-    return this.estados.find( x => x.nome == nome).sigla;
+  getSiglaEstado(nome: string): string {
+    return this.estados.find(x => x.nome == nome).sigla;
   }
-  
+
+  getEndereco() {
+
+  }
 }

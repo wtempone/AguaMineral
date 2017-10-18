@@ -12,7 +12,6 @@ import { DirectivesModule } from "../../../directives/directives.module";
     IonicPageModule.forChild(DistribuidorListaPage),
     TranslateModule.forChild(),
     DirectivesModule
-    
   ],
 })
 export class DistribuidorListaPageModule {}
