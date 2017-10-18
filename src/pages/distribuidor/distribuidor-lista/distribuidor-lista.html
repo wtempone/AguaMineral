@@ -29,7 +29,7 @@
             </ion-thumbnail>
             <h2> {{ distribuidor.dist_nome }} </h2>
             <p> {{ distribuidor.dist_endereco.bairro }}</p>
-            <button (click)="editDistribuidor(distribuidor)" ion-button clear item-end>View</button>
+            <button (click)="editDistribuidor(distribuidor)" ion-button clear item-end>{{ 'EDIT' | translate }}</button>
           </ion-item>
         </ion-col>
       </ion-row>
