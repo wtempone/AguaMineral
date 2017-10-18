@@ -1,0 +1,9 @@
+<div>
+  <div class="final-img" *ngIf="data">
+    <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+  </div>
+  <label for="file-upload" class="button button-md button-default button-default-md button-block button-block-md button-label">
+            {{ 'SELECT_PHOTO' | translate }}
+          </label>
+  <input id="file-upload" type="file" (change)="fileChangeListener($event)">
+</div>

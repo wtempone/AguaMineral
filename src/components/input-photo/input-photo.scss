@@ -1,5 +1,4 @@
-page-distribuidor-edit {
-
+input-photo {
     input[type="file"] {
         display: none;
     }
@@ -13,16 +12,4 @@ page-distribuidor-edit {
         padding: 10px 12px;
         cursor: pointer;
     }
-    .cropper{}
-    .origin-img{
-        text-align: center;        
-    }    
-    .final-img{
-        text-align: center;
-        img{
-            margin:auto !important;
-            border: 1px #CCC solid;
-        }
-    }
-
 }

@@ -4,6 +4,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { DistribuidorEditPage } from './distribuidor-edit';
+import { BrowserModule } from "@angular/platform-browser/src/browser";
+import { ImageCropperModule } from "ng2-img-cropper";
 
 @NgModule({
   declarations: [
@@ -13,7 +15,8 @@ import { DistribuidorEditPage } from './distribuidor-edit';
     IonicPageModule.forChild(DistribuidorEditPage),
     TranslateModule.forChild(),
     DirectivesModule,
-    ComponentsModule
+    ComponentsModule,
+    ImageCropperModule    
   ],
 })
 

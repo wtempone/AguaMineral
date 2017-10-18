@@ -11,7 +11,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-import { Items } from '../mocks/providers/items'; 
+import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
@@ -31,6 +31,8 @@ import { AuthServiceProvider } from "../providers/auth-service";
 import { Facebook } from "@ionic-native/facebook";
 import { UsuarioService, DistribuidorService } from "../providers/database/database-providers";
 import { DirectivesModule } from '../directives/directives.module';
+import { ImageCropperModule, ImageCropperComponent } from "ng2-img-cropper";
+import { PhotoProvider } from '../providers/photo/photo';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -80,10 +82,11 @@ export function provideSettings(storage: Storage) {
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule, 
+    AngularFireDatabaseModule,
     AngularFireAuthModule,
     FacebookModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    ImageCropperModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -101,15 +104,16 @@ export function provideSettings(storage: Storage) {
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthServiceProvider,
-    Facebook,    
-    DropdownService, 
+    Facebook,
+    DropdownService,
     ConsultaCepService,
     MaskShared,
     Geolocation,
     NativeGeocoder,
     GoogleApis,
     UsuarioService,
-    DistribuidorService     
+    DistribuidorService,
+    PhotoProvider
   ]
 })
 export class AppModule { }

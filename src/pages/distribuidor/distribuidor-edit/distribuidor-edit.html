@@ -65,19 +65,34 @@
           <ion-label stacked>{{ 'DIST_EMAIL' | translate }}</ion-label>
           <ion-input [class.invalid]="verificaValidTouched('dist_email')" type="text" formControlName="dist_email" placeholder="{{ 'DIST_EMAIL_PLACEHOLDER' | translate }}"></ion-input>
         </ion-item>
+
         <ion-item *ngIf="verificaValidTouched('dist_email')">
           <p *ngIf="formulario.get('dist_email').hasError('required')" class="error-message">{{ 'DIST_EMAIL_MESSAGE_INVALID_REQUIRED' | translate }}</p>
           <p *ngIf="formulario.get('dist_email').hasError('email')" class="error-message">{{ 'DIST_EMAIL_MESSAGE_INVALID' | translate }}</p>
         </ion-item>
+        
         <endereco (selectEndereco)="selectEndereco($event)" [noButtonSet]="true" [endereco]="distribuidor.dist_endereco"></endereco>
 
-        <ion-grid>
-          <ion-row>
-            <ion-col class="center-col">
-              <button ion-button block color="customColor2" (click)="saveDistribuidor()">{{ 'SAVE' | translate }}</button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <div>
+          <label for="file-upload" class="button button-md button-default button-default-md button-block button-block-md button-label">
+            {{ 'SELECT_PHOTO' | translate }}
+          </label>
+          <input id="file-upload" type="file" (change)="fileChangeListener($event)">
+        </div>
+        <div class="origin-img">
+          <img-cropper #imageCropper [image]="data" [settings]="cropperSettings" (onCrop)="handleCropping($event)"></img-cropper>
+        </div>
+        <p text-center> Imgem original</p>
+
+        <div class="final-img" *ngIf="data.image">
+          <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+          <p text-center> Imagem final</p>
+          <p text-center class="instructions"> A imagem final deve ser quadrada.</p>
+          <p text-center class="instructions"> Utilize o quadrado "guia" para dequar a exibição.</p>
+        </div>
+
+
+        <button ion-button block color="customColor2" (click)="saveDistribuidor()">{{ 'SAVE' | translate }}</button>
       </ion-list>
     </form>
   </div>

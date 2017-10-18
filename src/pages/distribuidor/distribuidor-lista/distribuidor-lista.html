@@ -25,7 +25,8 @@
         <ion-col col-12 col-md-6 *ngFor='let distribuidor of distribuidorSrvc.distribuidores | async'>
           <ion-item>
             <ion-thumbnail item-start>
-              <img src="assets/img/appicon.png">
+              <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
+              <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
             </ion-thumbnail>
             <h2> {{ distribuidor.dist_nome }} </h2>
             <p> {{ distribuidor.dist_endereco.bairro }}</p>

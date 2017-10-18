@@ -1,0 +1,17 @@
+<ion-content padding>
+
+  <div class="origin-img">
+    <img-cropper #imageCropper [image]="navParams.data" [settings]="cropperSettings" (onCrop)="handleCropping($event)"></img-cropper>
+  </div>
+
+  <p text-center> Imgem original</p>
+
+  <div class="final-img" *ngIf="data.image">
+    <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+    <p text-center> Imagem final</p>
+    <p text-center class="instructions"> A imagem final deve ser quadrada.</p>
+    <p text-center class="instructions"> Utilize o quadrado "guia" para dequar a exibição.</p>
+  </div>
+
+  <button ion-button block (click)="facebookLogin()">{{ 'OK_BUTTON_TEXT' | translate }}</button>
+</ion-content>
