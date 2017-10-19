@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { InputPhotoComponent } from './../../../components/input-photo/input-photo';
 import { EnderecoComponent } from './../../../components/endereco/endereco';
 import { Endereco } from './../../../providers/database/models/geral';
 import { MaskShared } from './../../../shared/masks';
@@ -6,9 +8,7 @@ import { Distribuidor } from './../../../providers/database/models/distribuidor'
 import { UsuarioService } from './../../../providers/database/services/usuario';
 import { DistribuidorService } from './../../../providers/database/services/distribuidor';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
-import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
-import { PhotoProvider } from "../../../providers/photo/photo";
+import { IonicPage, NavController, NavParams, Platform, ToastController, AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -18,12 +18,10 @@ import { PhotoProvider } from "../../../providers/photo/photo";
 export class DistribuidorEditPage {
   distribuidor: Distribuidor;
   formulario: FormGroup;
-  data: any;
-  cropperSettings: CropperSettings;
-
+  
   @ViewChild(EnderecoComponent) endereco: EnderecoComponent;
-  @ViewChild(ImageCropperComponent) imageCropper: ImageCropperComponent;
-
+  @ViewChild(InputPhotoComponent) dist_img: InputPhotoComponent;
+  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -32,21 +30,11 @@ export class DistribuidorEditPage {
     private formBuilder: FormBuilder,
     private masks: MaskShared,
     private platform: Platform,
-    private photoProvider: PhotoProvider
+    private translate: TranslateService,
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController
   ) {
     this.distribuidor = this.navParams.data;
-
-    this.cropperSettings = new CropperSettings();
-    this.cropperSettings.width = 100;
-    this.cropperSettings.height = 100;
-    this.cropperSettings.croppedWidth = 300;
-    this.cropperSettings.croppedHeight = 300;
-    this.cropperSettings.canvasWidth = 400;
-    this.cropperSettings.canvasHeight = 400;
-    this.cropperSettings.noFileInput = true;
-
-    this.data = {};
-
   }
 
   ngOnInit() {
@@ -76,24 +64,67 @@ export class DistribuidorEditPage {
 
   saveDistribuidor() {
     if (this.formulario.valid) {
-      this.distribuidor.dist_nome = this.formulario.get('dist_nome').value;
-      this.distribuidor.dist_cnpj = this.formulario.get('dist_cnpj').value;
-      this.distribuidor.dist_telefone = this.formulario.get('dist_telefone').value;
-      this.distribuidor.dist_celular = this.formulario.get('dist_celular').value;
-      this.distribuidor.dist_email = this.formulario.get('dist_email').value;
-      this.distribuidor.dist_img = this.data.image;
-      //this.distribuidor.dist_img = this.formulario.get('cep').value;
-      this.distribuidor.dist_data = new Date(Date.now());
-      this.distribuidor.dist_online = false;
-      this.endereco.setAddress();
-      let parsekey: any = this.distribuidor;
-      if (parsekey.$key) {
-        this.distribuidorSrvc.update(parsekey.$key, this.distribuidor)
-      } else {
-        this.distribuidorSrvc.create(this.distribuidor)
-      }
+
+      this.endereco.getAddress().then((endereco: Endereco) => {
+        if (endereco) {
+          this.distribuidor.dist_nome = this.formulario.get('dist_nome').value;
+          this.distribuidor.dist_cnpj = this.formulario.get('dist_cnpj').value;
+          this.distribuidor.dist_telefone = this.formulario.get('dist_telefone').value;
+          this.distribuidor.dist_celular = this.formulario.get('dist_celular').value;
+          this.distribuidor.dist_email = this.formulario.get('dist_email').value;
+          this.distribuidor.dist_img = this.dist_img.value;
+          this.distribuidor.dist_data = new Date(Date.now());
+          this.distribuidor.dist_online = false;          
+          this.distribuidor.dist_endereco = endereco;
+          let parsekey: any = this.distribuidor;
+          if (parsekey.$key) {
+            this.distribuidorSrvc.update(parsekey.$key, this.distribuidor).then(()=>{
+
+              this.translate.get("DIST_MESSAGE_UPDATE").subscribe((message) => {
+                let toast = this.toastCtrl.create({
+                  message: message,
+                  duration: 3000,
+                  position: 'top',
+                  cssClass: 'toast-success'                   
+                });
+                toast.present();
+                this.navCtrl.pop();
+              });
+                      
+            })
+          } else {
+            this.distribuidorSrvc.create(this.distribuidor).then(() => {
+              this.translate.get("DIST_MESSAGE_CREATE").subscribe((message) => {
+                this.translate.get([
+                  "DIST_MESSAGE_CREATE_TITLE",
+                  "DIST_MESSAGE_CREATE"
+                ]
+                  , { value: this.usuarioSrvc.usuarioAtual.usr_nome }).subscribe(
+                  (values) => {
+                    let confirm = this.alertCtrl.create({
+                      title: values.DIST_MESSAGE_CREATE_TITLE,
+                      message: values.DIST_MESSAGE_CREATE,
+                      buttons: [
+                        {
+                          text: values.OK_BUTTON_TEXT,
+                          handler: () => {
+                          }
+                        }
+                      ]
+                    });
+                    confirm.present();
+                    confirm.onDidDismiss(() =>{
+                      this.navCtrl.pop();                      
+                    })
+                  })
+              });
+                                    
+            })
+          }          
+        }
+        });
     } else {
-      this.endereco.setAddress();
+      this.endereco.getAddress();
       this.verificaValidacoesForm(this.formulario);
     }
   }
@@ -101,23 +132,6 @@ export class DistribuidorEditPage {
   selectEndereco(endereco: Endereco) {
     this.distribuidor.dist_endereco = endereco;
   }
-
-  fileChangeListener($event) {
-    var image: any = new Image();
-    var file: File = $event.target.files[0];
-    var myReader: FileReader = new FileReader();
-    var that = this;
-    myReader.onloadend = function (loadEvent: any) {
-      image.src = loadEvent.target.result;
-      that.imageCropper.setImage(image);
-    };
-    myReader.readAsDataURL(file);
-  }
-
-  handleCropping(event) {
-    console.log(event)
-  }
-
   verificaValidacoesForm(formGroup: FormGroup) {
     console.log(formGroup);
     Object.keys(formGroup.controls).forEach(campo => {
@@ -128,21 +142,4 @@ export class DistribuidorEditPage {
       }
     });
   }
-
-   selectImage()
-   {
-      this.photoProvider.selectImage()
-      .then((data : any) =>
-      {
-         let image : any        = new Image();
-         image.src 				= data;
-         this.imageCropper.setImage(image);
-      })
-      .catch((error : any) =>
-      {
-         console.dir(error);
-      });
-   }
-
-
 }

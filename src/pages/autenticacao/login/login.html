@@ -1,5 +1,8 @@
 <ion-content padding>
   <h2>{{ 'LOGIN' | translate }}</h2>
+  <h5 ion-text text-center color="primary"  *ngIf="navParams.data.message">
+      {{ navParams.data.message | translate }}      
+  </h5>
   <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
     <ion-item>
       <ion-label stacked>{{ 'EMAIL' | translate }}</ion-label>

@@ -9,8 +9,10 @@
   "SAVE": "Salvar",
   "EDIT": "Editar",
   "SELECT_PHOTO": "Selecione uma imagem",
+  "CHANGE_PHOTO": "Alterar imagem",
+  "USE_THIS_IMAGE": "Usar esta Imagem",
   "SIGNUP_DISTRIBUTOR":"Cadastre sua distribuidora!",
-
+  "NOT_AUTHENTICATED": "Você nao está atuenticado! Faça o login para acessar esta funcionalidade.",
   "CEP": "CEP",
   "CEP_PLACEHOLDER": "Digite seu CEP",
   "CEP_UNKNOW": "Não sabe o CEP?",
@@ -70,11 +72,18 @@
   "DIST_MOBILE_MESSAGE_INVALID_REQUIRED": "Celular da distribuidora é obrigatório.",
   "DIST_MOBILE_PLACEHOLDER": "Digite o celular da distribuidora.",
 
-  "DIST_EMAIL": "Celular",
+  "DIST_EMAIL": "E-mail",
   "DIST_EMAIL_MESSAGE_INVALID": "E-mail da distribuidora inválido.",
   "DIST_EMAIL_MESSAGE_INVALID_REQUIRED": "E-mail da distribuidora é obrigatório.",
   "DIST_EMAIL_PLACEHOLDER": "Digite o e-mail da distribuidora.",
+  "DIST_IMG_INVALID": "Logotipo da distribuidora é obrigatório.",
+  
 
+  "DIST_MESSAGE_UPDATE": "Distribuidora alterada com sucesso.",
+  
+  "DIST_MESSAGE_CREATE": "Obrigado por realizar seu cadastro conosco! <br> Entraremos em contato para confirmação dos dados e detalhes dos servicos prestados! ",
+  "DIST_MESSAGE_CREATE_TITLE": "Cadastro realizado com sucesso",
+  
   "ADDRESS_SELECTION": "Selecione um endereço",
 
   "NAME_PLACEHOLDER": "Digite seu nome",

@@ -66,7 +66,8 @@ export class SignupPage {
       this.authService.signInWithEmail(this.signupForm.value.email, this.signupForm.value.password).then(authService => {
         this.navCtrl.pop().then(() => this.loading.dismiss().then(() => {
           if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
-            this.navCtrl.push('DistribuidorListaPage')
+            this.navCtrl.setRoot('DistribuidorListaPage');
+            
           }
         })
         );

@@ -5,7 +5,7 @@
       <button ion-button icon-only (click)="signup()">{{ 'SIGNUP' | translate }}</button>
       <button ion-button icon-only (click)="login()">{{ 'LOGIN' | translate }}</button>
     </ion-buttons>
-    <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
+    <ion-buttons  end *ngIf="usuarioSrvc.usuarioAtual">
       <button ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
       <button ion-button icon-only>
         <img *ngIf="usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" [src]="usuarioSrvc.usuarioAtual.usr_fb_foto.data.url"
@@ -43,7 +43,7 @@
 
         <ion-item>
           <ion-label stacked>{{ 'DIST_PHONE' | translate }}</ion-label>
-          <ion-input [class.invalid]="verificaValidTouched('dist_telefone')" type="text" mask="(**) ****-****" maxlength="15" formControlName="dist_telefone"
+          <ion-input [class.invalid]="verificaValidTouched('dist_telefone')" type="text" mask="(**) ****-****" maxlength="14" formControlName="dist_telefone"
             placeholder="{{ 'DIST_PHONE_PLACEHOLDER' | translate }}"></ion-input>
         </ion-item>
         <ion-item *ngIf="verificaValidTouched('dist_telefone')">
@@ -53,7 +53,7 @@
 
         <ion-item>
           <ion-label stacked>{{ 'DIST_MOBILE' | translate }}</ion-label>
-          <ion-input [class.invalid]="verificaValidTouched('dist_celular')" type="text" mask="(**) ****-****" maxlength="15" formControlName="dist_celular"
+          <ion-input [class.invalid]="verificaValidTouched('dist_celular')" type="text" mask="(**) ****-****" maxlength="14" formControlName="dist_celular"
             placeholder="{{ 'DIST_MOBILE_PLACEHOLDER' | translate }}"></ion-input>
         </ion-item>
         <ion-item *ngIf="verificaValidTouched('dist_celular')">
@@ -72,26 +72,11 @@
         </ion-item>
         
         <endereco (selectEndereco)="selectEndereco($event)" [noButtonSet]="true" [endereco]="distribuidor.dist_endereco"></endereco>
-
-        <div>
-          <label for="file-upload" class="button button-md button-default button-default-md button-block button-block-md button-label">
-            {{ 'SELECT_PHOTO' | translate }}
-          </label>
-          <input id="file-upload" type="file" (change)="fileChangeListener($event)">
-        </div>
-        <div class="origin-img">
-          <img-cropper #imageCropper [image]="data" [settings]="cropperSettings" (onCrop)="handleCropping($event)"></img-cropper>
-        </div>
-        <p text-center> Imgem original</p>
-
-        <div class="final-img" *ngIf="data.image">
-          <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
-          <p text-center> Imagem final</p>
-          <p text-center class="instructions"> A imagem final deve ser quadrada.</p>
-          <p text-center class="instructions"> Utilize o quadrado "guia" para dequar a exibição.</p>
-        </div>
-
-
+        <input-photo [value]="distribuidor.dist_img"></input-photo>
+        <ion-item *ngIf="!dist_img">
+            <p class="error-message">{{ 'DIST_IMG_INVALID' | translate }}</p>
+        </ion-item>
+          
         <button ion-button block color="customColor2" (click)="saveDistribuidor()">{{ 'SAVE' | translate }}</button>
       </ion-list>
     </form>

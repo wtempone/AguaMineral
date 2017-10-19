@@ -2,14 +2,7 @@ import { Distribuidor } from './../../../providers/database/models/distribuidor'
 import { UsuarioService } from './../../../providers/database/services/usuario';
 import { DistribuidorService } from './../../../providers/database/services/distribuidor';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the DistribuidorListaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -22,7 +15,8 @@ export class DistribuidorListaPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public distribuidorSrvc: DistribuidorService,
-    public usuarioSrvc: UsuarioService
+    public usuarioSrvc: UsuarioService,
+    public modalCtrl: ModalController
     ) {
   }
 
@@ -34,4 +28,11 @@ export class DistribuidorListaPage {
     this.navCtrl.push('DistribuidorEditPage',distribuidor)
   }
 
+  signupDistribuidora(){
+    if (this.usuarioSrvc.usuarioAtual){
+      this.navCtrl.push('DistribuidorEditPage')      
+    } else {
+      this.modalCtrl.create('LoginPage',{message:"NOT_AUTHENTICATED"}).present(); 
+    }
+  }
 }

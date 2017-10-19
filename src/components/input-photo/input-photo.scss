@@ -1,15 +1,8 @@
 input-photo {
-    input[type="file"] {
-        display: none;
+    .img-photo {
+        img{
+        max-width: 300px ;
+        max-height: 300px;
     }
-    .custom-file-upload {
-        border: 1px solid #ccc;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-    }
-    .button-label{
-        padding: 10px 12px;
-        cursor: pointer;
     }
 }

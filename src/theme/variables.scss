@@ -95,3 +95,16 @@ $colors: (
   max-height: 50px;
   max-width: 50px;
 } 
+
+.toast-success {
+  > div{
+    background-color:#84C0EB!important;
+    border-radius: 3vh;
+    border: 1px solid rgb(49, 49, 49);
+    .toast-message {
+      color: rgb(49, 49, 49);
+      text-align: center;
+    }    
+  }
+
+}

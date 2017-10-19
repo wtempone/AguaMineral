@@ -67,15 +67,48 @@ export class EnderecoComponent {
   }
 
   setValue(endereco: Endereco) {
-    this.formulario.patchValue({
-      rua: endereco.rua,
-      complemento: endereco.complemento,
-      bairro: endereco.bairro,
-      cidade: endereco.cidade,
-      estado: endereco.estado,
-      cep: endereco.cep
-    });
+    this.formulario.patchValue(endereco);
   }
+
+  getAddress():Promise<Endereco> {
+    return new Promise (resolve => {
+      if (this.formulario.valid) {
+        this.googleApis.geocodeingEndereco(this.formulario.value).subscribe(dadosGoogle => {
+          console.log(dadosGoogle);
+          if (dadosGoogle.status == "OK") {
+            let dados = {
+              cep: this.formulario.get('cep').value,
+              numero: this.formulario.get('numero').value,
+              complemento: this.formulario.get('complemento').value,
+              rua: this.formulario.get('rua').value,
+              bairro: this.formulario.get('bairro').value,
+              cidade: this.formulario.get('cidade').value,
+              estado: this.formulario.get('estado').value,
+              latitude: dadosGoogle.results[0].geometry.location.lat,
+              longitude: dadosGoogle.results[0].geometry.location.lng
+            }
+            resolve(dados);
+          } else {
+            this.translate.get("ADDRESS_VALIDATION_ERROR").subscribe(
+              (value) => {
+                let toast = this.toastCtrl.create({
+                  message: value,
+                  duration: 3000,
+                  position: 'top'
+                });
+                toast.present();
+              });
+              resolve(null)
+          }
+  
+        })
+      } else {
+        resolve(null)        
+        this.verificaValidacoesForm(this.formulario);
+      }
+    })
+  }
+
 
   setAddress() {
     if (this.formulario.valid) {

@@ -1,3 +1,4 @@
+import { MainPage } from './../../pages';
 import { UsuarioService } from './../../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, LoadingController, ToastController, ModalController, IonicPage } from 'ionic-angular';
@@ -17,7 +18,7 @@ export class LoginPage {
   passwordChanged: boolean = false;
   submitAttempt: boolean = false;
   loading: any;
-
+  messages: string;
   constructor(public navCtrl: NavController,
     private authService: AuthServiceProvider,
     private navParams: NavParams,
@@ -27,8 +28,9 @@ export class LoginPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private translate: TranslateService,
-    public usuarioSrvc: UsuarioService) {
-
+    public usuarioSrvc: UsuarioService,
+  ) {
+    console.log(this.navParams.data.message);
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
     this.loginForm = this.formBuilder.group({
@@ -53,7 +55,7 @@ export class LoginPage {
       this.navCtrl.pop().then(() => {
         this.loading.dismiss().then(() => {
           if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
-            this.navCtrl.push('DistribuidorListaPage')
+            this.navCtrl.setRoot('DistribuidorListaPage');
           }
         });
       });
@@ -70,7 +72,7 @@ export class LoginPage {
         this.navCtrl.pop().then(() => {
           this.loading.dismiss().then(() => {
             if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
-              this.navCtrl.push('DistribuidorListaPage')
+              this.navCtrl.setRoot('DistribuidorListaPage');
             }
           });
         })

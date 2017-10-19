@@ -74,10 +74,6 @@ export class WelcomePage {
         }
       });
   }
- 
-  signup() {
-    this.modalCtrl.create('SignupPage').present();
-  }
 
   selectEndereco(endereco) {
     console.log(endereco);
@@ -90,5 +86,13 @@ export class WelcomePage {
   updateEndereco(endereco:Endereco){
       this.usuarioSrvc.usuarioAtual.usr_endereco = endereco;
       this.usuarioSrvc.update(this.usuarioSrvc.usuarioAtual.$key, this.usuarioSrvc.usuarioAtual)    
+  }
+
+  signupDistribuidora(){
+    if (this.usuarioSrvc.usuarioAtual){
+      this.navCtrl.push('DistribuidorEditPage')      
+    } else {
+      this.modalCtrl.create('LoginPage',{message:"NOT_AUTHENTICATED"}).present(); 
+    }
   }
 }
