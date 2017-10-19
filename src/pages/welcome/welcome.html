@@ -1,24 +1,3 @@
-<ion-header>
-
-  <ion-navbar color="customColor1">
-    <ion-title (click)="show()">{{ 'APP_NAME' | translate }}</ion-title>
-    <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
-      <button ion-button icon-only (click)="signup()">{{ 'SIGNUP' | translate }}</button>
-      <button ion-button icon-only (click)="login()">{{ 'LOGIN' | translate }}</button>
-    </ion-buttons>
-    <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
-        <button ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
-        <button ion-button icon-only>
-          <img *ngIf="usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" [src]="usuarioSrvc.usuarioAtual.usr_fb_foto.data.url"/>
-          <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg"/>
-        </button>                
-        <button ion-button icon-only>
-          <ion-icon name="more"></ion-icon>
-        </button>        
-    </ion-buttons>
-  </ion-navbar>
-
-</ion-header>
 <ion-content scroll="false">
   <div class="splash-info">
     <div class="splash-logo"></div>

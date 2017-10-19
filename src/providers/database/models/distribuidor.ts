@@ -1,4 +1,4 @@
-import { Endereco } from './geral';
+import { Endereco } from './shared-models';
 export interface Distribuidor {
   dist_nome: string;
   dist_cnpj: string;

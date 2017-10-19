@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
 import { AuthServiceProvider } from '../../../providers/auth-service';
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -19,6 +20,7 @@ export class LoginPage {
   submitAttempt: boolean = false;
   loading: any;
   messages: string;
+
   constructor(public navCtrl: NavController,
     private authService: AuthServiceProvider,
     private navParams: NavParams,
@@ -54,6 +56,7 @@ export class LoginPage {
     this.loading.present(); this.authService.signInWithFacebook().then(() => {
       this.navCtrl.pop().then(() => {
         this.loading.dismiss().then(() => {
+          console.log(this.usuarioSrvc.usuarioAtual);
           if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
             this.navCtrl.setRoot('DistribuidorListaPage');
           }

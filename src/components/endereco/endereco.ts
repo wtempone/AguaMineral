@@ -1,4 +1,4 @@
-import { Endereco } from './../../providers/database/models/geral';
+import { Endereco } from './../../providers/database/models/shared-models';
 import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GoogleApis } from './../../services/consulta-google-apis';

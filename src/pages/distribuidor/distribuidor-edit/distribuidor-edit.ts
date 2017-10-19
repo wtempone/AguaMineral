@@ -1,7 +1,7 @@
 import { TranslateService } from '@ngx-translate/core';
 import { InputPhotoComponent } from './../../../components/input-photo/input-photo';
 import { EnderecoComponent } from './../../../components/endereco/endereco';
-import { Endereco } from './../../../providers/database/models/geral';
+import { Endereco } from './../../../providers/database/models/shared-models';
 import { MaskShared } from './../../../shared/masks';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Distribuidor } from './../../../providers/database/models/distribuidor';

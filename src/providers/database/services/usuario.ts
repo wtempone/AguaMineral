@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 
 import { Usuario } from '../database-providers';
+import { MenuAcesso } from "../models/perfil-acesso";
 
 @Injectable()
 export class UsuarioService {
@@ -35,12 +36,27 @@ export class UsuarioService {
     ).take(1);
   }
 
-  create(usuario: Usuario) {
+  create(usuario: Usuario) {    
+    this.updateMenu(usuario)    
     return this.usuarios.push(usuario);
   }
 
+
   update(key: string, value: any) {
+    this.updateMenu(value)        
     return this.usuarios.update(key, value);
+  }
+
+  updateMenu(usuario: Usuario) {
+    let menus: MenuAcesso[] = [];
+    usuario.usr_perfis.forEach((perfil) => {
+      perfil.per_menu.forEach((menu) => {
+        if (menus.filter(x => x.mnu_page == x.mnu_page).length == 0) {
+          menus.push(menu);
+        }
+      })
+    })
+    usuario.usr_menus = menus;
   }
 
   delete(key: string): void {

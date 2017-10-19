@@ -29,10 +29,12 @@ import { NativeGeocoder } from "@ionic-native/native-geocoder";
 import { GoogleApis } from "../services/consulta-google-apis";
 import { AuthServiceProvider } from "../providers/auth-service";
 import { Facebook } from "@ionic-native/facebook";
-import { UsuarioService, DistribuidorService } from "../providers/database/database-providers";
+import { UsuarioService, DistribuidorService, MarcaService } from "../providers/database/database-providers";
 import { DirectivesModule } from '../directives/directives.module';
 import { ImageCropperModule, ImageCropperComponent } from "ng2-img-cropper";
 import { PhotoProvider } from '../providers/photo/photo';
+import { PerfilAcessoService } from "../providers/database/services/perfil-acesso";
+import { ComponentsModule } from "../components/components.module";
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -86,7 +88,8 @@ export function provideSettings(storage: Storage) {
     AngularFireAuthModule,
     FacebookModule.forRoot(),
     DirectivesModule,
-    ImageCropperModule
+    ImageCropperModule,
+    ComponentsModule    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -111,9 +114,11 @@ export function provideSettings(storage: Storage) {
     Geolocation,
     NativeGeocoder,
     GoogleApis,
+    PhotoProvider,
     UsuarioService,
     DistribuidorService,
-    PhotoProvider
+    MarcaService,
+    PerfilAcessoService
   ]
 })
 export class AppModule { }

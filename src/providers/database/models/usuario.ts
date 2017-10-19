@@ -1,16 +1,19 @@
-import { Endereco } from './geral';
-export interface Usuario {
+import { PerfilAcesso, MenuAcesso } from './perfil-acesso';
+import { Endereco } from './shared-models';
+export class Usuario {
   $key?: string;
-  usr_fb_id?: string; 
-  usr_fb_foto?: any; 
+  usr_fb_id?: string;
+  usr_fb_foto?: any;
   usr_nome: string;
   usr_email: string;
   usr_foto?: string;
   usr_senha?: string;
-  usr_data: Date;
-  usr_nivel?: number; 
+  usr_data?: Date;
+  usr_nivel?: number;
   usr_status?: number;
   usr_endereco?: Endereco;
+  usr_perfis?: PerfilAcesso[];
+  usr_menus?: MenuAcesso[];
 }
 
 /*

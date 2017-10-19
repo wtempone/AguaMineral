@@ -1,3 +1,5 @@
+import { Usuario } from './../providers/database/models/usuario';
+import { Funcionalidade, MenuAcesso } from './../providers/database/models/perfil-acesso';
 import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -7,66 +9,56 @@ import { Config, Nav, Platform } from 'ionic-angular';
 import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
 
+
+import { DistribuidorService } from '../providers/database/services/distribuidor';
+import { Distribuidor } from '../providers/database/models/distribuidor';
+import { Endereco } from '../providers/database/models/shared-models';
+import { UsuarioService } from '../providers/database/services/usuario';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { Http, Response } from '@angular/http';
+import { MarcaService, Marca } from "../providers/database/database-providers";
+
 @Component({
-  template: `<ion-menu [content]="content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Pages</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content>
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
-        </button>
-      </ion-list>
-    </ion-content>
-
-  </ion-menu>
-  <ion-nav #content [root]="rootPage"></ion-nav>`
+  templateUrl: 'app.html'
 })
 export class MyApp {
+
   rootPage = FirstRunPage;
 
   @ViewChild(Nav) nav: Nav;
 
-  pages: any[] = [
-    { title: 'Tutorial', component: 'TutorialPage' },
-    { title: 'Welcome', component: 'WelcomePage' },
-    { title: 'Tabs', component: 'TabsPage' },
-    { title: 'Cards', component: 'CardsPage' },
-    { title: 'Content', component: 'ContentPage' },
-    { title: 'Login', component: 'LoginPage' },
-    { title: 'Signup', component: 'SignupPage' },
-    { title: 'Map', component: 'MapPage' },
-    { title: 'Master Detail', component: 'ListMasterPage' },
-    { title: 'Menu', component: 'MenuPage' },
-    { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' }
-  ]
+  menus: MenuAcesso[] = []
 
-  constructor(private translate: TranslateService, private platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
+  constructor(private translate: TranslateService,
+    private platform: Platform,
+    settings: Settings,
+    private config: Config,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private modalCtrl: ModalController,
+    public usuarioSrvc: UsuarioService,
+    public http: Http,
+    public distribuidorSrvc: DistribuidorService,
+    public marcaSrvc: MarcaService
+  ) {
     this.initTranslate();
   }
 
   ionViewDidLoad() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
   initTranslate() {
-    // Set the default language for translation strings, and the current language.
+
     this.translate.setDefaultLang('pt-br');
 
     if (this.translate.getBrowserLang() !== undefined) {
-      this.translate.use(this.translate.getBrowserLang() ? 'pt': 'pt-br' );
+      this.translate.use(this.translate.getBrowserLang() ? 'pt' : 'pt-br');
     } else {
-      this.translate.use('pt-br'); // Set your language here
+      this.translate.use('pt-br');
     }
 
     this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {
@@ -74,9 +66,63 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  openPage(menu: MenuAcesso) {
+    this.nav.setRoot(menu.mnu_page);
+  }
+
+  login() {
+    this.modalCtrl.create('LoginPage').present();
+  }
+
+  show() {
+    if (1 == 1) return;
+    this.http.get('assets/dados/aguamineralapp_full.json')
+      .map((res: Response) => res.json()).subscribe((dados) => {
+        if (dados) {
+          if (dados.distribuidor) {
+            let distribuidores: Distribuidor[] = [];
+            if (dados.distribuidor.length > 0) {
+              dados.distribuidor.forEach((distribuidor) => {
+                this.distribuidorSrvc.create(<Distribuidor>{
+                  dist_nome: distribuidor.dist_nome,
+                  dist_cnpj: distribuidor.dist_cnpj,
+                  dist_telefone: distribuidor.dist_telefone,
+                  dist_celular: distribuidor.dist_celular,
+                  dist_email: distribuidor.dist_email,
+                  dist_img: distribuidor.dist_img,
+                  dist_data: distribuidor.dist_data,
+                  dist_update_data: distribuidor.dist_update_data,
+                  dist_status: distribuidor.dist_status,
+                  dist_online: distribuidor.dist_online,
+                  dist_endereco: <Endereco> {
+                    cep: distribuidor.dist_cep,
+                    numero: distribuidor.dist_numero,
+                    complemento: "",
+                    rua: distribuidor.dist_endereco,
+                    bairro: distribuidor.dist_bairro,
+                    cidade: distribuidor.dist_cidade,
+                    estado: distribuidor.dist_estado,
+                    latitude: distribuidor.dist_latitude,
+                    longitude: distribuidor.dist_longitude
+                  }
+
+                })
+              })
+            }
+          }
+          if (1 == 1) return;    
+          if (dados.marcas) {
+            let marcas: Marca[] = [];
+            if (dados.marcas.length > 0) {
+              dados.marcas.forEach((marca) => {
+                console.log(marca)
+                this.marcaSrvc.create(<Marca>{
+                  mrc_nome: marca.mrc_nome
+                })
+              })
+            }
+          }
+        }
+      });
   }
 }

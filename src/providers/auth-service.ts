@@ -1,3 +1,6 @@
+import { User } from './user/user';
+import { PerfilAcesso, MenuAcesso } from './database/models/perfil-acesso';
+import { PerfilAcessoService } from './database/services/perfil-acesso';
 import { Usuario } from './database/models/usuario';
 import { UsuarioService } from './database/services/usuario';
 //import { User } from './database/models/user';
@@ -21,7 +24,8 @@ export class AuthServiceProvider {
     private facebook: Facebook,
     private toastController: ToastController,
     private http: Http,
-    public usuarioSrvc: UsuarioService
+    public usuarioSrvc: UsuarioService,
+    public perfilAcessoSrvc: PerfilAcessoService,
   ) { }
 
   signInWithFacebook(): firebase.Promise<any> {
@@ -42,34 +46,39 @@ export class AuthServiceProvider {
 
   setUserFacebook() {
     return new Promise(resolve => {
-    this.getMe().then((facebookUser: any) => {
-      this.usuarioSrvc.getOnce('usr_fb_id', facebookUser.id).subscribe((res) => {
-        if (res.length > 0) {
-          let usuario: Usuario = res[0];
-          let key = res[0].$key;
-          usuario.usr_email = facebookUser.email;
-          usuario.usr_nome = facebookUser.name;
-          usuario.usr_fb_foto = facebookUser.picture;
-          usuario.usr_data = new Date(Date.now());
-          this.usuarioSrvc.update(key, usuario).then(() => {
-            this.usuarioSrvc.usuarioAtual = usuario;
-            resolve(this.usuarioSrvc.usuarioAtual);
-          })
-        } else {
-          let usuario: Usuario = {
-            usr_email: facebookUser.email,
-            usr_nome: facebookUser.name,
-            usr_fb_id: facebookUser.id,
-            usr_data: new Date(Date.now()),
-            usr_fb_foto: facebookUser.picture
+      this.getMe().then((facebookUser: any) => {
+        this.usuarioSrvc.getOnce('usr_fb_id', facebookUser.id).subscribe((res) => {
+          if (res.length > 0) {
+            let usuario: Usuario = res[0];
+            let key = res[0].$key;
+            usuario.usr_email = facebookUser.email;
+            usuario.usr_nome = facebookUser.name;
+            usuario.usr_fb_foto = facebookUser.picture;
+            usuario.usr_data = new Date(Date.now());
+            this.usuarioSrvc.update(key, usuario).then(() => {
+              this.usuarioSrvc.usuarioAtual = usuario;
+              resolve(this.usuarioSrvc.usuarioAtual);
+            })
+          } else {
+
+            let usuario = <Usuario>{
+              usr_email: facebookUser.email,
+              usr_nome: facebookUser.name,
+              usr_fb_id: facebookUser.id,
+              usr_data: new Date(Date.now()),
+              usr_fb_foto: facebookUser.picture
+            }
+            this.perfilAcessoSrvc.getPerfil(this.perfilAcessoSrvc.PERFIL_UsuarioPadrao).then((perfil: PerfilAcesso) => {
+              usuario.usr_perfis = [];
+              usuario.usr_perfis.push(perfil);
+              this.usuarioSrvc.create(usuario).then((res) => {
+                this.usuarioSrvc.usuarioAtual = usuario;
+                resolve(this.usuarioSrvc.usuarioAtual);
+              })
+            })
           }
-          this.usuarioSrvc.create(usuario).then((res) => {
-            this.usuarioSrvc.usuarioAtual = usuario;
-            resolve(this.usuarioSrvc.usuarioAtual);
-          });
-        }
+        })
       })
-    })
     });
   }
 
@@ -94,20 +103,23 @@ export class AuthServiceProvider {
     return new Promise(resolve => {
       this.usuarioSrvc.getOnce('usr_email', email).subscribe((res) => {
         if (res.length == 0) {
-          let usuario: Usuario = {
+          let usuario= <Usuario> {
             usr_email: email,
             usr_nome: nome,
             usr_data: new Date(Date.now())
           }
-          this.usuarioSrvc.create(usuario).then((res) => {
-            this.usuarioSrvc.usuarioAtual = usuario;
-            resolve(this.usuarioSrvc.usuarioAtual);
+          this.perfilAcessoSrvc.getPerfil(this.perfilAcessoSrvc.PERFIL_UsuarioPadrao).then((perfil: PerfilAcesso) => {
+            usuario.usr_perfis = [];
+            usuario.usr_perfis.push(perfil);
+            this.usuarioSrvc.create(usuario).then((res) => {
+              this.usuarioSrvc.usuarioAtual = usuario;
+              resolve(this.usuarioSrvc.usuarioAtual);
+            });
           });
         }
       });
     })
   }
-
 
   resetPassword(email: string): any {
     return this.afAuth.auth.sendPasswordResetEmail(email);

@@ -1,0 +1,68 @@
+{
+    "perfis": [
+        {
+            "per_nome": "Usuario Padrão",
+            "per_mnemonico": "USR",
+            "per_menu": [
+                {
+                    "mnu_nome": "Distribuidoras",
+                    "mnu_page": "DistribuidorListaPage"
+                }
+            ]
+        },
+        {
+            "per_nome": "Administrador do Sistema",
+            "per_mnemonico": "ADM_SYS",
+            "per_funcionalidades": [
+                {
+                    "fun_nome": "Distribuidoras",
+                    "fun_mnemonico": "DIST",
+                    "fun_acoes": [
+                        {
+                            "aca_nome": "listar",
+                            "aca_mnemonico": "list"
+                        },
+                        {
+                            "aca_nome": "editar",
+                            "aca_mnemonico": "edit"
+                        },
+                        {
+                            "aca_nome": "deletar",
+                            "aca_mnemonico": "del"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "menus": [
+        [
+            {
+                "mnu_nome": "Distribuidoras",
+                "mnu_page": "DistribuidorListaPage"
+            }
+        ]
+    ],
+    "funcionalidades": [
+        [
+            {
+                "fun_nome": "Distribuidoras",
+                "fun_mnemonico": "DIST",
+                "fun_acoes": [
+                    {
+                        "aca_nome": "listar",
+                        "aca_mnemonico": "list"
+                    },
+                    {
+                        "aca_nome": "editar",
+                        "aca_mnemonico": "edit"
+                    },
+                    {
+                        "aca_nome": "deletar",
+                        "aca_mnemonico": "del"
+                    }
+                ]
+            }
+        ]
+    ]
+}
