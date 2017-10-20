@@ -1,7 +1,7 @@
 [
     [
         {
-            "mnu_icon": "Distribuidoras",
+            "mnu_icone": "home",
             "mnu_nome": "Distribuidoras",
             "mnu_page": "DistribuidorListaPage"
         }

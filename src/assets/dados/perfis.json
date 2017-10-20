@@ -4,6 +4,7 @@
         "per_mnemonico": "USR",
         "per_menu": [
             {
+                "mnu_icone": "home",                
                 "mnu_nome": "Distribuidoras",
                 "mnu_page": "DistribuidorListaPage"
             }

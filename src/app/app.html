@@ -1,9 +1,10 @@
 <ion-split-pane>
     <ion-menu class="menu content-desktop" [content]="content" when="xs" [enabled]="usuarioSrvc.usuarioAtual">
         <ion-content class="item-menu">
-            <ion-list *ngIf="usuarioSrvc.usuarioAtual?.usr_menus">
-                <ion-item class="item-menu-base">
-                    <button class="item-menu-button" menuClose ion-item *ngFor="let m of usuarioSrvc.usuarioAtual.usr_menus" (click)="openPage(m)">
+            <ion-list class="menu-list" *ngIf="usuarioSrvc.usuarioAtual?.usr_menus">
+                <ion-item class="item-menu-base"  *ngFor="let m of usuarioSrvc.usuarioAtual.usr_menus" (click)="openPage(m)">
+                    <button class="item-menu-button" icon-left menuClose>
+                        <ion-icon name="{{m.mnu_icone}}"></ion-icon>
                         {{m.mnu_nome}}
                     </button>
                 </ion-item>
@@ -14,17 +15,18 @@
 </ion-split-pane>
 <ion-header>
     <ion-navbar class="main-toolbar" color="customColor1">
-        <ion-title text-left showWhen="landscape" (click)="show()">{{ 'APP_NAME' | translate }}</ion-title>
-        <img showWhen="portrait" class="image-profile" src="assets/img/appicon.png" />
-
+        <ion-title align-title="center" text-left (click)="show()">
+            <img class="image-profile" src="assets/img/appicon.png" />
+            <span class="title-app" showWhen="landscape">{{ 'APP_NAME' | translate }}</span>
+        </ion-title>
         <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
-            <button ion-button icon-only (click)="signup()"> 
+            <button ion-button icon-only icon-left (click)="signup()">
                 <ion-icon name="person-add"></ion-icon>
                 <span showWhen="landscape">{{ 'SIGNUP' | translate }}</span>
-             </button>
-            <button ion-button icon-only (click)="login()">
+            </button>
+            <button ion-button icon-only icon-left (click)="login()">
                 <ion-icon name="log-in"></ion-icon>
-                <span showWhen="landscape" >{{ 'LOGIN' | translate }}</span>
+                <span showWhen="landscape">{{ 'LOGIN' | translate }}</span>
             </button>
         </ion-buttons>
         <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">

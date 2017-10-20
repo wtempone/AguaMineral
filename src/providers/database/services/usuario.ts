@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 
 import { Usuario } from '../database-providers';
-import { MenuAcesso } from "../models/perfil-acesso";
+import { MenuAcesso, PerfilAcesso } from "../models/perfil-acesso";
+import { PerfilAcessoService } from './perfil-acesso';
 
 @Injectable()
 export class UsuarioService {
   private basePath: string = '/usuarios';
   public usuarios: FirebaseListObservable<Usuario[]> = null; //  list of objects
   public usuario: FirebaseObjectObservable<Usuario> = null; //   single object
-  public usuarioAtual: Usuario;
-  constructor(private db: AngularFireDatabase) {
+  public usuarioAtual: Usuario;  
+  constructor(
+    private db: AngularFireDatabase,
+  ) {
     this.usuarios = this.db.list(this.basePath);
   }
 
@@ -52,7 +55,7 @@ export class UsuarioService {
 
 
   update(key: string, value: any) {
-    this.updateMenu(value)
+    this.updateMenu(value);
     return this.usuarios.update(key, value);
   }
 
@@ -60,7 +63,7 @@ export class UsuarioService {
     let menus: MenuAcesso[] = [];
     usuario.usr_perfis.forEach((perfil) => {
       perfil.per_menu.forEach((menu) => {
-        if (menus.filter(x => x.mnu_page == x.mnu_page).length == 0) {
+        if (menus.filter(x => x.mnu_page == menu.mnu_page).length == 0) {
           menus.push(menu);
         }
       })

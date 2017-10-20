@@ -27,8 +27,17 @@
     max-height: 50px;
     max-width: 50px;
 } 
+
+.title-app {
+    vertical-align: 65%;
+}
+
 .menu {
     width: 250px !important; 
+}
+
+.menu-list {
+    margin-top:10px;
 }
 .item-menu {
     background: lighten($color: color($colors, customColor1), $amount: 3%) !important;
@@ -46,6 +55,7 @@
 .item-menu-button {
     background: lighten($color: color($colors, customColor1), $amount: 3%) !important;
     color:whitesmoke;
+    height: 20px;
 }
 
 .button-clear{
@@ -53,4 +63,5 @@
 }
 ion-menu {
     max-width: 200px!important;
+    background-color:  lighten($color: color($colors, customColor1), $amount: 3%) !important;
 }
