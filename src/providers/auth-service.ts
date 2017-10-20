@@ -8,10 +8,11 @@ import { Platform, ToastController } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook'
 
 import * as firebase from 'firebase/app';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth} from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Http } from '@angular/http';
+import {Storage} from '@ionic/storage';
 
 @Injectable()
 export class AuthServiceProvider {
@@ -26,7 +27,16 @@ export class AuthServiceProvider {
     private http: Http,
     public usuarioSrvc: UsuarioService,
     public perfilAcessoSrvc: PerfilAcessoService,
-  ) { }
+    public storage: Storage
+  ) { 
+
+
+    // this.storage.get("_oauthCredentials").then((token:string)=>{
+    //   // if (token){
+    //   //   this.afAuth.auth.signInWithCustomToken(token);        
+    //   // }
+    // })
+  }
 
   signInWithFacebook(): firebase.Promise<any> {
     if (this.platform.is('cordova')) {
@@ -57,7 +67,10 @@ export class AuthServiceProvider {
             usuario.usr_data = new Date(Date.now());
             this.usuarioSrvc.update(key, usuario).then(() => {
               this.usuarioSrvc.usuarioAtual = usuario;
-              resolve(this.usuarioSrvc.usuarioAtual);
+              // this.afAuth.auth.currentUser.getToken().then((token)=>{
+              //   this.storage.set("_oauthCredentials",token);              
+              // })
+              resolve(this.usuarioSrvc.usuarioAtual);              
             })
           } else {
 
@@ -73,10 +86,14 @@ export class AuthServiceProvider {
               usuario.usr_perfis.push(perfil);
               this.usuarioSrvc.create(usuario).then((res) => {
                 this.usuarioSrvc.usuarioAtual = usuario;
-                resolve(this.usuarioSrvc.usuarioAtual);
+                // this.afAuth.auth.currentUser.getToken().then((token)=>{
+                //   this.storage.set("_oauthCredentials",token);              
+                // })
+                  resolve(this.usuarioSrvc.usuarioAtual);                
               })
             })
           }
+
         })
       })
     });
@@ -113,6 +130,9 @@ export class AuthServiceProvider {
             usuario.usr_perfis.push(perfil);
             this.usuarioSrvc.create(usuario).then((res) => {
               this.usuarioSrvc.usuarioAtual = usuario;
+              // this.afAuth.auth.currentUser.getToken().then((token)=>{
+              //   this.storage.set("_oauthCredentials",token);              
+              // })
               resolve(this.usuarioSrvc.usuarioAtual);
             });
           });

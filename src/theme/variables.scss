@@ -81,10 +81,13 @@ $colors: (
 @import "roboto";
 @import "noto-sans";
 
+
 .content-desktop {
-  width: 60% !important;
-  margin: auto;
+  width: 100% !important;     
+  margin-top: 50px !important;
+  margin-bottom: 60px !important;
 }
+
 
 .invalid {
   border-bottom: 1px solid #FF6153;
@@ -108,3 +111,7 @@ $colors: (
   }
 
 }
+
+-webkit-scrollbar{
+  display:none !important;
+  }

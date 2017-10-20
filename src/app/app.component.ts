@@ -1,3 +1,4 @@
+import { AuthServiceProvider } from './../providers/auth-service';
 import { Usuario } from './../providers/database/models/usuario';
 import { Funcionalidade, MenuAcesso } from './../providers/database/models/perfil-acesso';
 import { Component, ViewChild } from '@angular/core';
@@ -39,9 +40,14 @@ export class MyApp {
     public usuarioSrvc: UsuarioService,
     public http: Http,
     public distribuidorSrvc: DistribuidorService,
-    public marcaSrvc: MarcaService
+    public marcaSrvc: MarcaService,
+    public authServiceProvider:AuthServiceProvider
   ) {
     this.initTranslate();
+    this.authServiceProvider
+    if (this.authServiceProvider.afAuth.auth.currentUser) {
+      this.usuarioSrvc.loadUsuarioAtualByEmail(this.authServiceProvider.afAuth.auth.currentUser.email);
+    }
   }
 
   ionViewDidLoad() {
@@ -74,6 +80,13 @@ export class MyApp {
     this.modalCtrl.create('LoginPage').present();
   }
 
+  signupDistribuidora(){
+    if (this.usuarioSrvc.usuarioAtual){
+      this.nav.setRoot('DistribuidorEditPage')      
+    } else {
+      this.modalCtrl.create('LoginPage',{message:"NOT_AUTHENTICATED"}).present(); 
+    }
+  }
   show() {
     if (1 == 1) return;
     this.http.get('assets/dados/aguamineralapp_full.json')

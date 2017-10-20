@@ -27,12 +27,4 @@ export class DistribuidorListaPage {
   editDistribuidor(distribuidor: Distribuidor){
     this.navCtrl.push('DistribuidorEditPage',distribuidor)
   }
-
-  signupDistribuidora(){
-    if (this.usuarioSrvc.usuarioAtual){
-      this.navCtrl.push('DistribuidorEditPage')      
-    } else {
-      this.modalCtrl.create('LoginPage',{message:"NOT_AUTHENTICATED"}).present(); 
-    }
-  }
 }

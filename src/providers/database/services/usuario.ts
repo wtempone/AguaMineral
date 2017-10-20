@@ -14,6 +14,15 @@ export class UsuarioService {
     this.usuarios = this.db.list(this.basePath);
   }
 
+  loadUsuarioAtualByEmail(email) {
+    return this.getOnce('usr_email', email).subscribe((res) => {
+      if (res.length > 0) {
+        let usuario: Usuario = res[0];
+        this.usuarioAtual = usuario;
+      }
+    })
+  }
+
   getList(query = {}): FirebaseListObservable<Usuario[]> {
     this.usuarios = this.db.list(this.basePath, { query: query });
     return this.usuarios;
@@ -36,14 +45,14 @@ export class UsuarioService {
     ).take(1);
   }
 
-  create(usuario: Usuario) {    
-    this.updateMenu(usuario)    
+  create(usuario: Usuario) {
+    this.updateMenu(usuario)
     return this.usuarios.push(usuario);
   }
 
 
   update(key: string, value: any) {
-    this.updateMenu(value)        
+    this.updateMenu(value)
     return this.usuarios.update(key, value);
   }
 
