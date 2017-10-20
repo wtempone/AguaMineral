@@ -1,15 +1,9 @@
 <ion-split-pane>
-    <ion-menu class="menu" [content]="content" when="xs" [enabled]="usuarioSrvc.usuarioAtual">
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>Pages</ion-title>
-            </ion-toolbar>
-        </ion-header>
-
+    <ion-menu class="menu content-desktop" [content]="content" when="xs" [enabled]="usuarioSrvc.usuarioAtual">
         <ion-content class="item-menu">
             <ion-list *ngIf="usuarioSrvc.usuarioAtual?.usr_menus">
                 <ion-item class="item-menu-base">
-                    <button  class="item-menu-button" menuClose ion-item *ngFor="let m of usuarioSrvc.usuarioAtual.usr_menus" (click)="openPage(m)">
+                    <button class="item-menu-button" menuClose ion-item *ngFor="let m of usuarioSrvc.usuarioAtual.usr_menus" (click)="openPage(m)">
                         {{m.mnu_nome}}
                     </button>
                 </ion-item>
@@ -19,11 +13,19 @@
     <ion-nav main [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 </ion-split-pane>
 <ion-header>
-    <ion-navbar color="customColor1">
-        <ion-title (click)="show()">{{ 'APP_NAME' | translate }}</ion-title>
+    <ion-navbar class="main-toolbar" color="customColor1">
+        <ion-title text-left showWhen="landscape" (click)="show()">{{ 'APP_NAME' | translate }}</ion-title>
+        <img showWhen="portrait" class="image-profile" src="assets/img/appicon.png" />
+
         <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
-            <button ion-button icon-only (click)="signup()">{{ 'SIGNUP' | translate }}</button>
-            <button ion-button icon-only (click)="login()">{{ 'LOGIN' | translate }}</button>
+            <button ion-button icon-only (click)="signup()"> 
+                <ion-icon name="person-add"></ion-icon>
+                <span showWhen="landscape">{{ 'SIGNUP' | translate }}</span>
+             </button>
+            <button ion-button icon-only (click)="login()">
+                <ion-icon name="log-in"></ion-icon>
+                <span showWhen="landscape" >{{ 'LOGIN' | translate }}</span>
+            </button>
         </ion-buttons>
         <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
             <button ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
@@ -41,7 +43,7 @@
 </ion-header>
 
 <ion-footer color="customColor1">
-    <ion-toolbar color="customColor1">
-        <button ion-button block (click)="signupDistribuidora()" color="customColor1">{{ 'SIGNUP_DISTRIBUTOR' | translate }}</button>
+    <ion-toolbar color="customColor1" class="main-footer">
+        <button ion-button block clear class="button-clear" (click)="signupDistribuidora()" color="customColor1">{{ 'SIGNUP_DISTRIBUTOR' | translate }}</button>
     </ion-toolbar>
 </ion-footer>

@@ -71,7 +71,11 @@ export class MyApp {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
   }
-
+  
+  signup() {
+    this.modalCtrl.create('SignupPage').present();
+  }
+  
   openPage(menu: MenuAcesso) {
     this.nav.setRoot(menu.mnu_page);
   }

@@ -1,29 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>{{ 'LOGIN' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 <ion-content padding>
-  <h2>{{ 'LOGIN' | translate }}</h2>
-  <h5 ion-text text-center color="primary"  *ngIf="navParams.data.message">
-      {{ navParams.data.message | translate }}      
+  <h5 ion-text text-center color="primary" *ngIf="navParams.data.message">
+    {{ navParams.data.message | translate }}
   </h5>
   <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
     <ion-item>
       <ion-label stacked>{{ 'EMAIL' | translate }}</ion-label>
-      <ion-input #email formControlName="email" type="email" placeholder="{{ 'EMAIL_PLACEHOLDER' | translate }}"
-        [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty"></ion-input>
+      <ion-input #email formControlName="email" type="email" placeholder="{{ 'EMAIL_PLACEHOLDER' | translate }}" [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty"></ion-input>
     </ion-item>
     <ion-item class="error-message" *ngIf="!loginForm.controls.email.valid  && loginForm.controls.email.dirty">
       <p>{{ 'EMAIL_MESSAGE_INVALID' | translate }}</p>
     </ion-item>
     <ion-item>
       <ion-label stacked>{{ 'PASSWORD' | translate }}</ion-label>
-      <ion-input #password formControlName="password" type="password" placeholder="{{ 'PASSWORD_PLACEHOLDER' | translate }}"
-        [class.invalid]="!loginForm.controls.password.valid && (passwordChanged || submitAttempt)"></ion-input>
+      <ion-input #password formControlName="password" type="password" placeholder="{{ 'PASSWORD_PLACEHOLDER' | translate }}" [class.invalid]="!loginForm.controls.password.valid && (passwordChanged || submitAttempt)"></ion-input>
     </ion-item>
     <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid  &&  loginForm.controls.password.dirty">
       <p>{{ 'PASSWORD_MESSAGE_INVALID' | translate }}</p>
     </ion-item>
-    <button [disabled]="loginForm.invalid" ion-button block type="submit">{{ 'LOGIN' | translate }}</button>
+    <button [disabled]="loginForm.invalid" ion-button block icon-left type="submit">
+      <ion-icon name="log-in"></ion-icon> 
+      {{ 'LOGIN' | translate }}
+    </button>
   </form>
-  <button ion-button block (click)="facebookLogin()">{{ 'LOGIN_WHIT_FACEBOOK' | translate }}</button>
-  
-  <button ion-button block clear (click)="register()">{{ 'SIGNUP' | translate }}  </button>
-  <button ion-button block clear (click)="resetPwd()">{{ 'FORGOT_PASSWORD' | translate }}  </button>
+  <button ion-button block icon-left (click)="facebookLogin()">
+    <ion-icon name="logo-facebook"></ion-icon> 
+    {{ 'LOGIN_WHIT_FACEBOOK' | translate }}
+  </button>
+
+  <button ion-button block icon-left (click)="register()">
+    <ion-icon name="person-add"></ion-icon>    
+    {{ 'SIGNUP' | translate }}
+  </button>
+  <button ion-button block icon-left (click)="resetPwd()">
+    <ion-icon name="unlock"></ion-icon>    
+     {{ 'FORGOT_PASSWORD' | translate }}
+  </button>
 </ion-content>

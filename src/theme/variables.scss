@@ -81,13 +81,54 @@ $colors: (
 @import "roboto";
 @import "noto-sans";
 
+.main-toolbar {
+  width: 100% !important;     
+  height: 50px !important;
+}
 
+.main-footer{
+  height: 50px !important;    
+}
 .content-desktop {
   width: 100% !important;     
   margin-top: 50px !important;
-  margin-bottom: 60px !important;
+  margin-bottom: 50px !important;
 }
 
+@media (min-width: 576px) {
+  .content-desktop-inside {
+    width: 100% !important;     
+    margin: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .content-desktop-inside {
+    width: 100% !important;     
+    margin: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .content-desktop-inside {
+    width: 100% !important;     
+    margin: auto;
+  }
+}
+
+@media (min-width: 1023px) {
+  .content-desktop-inside {
+    width: 90% !important;     
+    margin: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .content-desktop-inside {
+    width: 80% !important;     
+    margin: auto;
+  }
+}
 
 .invalid {
   border-bottom: 1px solid #FF6153;
@@ -102,7 +143,7 @@ $colors: (
 .toast-success {
   > div{
     background-color:#84C0EB!important;
-    border-radius: 3vh;
+    border-radius: 5px;
     border: 1px solid rgb(49, 49, 49);
     .toast-message {
       color: rgb(49, 49, 49);
@@ -112,6 +153,16 @@ $colors: (
 
 }
 
--webkit-scrollbar{
-  display:none !important;
-  }
+::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 5px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}

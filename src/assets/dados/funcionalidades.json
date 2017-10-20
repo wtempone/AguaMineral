@@ -1,0 +1,22 @@
+[
+    [
+        {
+            "fun_nome": "Distribuidoras",
+            "fun_mnemonico": "DIST",
+            "fun_acoes": [
+                {
+                    "aca_nome": "listar",
+                    "aca_mnemonico": "list"
+                },
+                {
+                    "aca_nome": "editar",
+                    "aca_mnemonico": "edit"
+                },
+                {
+                    "aca_nome": "deletar",
+                    "aca_mnemonico": "del"
+                }
+            ]
+        }
+    ]
+]

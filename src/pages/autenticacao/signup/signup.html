@@ -1,9 +1,16 @@
-<ion-title>
-  {{ 'SIGNUP_TITLE' | translate }}
-</ion-title>
-
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>
+      {{ 'SIGNUP_TITLE' | translate }}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 <ion-content padding>
-  <h2>{{ 'SIGNUP_TITLE' | translate }}</h2>
   <form [formGroup]="signupForm" (submit)="doSignup()" novalidate>
     <ion-item>
       <ion-label stacked>{{ 'NAME' | translate }}</ion-label>
@@ -24,8 +31,14 @@
     <ion-item class="error-message" *ngIf="!signupForm.controls.password.valid  &&  signupForm.controls.password.dirty">
       <p>{{ 'PASSWORD_MESSAGE_INVALID' | translate }}</p>
     </ion-item>
-    <button [disabled]="signupForm.invalid" ion-button block type="submit">{{ 'SIGNUP_BUTTON' | translate }}</button>
+    <button [disabled]="signupForm.invalid" ion-button block icon-left type="submit">
+      <ion-icon name="person-add"></ion-icon>          
+      {{ 'SIGNUP_BUTTON' | translate }}
+    </button>
   </form>
 
-  <button ion-button block clear (click)="goToLogin()">{{ 'Login' | translate }}  </button>
+  <button ion-button block icon-left (click)="goToLogin()">
+    <ion-icon name="log-in"></ion-icon>        
+    {{ 'LOGIN_BUTTON' | translate }}  
+  </button>
 </ion-content>

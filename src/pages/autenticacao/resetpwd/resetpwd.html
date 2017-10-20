@@ -1,8 +1,16 @@
-<ion-title>
-  {{ 'RESET_PASSWORD' | translate }}
-</ion-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>
+      {{ 'RESET_PASSWORD' | translate }}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 <ion-content padding>
-  <h2>{{ 'RESET_PASSWORD' | translate }}</h2>
   <form [formGroup]="resetpwdForm" (submit)="resetPwd()" novalidate>
     <ion-item>
       <ion-label stacked>{{ 'EMAIL' | translate }}</ion-label>
@@ -16,6 +24,12 @@
         </button>
   </form>
 
-  <button ion-button block clear (click)="register()">{{ 'SIGNUP' | translate }}  </button>
-  <button ion-button block clear (click)="login()">{{ 'LOGIN' | translate }}  </button>
+  <button ion-button block  icon-left (click)="register()">
+    <ion-icon name="person-add"></ion-icon>        
+    {{ 'SIGNUP' | translate }}  
+    </button>
+  <button ion-button block  icon-left (click)="login()">
+    <ion-icon name="log-in"></ion-icon>        
+    {{ 'LOGIN' | translate }}  
+    </button>
 </ion-content>

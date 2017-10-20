@@ -46,6 +46,7 @@ export class LoginPage {
   }
 
   resetPwd() {
+    this.navCtrl.pop();    
     this.modalCtrl.create('ResetpwdPage').present();
   }
 

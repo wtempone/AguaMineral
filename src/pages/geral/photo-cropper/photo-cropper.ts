@@ -26,9 +26,9 @@ export class PhotoCropperPage {
     this.cropperSettings = new CropperSettings();
 
 
-    this.cropperSettings.canvasWidth = 400;
-    this.cropperSettings.canvasHeight = 400;
-
+    this.cropperSettings.canvasWidth = 300;
+    this.cropperSettings.canvasHeight = 300;
+    
     this.cropperSettings.noFileInput = true;
     this.data = {};
   }
