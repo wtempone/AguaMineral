@@ -10,7 +10,7 @@ import { IonicPage, NavController, NavParams, ModalController, AlertController, 
   templateUrl: 'funcionalidade-list.html',
 })
 export class FuncionalidadeListPage {
-  funcionalidade: Funcionalidade;
+  perfil: PerfilAcesso;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -20,9 +20,9 @@ export class FuncionalidadeListPage {
     public toastCtrl: ToastController
     
   ) {
-    if (this.funcionalidade = navParams.data.perfil)
-      this.funcionalidade = navParams.data.perfil
-      this.funcionalidadeSrvc.get(this.funcionalidade.$key)
+    if (this.perfil = navParams.data.perfil)
+      this.perfil = navParams.data.perfil;
+      this.funcionalidadeSrvc.get(this.perfil.$key)
   }
 
   editPerfil(funcionalidade?: PerfilAcesso) {
