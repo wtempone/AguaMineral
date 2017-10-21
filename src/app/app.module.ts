@@ -1,3 +1,4 @@
+import { FuncionalidadeService } from './../providers/database/services/funcionalidade';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -118,7 +119,8 @@ export function provideSettings(storage: Storage) {
     UsuarioService,
     DistribuidorService,
     MarcaService,
-    PerfilAcessoService
+    PerfilAcessoService,
+    FuncionalidadeService
   ]
 })
 export class AppModule { }

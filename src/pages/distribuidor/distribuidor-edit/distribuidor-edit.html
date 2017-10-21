@@ -19,7 +19,7 @@
       <ion-title>Distribuidora</ion-title>
     </ion-header>
     <form [formGroup]="formulario" novalidate>
-      <ion-list>
+      <ion-list no-lines>
         <ion-item>
           <ion-label stacked>{{ 'DIST_NAME' | translate }}</ion-label>
           <ion-input [class.invalid]="verificaValidTouched('dist_nome')" formControlName="dist_nome" type="text" placeholder="{{ 'DIST_NAME_PLACEHOLDER' | translate }}"></ion-input>

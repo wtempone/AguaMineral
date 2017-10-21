@@ -1,5 +1,4 @@
 import { User } from './user/user';
-import { PerfilAcesso, MenuAcesso } from './database/models/perfil-acesso';
 import { PerfilAcessoService } from './database/services/perfil-acesso';
 import { Usuario } from './database/models/usuario';
 import { UsuarioService } from './database/services/usuario';
@@ -13,6 +12,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Http } from '@angular/http';
 import {Storage} from '@ionic/storage';
+import { PerfilAcesso } from './database/models/perfil-acesso';
 
 @Injectable()
 export class AuthServiceProvider {

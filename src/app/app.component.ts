@@ -1,6 +1,5 @@
 import { AuthServiceProvider } from './../providers/auth-service';
 import { Usuario } from './../providers/database/models/usuario';
-import { Funcionalidade, MenuAcesso } from './../providers/database/models/perfil-acesso';
 import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -18,6 +17,7 @@ import { UsuarioService } from '../providers/database/services/usuario';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { MarcaService, Marca } from "../providers/database/database-providers";
+import { MenuAcesso } from '../providers/database/models/menu-acesso';
 
 @Component({
   templateUrl: 'app.html'

@@ -1,5 +1,6 @@
-import { PerfilAcesso, MenuAcesso } from './perfil-acesso';
 import { Endereco } from './shared-models';
+import { PerfilAcesso } from './perfil-acesso';
+import { MenuAcesso } from './menu-acesso';
 export class Usuario {
   $key?: string;
   usr_fb_id?: string;

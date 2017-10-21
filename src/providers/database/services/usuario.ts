@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 
 import { Usuario } from '../database-providers';
-import { MenuAcesso, PerfilAcesso } from "../models/perfil-acesso";
 import { PerfilAcessoService } from './perfil-acesso';
+import { MenuAcesso } from '../models/menu-acesso';
 
 @Injectable()
 export class UsuarioService {

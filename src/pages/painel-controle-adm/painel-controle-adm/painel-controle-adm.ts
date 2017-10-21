@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PainelControleAdmPage {
 
+  perfilListPage = 'PerfilListPage';
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

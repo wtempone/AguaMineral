@@ -20,10 +20,6 @@ export class DistribuidorListaPage {
     ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DistribuidorListaPage');
-  }
-
   editDistribuidor(distribuidor: Distribuidor){
     this.navCtrl.push('DistribuidorEditPage',distribuidor)
   }

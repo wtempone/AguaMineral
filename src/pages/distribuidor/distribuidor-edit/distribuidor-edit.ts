@@ -62,6 +62,17 @@ export class DistribuidorEditPage {
     );
   }
 
+  verificaValidacoesForm(formGroup: FormGroup) {
+    console.log(formGroup);
+    Object.keys(formGroup.controls).forEach(campo => {
+      const controle = formGroup.get(campo);
+      controle.markAsDirty();
+      if (controle instanceof FormGroup) {
+        this.verificaValidacoesForm(controle);
+      }
+    });
+  }
+  
   saveDistribuidor() {
     if (this.formulario.valid) {
 
@@ -132,14 +143,5 @@ export class DistribuidorEditPage {
   selectEndereco(endereco: Endereco) {
     this.distribuidor.dist_endereco = endereco;
   }
-  verificaValidacoesForm(formGroup: FormGroup) {
-    console.log(formGroup);
-    Object.keys(formGroup.controls).forEach(campo => {
-      const controle = formGroup.get(campo);
-      controle.markAsDirty();
-      if (controle instanceof FormGroup) {
-        this.verificaValidacoesForm(controle);
-      }
-    });
-  }
+
 }

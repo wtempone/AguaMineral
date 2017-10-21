@@ -1,12 +1,8 @@
+import { Funcionalidade } from './../../../../../providers/database/models/funcionalidade';
+import { FuncionalidadeService } from './../../../../../providers/database/services/funcionalidade';
+import { PerfilAcesso } from './../../../../../providers/database/models/perfil-acesso';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the FuncionalidadeListPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -14,12 +10,56 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'funcionalidade-list.html',
 })
 export class FuncionalidadeListPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  funcionalidade: Funcionalidade;
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public funcionalidadeSrvc: FuncionalidadeService,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController
+    
+  ) {
+    if (this.funcionalidade = navParams.data.perfil)
+      this.funcionalidade = navParams.data.perfil
+      this.funcionalidadeSrvc.get(this.funcionalidade.$key)
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad FuncionalidadeListPage');
+  editPerfil(funcionalidade?: PerfilAcesso) {
+    let modal = this.modalCtrl.create('FuncionalidadeEditPage', { funcionalidade: funcionalidade });
+    modal.present({
+      ev: event
+    });
   }
 
+  configurarPerfil(funcionalidade){
+    this.navCtrl.push('AcaoListPage',{ funcionalidade: funcionalidade});
+  }
+
+  excluirPerfil(key) {
+    let confirm = this.alertCtrl.create({
+      title: 'Confirma exclusão',
+      message: 'Deseja realmente excluir o registro?',
+      buttons: [
+        {
+          text: 'Não',
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.funcionalidadeSrvc.delete(key).then(() => {
+              let toast = this.toastCtrl.create({
+                message: 'Registro excluído com sucesso',
+                duration: 3000,
+                position: 'top',
+                cssClass: 'toast-success'
+              });
+              toast.present();
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 }
