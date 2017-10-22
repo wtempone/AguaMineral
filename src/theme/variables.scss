@@ -94,6 +94,9 @@ $colors: (
   margin-top: 55px !important;
 }
 
+.content-desktop-margin-bottom {
+  margin-bottom: 55px !important;
+}
 @media (min-width: 576px) {
   .content-desktop-inside {
     width: 100% !important;     
@@ -139,6 +142,10 @@ $colors: (
   max-width: 50px;
 } 
 
+.toast-message {
+  text-align: center!important;
+}  
+
 .toast-success {
   > div{
     background-color:#84C0EB!important;
@@ -146,7 +153,6 @@ $colors: (
     border: 1px solid rgb(49, 49, 49);
     .toast-message {
       color: rgb(49, 49, 49);
-      text-align: center;
     }    
   }
 

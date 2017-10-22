@@ -5,4 +5,5 @@ export interface Funcionalidade {
     fun_mnemonico: string;
     fun_descricao: string;
     fun_acoes: Acao[]
+    _selecionada?:boolean;
   }

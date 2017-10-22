@@ -22,6 +22,33 @@ export class DistribuidorService {
     this.distribuidores = this.db.list(this.basePath);
   }
 
+  exists(field: string, value: string, key?): Promise<boolean> {
+    return new Promise(resolve => {
+      this.db.list(this.basePath, {
+        query: {
+          orderByChild: field,
+          equalTo: value,
+          limitToFirst: 1
+        }
+      }
+      ).take(1).subscribe((res) => {
+        if (res.length > 0) {
+          if (key) {
+            if (res[0].$key == key)
+              resolve(false);
+            else
+              resolve(true);
+          }
+          else
+            resolve(true);
+
+        } else {
+          resolve(false);
+        }
+      });
+    })
+  }
+  
   getList(query = {}): FirebaseListObservable<Distribuidor[]> {
     this.distribuidores = this.db.list(this.basePath, { query: query });
     return this.distribuidores;

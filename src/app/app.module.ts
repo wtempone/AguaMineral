@@ -1,3 +1,7 @@
+import { PerfilMenuService } from './../providers/database/services/menu-funcionalidade';
+import { PerfilFuncionalidadeService } from './../providers/database/services/perfil-funcionalidade';
+import { AcaoService } from './../providers/database/services/acao';
+import { MenuService } from './../providers/database/services/menu';
 import { FuncionalidadeService } from './../providers/database/services/funcionalidade';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
@@ -120,7 +124,11 @@ export function provideSettings(storage: Storage) {
     DistribuidorService,
     MarcaService,
     PerfilAcessoService,
-    FuncionalidadeService
+    FuncionalidadeService,
+    MenuService,
+    AcaoService,
+    PerfilFuncionalidadeService,
+    PerfilMenuService
   ]
 })
 export class AppModule { }

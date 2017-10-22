@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>Cadastro de Perfil</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+        <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding class="modal-desktop" >
+  <form [formGroup]="formulario" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label stacked>Mnemonico</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('per_mnemonico')" formControlName="per_mnemonico" type="text" maxlength="10"
+          placeholder="Digite o mnemonico"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('per_mnemonico')">
+        <p class="error-message">Mnemonico obrigatório</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Titulo</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('per_nome')" formControlName="per_nome" type="text" placeholder="Digite o nome"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('per_nome')">
+        <p class="error-message">Nome obrigatório</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('per_descricao')" formControlName="per_descricao" type="text" placeholder="Digite a descrição"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('per_descricao')">
+        <p class="error-message">Descrição obrigatória</p>
+      </ion-item>
+      <ion-item>
+        <button ion-button block color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

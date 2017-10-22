@@ -1,0 +1,22 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Selecione os menus</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list>
+  
+      <ion-item *ngFor="let menu of menus">
+        <ion-label>{{menu.mnu_nome}}</ion-label>
+        <ion-checkbox [(ngModel)]="menu._selecionado"></ion-checkbox>
+      </ion-item>
+  
+    </ion-list>
+    <button ion-button icon-left block (click)="pronto()">
+      <ion-icon name="checkmark" ></ion-icon>
+      Ok
+    </button>
+  </ion-content>

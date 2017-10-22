@@ -20,6 +20,33 @@ export class PerfilAcessoService {
   ) {
     this.perfisAcesso = this.db.list(this.basePath);
   }
+  
+  exists(field: string, value: string, key?): Promise<boolean> {
+    return new Promise(resolve => {
+      this.db.list(this.basePath, {
+        query: {
+          orderByChild: field,
+          equalTo: value,
+          limitToFirst: 1
+        }
+      }
+      ).take(1).subscribe((res) => {
+        if (res.length > 0) {
+          if (key) {
+            if (res[0].$key == key)
+              resolve(false);
+            else
+              resolve(true);
+          }
+          else
+            resolve(true);
+
+        } else {
+          resolve(false);
+        }
+      });
+    })
+  }
 
   getPerfil(mnemonico: string):Promise<PerfilAcesso> {
     return new Promise(resolve => {
@@ -30,7 +57,14 @@ export class PerfilAcessoService {
   }
 
   getOnce(field: string, value: string) {
-    return this.db.list(this.basePath).$ref.orderByChild(field).equalTo(value).limitToFirst(1).once('value');
+    return this.db.list(this.basePath, {
+      query: {
+        orderByChild: field,
+        equalTo: value,
+        limitToFirst: 1
+      }
+    }
+    ).take(1);
   }
 
   create(PerfilAcesso: PerfilAcesso) {
