@@ -3,7 +3,7 @@ import { MenuService } from './../../../../../../providers/database/services/men
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -20,7 +20,8 @@ export class MenuEditPage {
     private formBuilder: FormBuilder,
     private translate: TranslateService,
     private toastCtrl: ToastController,
-    private menuSrvc: MenuService
+    private menuSrvc: MenuService,
+    private popoverCtrl:PopoverController
   ) {
     console.log(this.navParams.data)
     if (this.navParams.data.menu)
@@ -60,6 +61,20 @@ export class MenuEditPage {
       (this.formulario.get(campo).touched || this.formulario.get(campo).dirty)
     );
   }
+
+  selecionarIcone(event) {
+    let popover = this.popoverCtrl.create('SelectIconPage');
+    popover.present({
+      ev: event
+    });
+    popover.onDidDismiss(data => {
+      if (data)
+        if (data.icon) {
+          this.menu.mnu_icone = data.icon
+        }
+    })
+
+  }  
 
   verificaValidacoesForm(formGroup: FormGroup) {
     console.log(formGroup);

@@ -6,7 +6,7 @@ export interface PerfilAcesso {
   per_nome: string;
   per_mnemonico: string;
   per_descricao: string;
-  per_menu: MenuAcesso[]
+  per_menus: MenuAcesso[]
   per_funcionalidades: Funcionalidade[]
 }
 

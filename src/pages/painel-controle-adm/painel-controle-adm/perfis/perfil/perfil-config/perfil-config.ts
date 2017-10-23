@@ -1,4 +1,4 @@
-import { PerfilMenuService } from './../../../../../../providers/database/services/menu-funcionalidade';
+import { PerfilMenuService } from './../../../../../../providers/database/services/perfil-menu';
 import { MenuAcesso } from './../../../../../../providers/database/models/menu-acesso';
 import { MenuService } from './../../../../../../providers/database/services/menu';
 import { FuncionalidadeService } from './../../../../../../providers/database/services/funcionalidade';
@@ -37,6 +37,12 @@ export class PerfilConfigPage {
       this.perfil = this.navParams.data.perfil;
       this.perfilFuncionalidadeSrvc.get(this.perfil.$key)
       this.perfilMenuSrvc.get(this.perfil.$key)
+    } else {
+      this.perfil = <PerfilAcesso>{
+        per_nome: "",
+        per_descricao:""
+      }
+      this.navCtrl.setRoot('PerfilListPage');      
     }
   }
 

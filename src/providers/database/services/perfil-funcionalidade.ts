@@ -20,7 +20,7 @@ export class PerfilFuncionalidadeService {
   }
 
   get(key: string) {
-    this.basePath = `/perfis/${key}/funcionalidades`;
+    this.basePath = `/perfis/${key}/per_funcionalidades`;
     this.perfilFuncionalidades = this.db.list(this.basePath);
     this.perfilFuncionalidades.subscribe((itens) => {
       this.funcionalidades = []

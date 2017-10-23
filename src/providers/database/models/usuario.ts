@@ -13,7 +13,7 @@ export class Usuario {
   usr_nivel?: number;
   usr_status?: number;
   usr_endereco?: Endereco;
-  usr_perfis?: PerfilAcesso[];
+  usr_perfis?: any[];
   usr_menus?: MenuAcesso[];
 }
 

@@ -1,3 +1,5 @@
+import { Marca } from './../../providers/database/models/marca';
+import { MarcaService } from './../../providers/database/services/marca';
 import { DistribuidorService } from './../../providers/database/services/distribuidor';
 import { Distribuidor } from './../../providers/database/models/distribuidor';
 import { Endereco } from './../../providers/database/models/shared-models';
@@ -5,7 +7,6 @@ import { UsuarioService } from './../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
-import { MarcaService, Marca } from "../../providers/database/database-providers";
 /**
  * Generated class for the UsuarioToolbarComponent component.
  *

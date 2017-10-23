@@ -88,6 +88,7 @@
       <ion-list>
         <ion-item-sliding *ngFor='let menu of menuSrvc.menus | async'>
           <ion-item>
+            <ion-icon name="{{menu.mnu_icone}}" item-start></ion-icon>
             <h2>{{menu.mnu_nome}}</h2>
             <p>{{menu.mnu_descricao}}</p>
           </ion-item>

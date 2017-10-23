@@ -1,4 +1,7 @@
-import { PerfilMenuService } from './../providers/database/services/menu-funcionalidade';
+import { PerfilMenuService } from './../providers/database/services/perfil-menu';
+import { MarcaService } from './../providers/database/services/marca';
+import { DistribuidorService } from './../providers/database/services/distribuidor';
+import { UsuarioService } from './../providers/database/services/usuario';
 import { PerfilFuncionalidadeService } from './../providers/database/services/perfil-funcionalidade';
 import { AcaoService } from './../providers/database/services/acao';
 import { MenuService } from './../providers/database/services/menu';
@@ -34,7 +37,6 @@ import { NativeGeocoder } from "@ionic-native/native-geocoder";
 import { GoogleApis } from "../services/consulta-google-apis";
 import { AuthServiceProvider } from "../providers/auth-service";
 import { Facebook } from "@ionic-native/facebook";
-import { UsuarioService, DistribuidorService, MarcaService } from "../providers/database/database-providers";
 import { DirectivesModule } from '../directives/directives.module';
 import { ImageCropperModule, ImageCropperComponent } from "ng2-img-cropper";
 import { PhotoProvider } from '../providers/photo/photo';
@@ -120,6 +122,7 @@ export function provideSettings(storage: Storage) {
     NativeGeocoder,
     GoogleApis,
     PhotoProvider,
+    PerfilAcessoService,
     UsuarioService,
     DistribuidorService,
     MarcaService,

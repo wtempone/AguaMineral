@@ -16,7 +16,6 @@ export class PerfilAcessoService {
   
   constructor(
     private db: AngularFireDatabase,
-    private usuarioSrvc: UsuarioService,
   ) {
     this.perfisAcesso = this.db.list(this.basePath);
   }
@@ -48,14 +47,19 @@ export class PerfilAcessoService {
     })
   }
 
-  getPerfil(mnemonico: string):Promise<PerfilAcesso> {
+  getByMnemonico(mnemonico: string):Promise<PerfilAcesso> {
     return new Promise(resolve => {
-     this.db.list(this.basePath).$ref.orderByChild('per_mnemonico').equalTo(mnemonico).limitToFirst(1).once('value').then((res)=>{
-       resolve(<PerfilAcesso>res.val()[0]);
+     this.db.object(this.basePath).$ref.orderByChild('per_mnemonico').equalTo(mnemonico).limitToFirst(1).once('value').then((res)=>{
+       let perilAcesso: PerfilAcesso = res.val();
+       resolve(perilAcesso);
      });
     })
   }
-
+  getByKey(key: string): FirebaseObjectObservable<PerfilAcesso>  {
+    const path = `${this.basePath}/${key}`
+    return this.db.object(path)
+  }
+    
   getOnce(field: string, value: string) {
     return this.db.list(this.basePath, {
       query: {

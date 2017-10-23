@@ -1,3 +1,5 @@
+import { Marca } from './../providers/database/models/marca';
+import { MarcaService } from './../providers/database/services/marca';
 import { AuthServiceProvider } from './../providers/auth-service';
 import { Usuario } from './../providers/database/models/usuario';
 import { Component, ViewChild } from '@angular/core';
@@ -16,7 +18,6 @@ import { Endereco } from '../providers/database/models/shared-models';
 import { UsuarioService } from '../providers/database/services/usuario';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
-import { MarcaService, Marca } from "../providers/database/database-providers";
 import { MenuAcesso } from '../providers/database/models/menu-acesso';
 
 @Component({
@@ -47,9 +48,12 @@ export class MyApp {
     this.authServiceProvider
     if (this.authServiceProvider.afAuth.auth.currentUser) {
       this.usuarioSrvc.loadUsuarioAtualByEmail(this.authServiceProvider.afAuth.auth.currentUser.email);
+      this.usuarioSrvc
     }
   }
-
+  reloadMenu() {
+    this.usuarioSrvc.loadPerfisAcesso(this.usuarioSrvc.usuarioAtual.$key);
+  }
   ionViewDidLoad() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();

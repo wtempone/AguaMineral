@@ -1,20 +1,46 @@
+import { MenuAcesso } from './../models/menu-acesso';
+import { MenuService } from './menu';
+import { Usuario } from './../models/usuario';
+import { PerfilAcesso } from './../models/perfil-acesso';
 import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 
-import { Usuario } from '../database-providers';
 import { PerfilAcessoService } from './perfil-acesso';
-import { MenuAcesso } from '../models/menu-acesso';
 
 @Injectable()
 export class UsuarioService {
   private basePath: string = '/usuarios';
   public usuarios: FirebaseListObservable<Usuario[]> = null; //  list of objects
   public usuario: FirebaseObjectObservable<Usuario> = null; //   single object
-  public usuarioAtual: Usuario;  
+  public usuarioAtual: Usuario;
   constructor(
     private db: AngularFireDatabase,
+    private perfilAcessoSrvc: PerfilAcessoService,
+    private menuSrvc: MenuService
+
   ) {
     this.usuarios = this.db.list(this.basePath);
+  }
+
+  loadPerfisAcesso(key) {
+    this.get(key).take(1).subscribe((usuario: Usuario) => {
+      this.usuarioAtual = usuario;
+      this.db.list(`${this.basePath}/${this.usuarioAtual.$key}/usr_perfis`).subscribe((perfis) => {
+        this.usuarioAtual.usr_menus = [];
+        perfis.forEach((perfil) => {
+          this.perfilAcessoSrvc.getByKey(perfil.$key).take(1).subscribe((perfilAcesso: PerfilAcesso) => {
+            Object.keys(perfilAcesso.per_menus).forEach((menuKey:string) => {
+              this.menuSrvc.get(menuKey).then((menu: MenuAcesso) => {
+                if (this.usuarioAtual.usr_menus.filter(x => x.mnu_page == menu.mnu_page).length == 0) {
+                  this.usuarioAtual.usr_menus.push(menu);
+                }
+              })
+            })
+          })
+        })
+      })
+    })
+
   }
 
   loadUsuarioAtualByEmail(email) {
@@ -25,7 +51,7 @@ export class UsuarioService {
       }
     })
   }
-  
+
   exists(field: string, value: string, key?): Promise<boolean> {
     return new Promise(resolve => {
       this.db.list(this.basePath, {
@@ -76,26 +102,30 @@ export class UsuarioService {
   }
 
   create(usuario: Usuario) {
-    this.updateMenu(usuario)
-    return this.usuarios.push(usuario);
+    //this.updateMenu(usuario)
+    return new Promise(resolve => {
+      this.usuarios.push(usuario).then((usuarioCriado) => {
+        this.addPerfil(usuarioCriado.key, 'USR')
+        resolve(usuarioCriado.key)
+      });
+    })
   }
 
 
   update(key: string, value: any) {
-    this.updateMenu(value);
-    return this.usuarios.update(key, value);
+    //this.updateMenu(value);
+    return new Promise(resolve => {
+      this.usuarios.update(key, value).then(usuarioAlterado => {
+        resolve(key);
+      });
+    });
   }
 
-  updateMenu(usuario: Usuario) {
-    let menus: MenuAcesso[] = [];
-    usuario.usr_perfis.forEach((perfil) => {
-      perfil.per_menu.forEach((menu) => {
-        if (menus.filter(x => x.mnu_page == menu.mnu_page).length == 0) {
-          menus.push(menu);
-        }
-      })
+  addPerfil(key: string, mnemonico: string) {
+    return this.perfilAcessoSrvc.getByMnemonico(this.perfilAcessoSrvc.PERFIL_UsuarioPadrao).then((perfil: PerfilAcesso) => {
+      const path = `${this.basePath}/${key}/usr_perfis/${Object.keys(perfil)[0]}`
+      return this.db.object(path).set(true);
     })
-    usuario.usr_menus = menus;
   }
 
   delete(key: string): void {

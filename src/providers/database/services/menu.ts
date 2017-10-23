@@ -13,7 +13,6 @@ export class MenuService {
 
   constructor(
     private db: AngularFireDatabase,
-    private usuarioSrvc: UsuarioService,
   ) {
     this.menus = this.db.list(this.basePath);    
   }

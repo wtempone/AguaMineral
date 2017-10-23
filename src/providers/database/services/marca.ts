@@ -1,10 +1,10 @@
+import { Marca } from './../models/marca';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController, ToastController, AlertController } from 'ionic-angular';
 import { UsuarioService } from './usuario';
 import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 
-import { Marca } from '../database-providers';
 
 @Injectable()
 export class MarcaService {

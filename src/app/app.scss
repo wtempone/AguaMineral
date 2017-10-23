@@ -44,6 +44,9 @@
     color: white;
 }
 
+.button-small {
+    font-size: 1.5em !important;
+}
 .item-menu-base {
     background: lighten($color: color($colors, customColor1), $amount: 3%) !important;
     border-bottom: 1px solid lighten($color: color($colors, customColor1), $amount: 10%) !important;
@@ -56,6 +59,7 @@
     background: lighten($color: color($colors, customColor1), $amount: 3%) !important;
     color:whitesmoke;
     height: 20px;
+    font-size: 1em;
 }
 
 .button-clear{

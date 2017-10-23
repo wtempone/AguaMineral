@@ -20,7 +20,7 @@ export class PerfilMenuService {
   }
 
   get(key: string) {
-    this.basePath = `/perfis/${key}/menus`;
+    this.basePath = `/perfis/${key}/per_menus`;
     this.perfilMenus = this.db.list(this.basePath);
     this.perfilMenus.subscribe((itens) => {
       this.menus = []

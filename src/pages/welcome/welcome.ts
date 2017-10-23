@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { MainPage } from '../pages'
 import { Http, Response } from '@angular/http';
-import { MarcaService, Marca } from "../../providers/database/database-providers";
 
 @IonicPage()
 @Component({
@@ -21,7 +20,6 @@ export class WelcomePage {
     public usuarioSrvc: UsuarioService,
     public http: Http,
     public distribuidorSrvc: DistribuidorService,
-    public marcaSrvc: MarcaService
   ) { }
 
   selectEndereco(endereco) {

@@ -1,8 +1,8 @@
 <ion-split-pane>
     <ion-menu class="menu content-desktop" [content]="content" when="xs" [enabled]="usuarioSrvc.usuarioAtual">
         <ion-content class="item-menu">
-            <ion-list class="menu-list" *ngIf="usuarioSrvc.usuarioAtual?.usr_menus">
-                <ion-item class="item-menu-base"  *ngFor="let m of usuarioSrvc.usuarioAtual.usr_menus" (click)="openPage(m)">
+            <ion-list class="menu-list" *ngIf="usuarioSrvc.usuarioAtual?.usr_menus" no-lines>
+                <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.usuarioAtual.usr_menus" (click)="openPage(m)">
                     <button class="item-menu-button" icon-left menuClose>
                         <ion-icon name="{{m.mnu_icone}}"></ion-icon>
                         {{m.mnu_nome}}
@@ -11,15 +11,20 @@
             </ion-list>
         </ion-content>
         <ion-footer color="customColor1">
-                <ion-toolbar color="customColor1" class="main-footer">
-                </ion-toolbar>
-            </ion-footer>        
+            <ion-toolbar color="customColor1" class="main-footer">
+                <ion-buttons end small >
+                        <button ion-button icon-only  (click)="reloadMenu()" >
+                          <ion-icon class="button-small" name="refresh"></ion-icon>
+                        </button>
+                      </ion-buttons>
+            </ion-toolbar>
+        </ion-footer>
     </ion-menu>
     <ion-nav main [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 </ion-split-pane>
 <ion-header>
     <ion-navbar class="main-toolbar" color="customColor1">
-        <ion-title align-title="center" text-left (click)="show()">
+        <ion-title text-left (click)="show()">
             <img class="image-profile" src="assets/img/appicon.png" />
             <span class="title-app" showWhen="landscape">{{ 'APP_NAME' | translate }}</span>
         </ion-title>
@@ -34,14 +39,14 @@
             </button>
         </ion-buttons>
         <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
-            <button ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
+            <button showWhen="landscape" ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
             <button ion-button icon-only>
                 <img *ngIf="usuarioSrvc.usuarioAtual.usr_fb_foto" class="image-profile" [src]="usuarioSrvc.usuarioAtual.usr_fb_foto.data.url"
                 />
                 <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg"
                 />
             </button>
-            <button ion-button icon-only>
+            <button ion-button icon-only >
                 <ion-icon name="more"></ion-icon>
             </button>
         </ion-buttons>

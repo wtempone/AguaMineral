@@ -8,13 +8,12 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content padding class="modal-desktop" >
+<ion-content padding class="modal-desktop">
   <form [formGroup]="formulario" novalidate>
     <ion-list no-lines>
       <ion-item>
         <ion-label stacked>Página</ion-label>
-        <ion-input [class.invalid]="verificaValidTouched('mnu_page')" formControlName="mnu_page" type="text" 
-          placeholder="Digite o cógido da página"></ion-input>
+        <ion-input [class.invalid]="verificaValidTouched('mnu_page')" formControlName="mnu_page" type="text" placeholder="Digite o cógido da página"></ion-input>
       </ion-item>
       <ion-item *ngIf="verificaValidTouched('mnu_page')">
         <p class="error-message">Página obrigatório</p>
@@ -33,6 +32,10 @@
       <ion-item *ngIf="verificaValidTouched('mnu_descricao')">
         <p class="error-message">Descrição obrigatório</p>
       </ion-item>
+        <button ion-button outline icon-left (click)="selecionarIcone($event)">
+          <ion-icon name="{{menu.mnu_icone}}"></ion-icon>
+          Icone do menu  
+        </button>
       <ion-item>
         <button ion-button block color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
       </ion-item>

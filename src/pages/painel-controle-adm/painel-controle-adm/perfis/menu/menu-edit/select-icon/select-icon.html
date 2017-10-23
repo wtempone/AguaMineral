@@ -1,0 +1,11 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 *ngFor="let icon of icons" >
+        <button ion-button block  outline icon-only (click)="setIcon(icon)">
+          <ion-icon name="{{icon}}"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,48 +1,50 @@
 <ion-header class="content-desktop">
 
   <ion-navbar>
-    <ion-title>Configuração da Perfil</ion-title>
+    <ion-title>Configuração do Perfil</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="content-desktop">
-  <h4>{{perfil.per_nome}}</h4>
-  <p>{{perfil.per_descricao}}</p>
+  <div class="content-desktop-margin-bottom">
 
-  <h3>Funcionalidades</h3>
+    <h4>{{perfil.per_nome}}</h4>
+    <p>{{perfil.per_descricao}}</p>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-buttons end>
-        <button ion-button outline icon-left (click)="selecionarFuncionalidade()">
-          <ion-icon name="add-circle"></ion-icon>
-          Adiconar funcionalidade
-        </button>
-      </ion-buttons>
-    </ion-card-header>
+    <h5>Funcionalidades</h5>
 
-    <ion-list>
-      <ion-item-sliding *ngFor='let funcionalidade of perfilFuncionalidadeSrvc.funcionalidades'>
-        <ion-item>
-          <h2>{{funcionalidade.fun_nome}}</h2>
-          <p>{{funcionalidade.fun_descricao}}</p>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button (click)="editFuncionalidade(funcionalidade)">
-            <ion-icon name="create"></ion-icon>
-            Editar
+    <ion-card>
+      <ion-card-header>
+        <ion-buttons end>
+          <button ion-button outline icon-left (click)="selecionarFuncionalidade()">
+            <ion-icon name="add-circle"></ion-icon>
+            Adiconar funcionalidade
           </button>
-          <button ion-button color="danger" (click)="removerFuncionalidade(funcionalidade.$key)">
-            <ion-icon name="trash"></ion-icon>
-            Excluir
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
-  </ion-card>
+        </ion-buttons>
+      </ion-card-header>
 
-  <h3>Menus</h3>
-  
+      <ion-list>
+        <ion-item-sliding *ngFor='let funcionalidade of perfilFuncionalidadeSrvc.funcionalidades'>
+          <ion-item>
+            <h2>{{funcionalidade.fun_nome}}</h2>
+            <p>{{funcionalidade.fun_descricao}}</p>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button (click)="editFuncionalidade(funcionalidade)">
+              <ion-icon name="create"></ion-icon>
+              Editar
+            </button>
+            <button ion-button color="danger" (click)="removerFuncionalidade(funcionalidade.$key)">
+              <ion-icon name="trash"></ion-icon>
+              Excluir
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-card>
+
+    <h5>Menus</h5>
+
     <ion-card>
       <ion-card-header>
         <ion-buttons end>
@@ -52,10 +54,11 @@
           </button>
         </ion-buttons>
       </ion-card-header>
-  
+
       <ion-list>
         <ion-item-sliding *ngFor='let menu of perfilMenuSrvc.menus'>
           <ion-item>
+            <ion-icon name="{{menu.mnu_icone}}" item-start></ion-icon>
             <h2>{{menu.mnu_nome}}</h2>
             <p>{{menu.mnu_descricao}}</p>
           </ion-item>
@@ -72,5 +75,5 @@
         </ion-item-sliding>
       </ion-list>
     </ion-card>
-  
+  </div>
 </ion-content>
