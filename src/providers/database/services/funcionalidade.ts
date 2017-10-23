@@ -7,13 +7,12 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 
 @Injectable()
 export class FuncionalidadeService {
-  private basePath: string = '/funcionalidades';
+  public basePath: string = '/funcionalidades';
   public funcionalidades: FirebaseListObservable<Funcionalidade[]> = null; //  list of objects
   public funcionalidade: FirebaseObjectObservable<Funcionalidade> = null; //   single object
 
   constructor(
     private db: AngularFireDatabase,
-    private usuarioSrvc: UsuarioService,
   ) {
     this.funcionalidades = this.db.list(this.basePath);
   }

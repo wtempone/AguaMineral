@@ -1,0 +1,45 @@
+
+<ion-header  class="content-desktop">
+  
+    <ion-navbar>
+      <ion-title>Configuração da Funcionalidade para perfil</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content padding  class="content-desktop">
+    <h4>{{perfil.per_nome}} / {{funcionalidade.fun_nome}}</h4>
+    <p>{{perfil.per_descricao}} / {{funcionalidade.fun_descricao}}</p>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-buttons end>
+              <button ion-button outline icon-left (click)="selecionarAcao()">
+                <ion-icon name="add-circle"></ion-icon>
+                Adiconar ação
+              </button>
+            </ion-buttons>
+          </ion-card-header>
+    
+          <ion-list>
+            <ion-item-sliding *ngFor='let acao of perfilFuncionalidadeAcaoSrvc.acoes'>
+              <ion-item>
+                <h2>{{(acao | async)?.aca_nome}}</h2>
+                <p>{{(acao | async)?.aca_descricao}}</p>
+              </ion-item>
+              <ion-item-options>
+                <button ion-button (click)="editAcao(acao)">
+                  <ion-icon name="create"></ion-icon>
+                  Editar
+                </button>
+                <button ion-button color="danger" (click)="removerAcao(acao)">
+                  <ion-icon name="trash"></ion-icon>
+                  Excluir
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card>
+
+  </ion-content>
+  

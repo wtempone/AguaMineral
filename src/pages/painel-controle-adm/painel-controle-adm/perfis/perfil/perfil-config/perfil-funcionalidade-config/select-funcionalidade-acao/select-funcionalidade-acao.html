@@ -1,0 +1,22 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-title>Selecione as açoes</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list>
+  
+      <ion-item *ngFor="let acao of acoes">
+        <ion-label>{{acao.aca_nome}}</ion-label>
+        <ion-checkbox [(ngModel)]="acao._selecionada"></ion-checkbox>
+      </ion-item>
+  
+    </ion-list>
+    <button ion-button icon-left block (click)="pronto()">
+      <ion-icon name="checkmark" ></ion-icon>
+      Ok
+    </button>
+  </ion-content>

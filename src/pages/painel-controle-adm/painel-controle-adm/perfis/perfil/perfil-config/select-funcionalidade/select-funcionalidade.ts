@@ -8,7 +8,11 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 })
 export class SelectFuncionalidadePage {
   funcionalidades: Funcionalidade[];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public viewCtrl: ViewController
+  ) {
     if (this.navParams.data.funcionalidades) {
       this.funcionalidades = this.navParams.data.funcionalidades
     }

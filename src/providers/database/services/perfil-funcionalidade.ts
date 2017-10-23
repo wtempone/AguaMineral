@@ -9,8 +9,8 @@ import { Funcionalidade } from "../models/funcionalidade";
 @Injectable()
 export class PerfilFuncionalidadeService {
   private basePath: string;
-  public perfilFuncionalidades: FirebaseListObservable<any[]> = null; //  list of objects
-  public funcionalidades: Funcionalidade[] = null; //  list of objects
+  public perfilFuncionalidades;
+  public funcionalidades;
 
   constructor(
     private db: AngularFireDatabase,
@@ -19,18 +19,13 @@ export class PerfilFuncionalidadeService {
   ) {
   }
 
-  get(key: string) {
+  getAll(key: string) {
     this.basePath = `/perfis/${key}/per_funcionalidades`;
     this.perfilFuncionalidades = this.db.list(this.basePath);
     this.perfilFuncionalidades.subscribe((itens) => {
-      this.funcionalidades = []
-      itens.forEach(item => {
-        this.funcionalidadeSrvc.get(item.$key).then((funcionalidade: Funcionalidade) => {
-          if (funcionalidade) {
-            this.funcionalidades.push(funcionalidade)
-          }
-        })
-      })
+      this.funcionalidades = itens.map(funcionalidade => {
+        return this.db.object(this.funcionalidadeSrvc.basePath + `/${funcionalidade.$key}`);
+      });
     })
   }
 

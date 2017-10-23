@@ -21,7 +21,7 @@ export class FuncionalidadeConfigPage {
   ) {
     if (this.navParams.data.funcionalidade) {
       this.funcionalidade = this.navParams.data.funcionalidade;    
-      this.acaoSrvc.get(this.funcionalidade.$key);
+      this.acaoSrvc.getAll(this.funcionalidade.$key);
     } else {
       this.funcionalidade = <Funcionalidade>{
         fun_nome: "",

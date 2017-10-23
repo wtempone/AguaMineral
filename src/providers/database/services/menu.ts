@@ -7,7 +7,7 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 
 @Injectable()
 export class MenuService {
-  private basePath: string = '/menus';
+  public basePath: string = '/menus';
   public menus: FirebaseListObservable<MenuAcesso[]> = null; //  list of objects
   public menu: FirebaseObjectObservable<MenuAcesso> = null; //   single object
 

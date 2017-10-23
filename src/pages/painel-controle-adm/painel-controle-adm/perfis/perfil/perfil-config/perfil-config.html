@@ -26,18 +26,22 @@
       <ion-list>
         <ion-item-sliding *ngFor='let funcionalidade of perfilFuncionalidadeSrvc.funcionalidades'>
           <ion-item>
-            <h2>{{funcionalidade.fun_nome}}</h2>
-            <p>{{funcionalidade.fun_descricao}}</p>
+            <h2>{{(funcionalidade | async)?.fun_nome}}</h2>
+            <p>{{(funcionalidade | async)?.fun_descricao}}</p>
           </ion-item>
           <ion-item-options>
             <button ion-button (click)="editFuncionalidade(funcionalidade)">
               <ion-icon name="create"></ion-icon>
               Editar
             </button>
-            <button ion-button color="danger" (click)="removerFuncionalidade(funcionalidade.$key)">
+            <button ion-button color="danger" (click)="removerFuncionalidade(funcionalidade)">
               <ion-icon name="trash"></ion-icon>
               Excluir
             </button>
+            <button ion-button color="dark" (click)="configurarFuncionalidade(funcionalidade)">
+              <ion-icon name="settings"></ion-icon>
+              Configurar
+            </button>            
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
@@ -58,16 +62,16 @@
       <ion-list>
         <ion-item-sliding *ngFor='let menu of perfilMenuSrvc.menus'>
           <ion-item>
-            <ion-icon name="{{menu.mnu_icone}}" item-start></ion-icon>
-            <h2>{{menu.mnu_nome}}</h2>
-            <p>{{menu.mnu_descricao}}</p>
+            <ion-icon name="{{(menu | async)?.mnu_icone}}" item-start></ion-icon>
+            <h2>{{(menu | async)?.mnu_nome}}</h2>
+            <p>{{(menu | async)?.mnu_descricao}}</p>
           </ion-item>
           <ion-item-options>
             <button ion-button (click)="editMenu(menu)">
               <ion-icon name="create"></ion-icon>
               Editar
             </button>
-            <button ion-button color="danger" (click)="removerMenu(menu.$key)">
+            <button ion-button color="danger" (click)="removerMenu(menu)">
               <ion-icon name="trash"></ion-icon>
               Excluir
             </button>

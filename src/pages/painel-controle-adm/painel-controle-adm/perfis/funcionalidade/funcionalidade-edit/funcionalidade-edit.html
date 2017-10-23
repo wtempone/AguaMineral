@@ -13,7 +13,7 @@
     <ion-list no-lines>
       <ion-item>
         <ion-label stacked>Mnemonico</ion-label>
-        <ion-input [class.invalid]="verificaValidTouched('fun_mnemonico')" formControlName="fun_mnemonico" type="text" maxlength="10"
+        <ion-input [class.invalid]="verificaValidTouched('fun_mnemonico')" formControlName="fun_mnemonico" type="text"
           placeholder="Digite o mnemonico"></ion-input>
       </ion-item>
       <ion-item *ngIf="verificaValidTouched('fun_mnemonico')">

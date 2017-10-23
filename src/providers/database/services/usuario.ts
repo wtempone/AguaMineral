@@ -7,6 +7,10 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 import { Storage } from '@ionic/storage';
 
 import { PerfilAcessoService } from './perfil-acesso';
+import { FuncionalidadeService } from './funcionalidade';
+import { AcaoService } from './acao';
+import { Funcionalidade } from '../models/funcionalidade';
+import { Acao } from '../models/acao';
 
 @Injectable()
 export class UsuarioService {
@@ -18,6 +22,8 @@ export class UsuarioService {
     private db: AngularFireDatabase,
     private perfilAcessoSrvc: PerfilAcessoService,
     private menuSrvc: MenuService,
+    private funcionalidadeSrvc: FuncionalidadeService,
+    private acaoSrvc: AcaoService,
     private storage: Storage
   ) {
     this.usuarios = this.db.list(this.basePath);
@@ -26,24 +32,52 @@ export class UsuarioService {
   loadPerfisAcesso(key) {
     this.get(key).take(1).subscribe((usuario: Usuario) => {
       this.usuarioAtual = usuario;
-      this.storage.set("_keyUsuarioAtual",this.usuarioAtual.$key)
-        
+      this.storage.set("_keyUsuarioAtual", this.usuarioAtual.$key)
+
       this.db.list(`${this.basePath}/${this.usuarioAtual.$key}/usr_perfis`).subscribe((perfis) => {
         this.usuarioAtual.usr_menus = [];
+        this.usuarioAtual.usr_funcionalidades = [];
         perfis.forEach((perfil) => {
           this.perfilAcessoSrvc.getByKey(perfil.$key).take(1).subscribe((perfilAcesso: PerfilAcesso) => {
-            Object.keys(perfilAcesso.per_menus).forEach((menuKey:string) => {
+            //Carrega menus
+            Object.keys(perfilAcesso.per_menus).forEach((menuKey: string) => {
               this.menuSrvc.get(menuKey).then((menu: MenuAcesso) => {
                 if (this.usuarioAtual.usr_menus.filter(x => x.mnu_page == menu.mnu_page).length == 0) {
                   this.usuarioAtual.usr_menus.push(menu);
                 }
               })
             })
+            //Carrega funcionalidades            
+            Object.keys(perfilAcesso.per_funcionalidades).forEach((funcionalidadeKey: string) => {              
+              this.funcionalidadeSrvc.get(funcionalidadeKey).then((funcionalidade: Funcionalidade) => {
+                let indFuncionalidade = 0;
+                if (this.usuarioAtual.usr_funcionalidades.filter(x => x.fun_mnemonico == funcionalidade.fun_mnemonico).length == 0) {
+                  this.usuarioAtual.usr_funcionalidades.push(<Funcionalidade>{
+                    fun_mnemonico: funcionalidade.fun_mnemonico,
+                    fun_nome: funcionalidade.fun_nome
+                  });
+                  indFuncionalidade = this.usuarioAtual.usr_funcionalidades.length - 1;
+                  this.usuarioAtual.usr_funcionalidades[indFuncionalidade].fun_acoes = []   
+                } else {
+                  indFuncionalidade = this.usuarioAtual.usr_funcionalidades.findIndex(x => x.fun_mnemonico == funcionalidade.fun_mnemonico)
+                }
+                //Carrega funcionalidades
+                Object.keys(funcionalidade.fun_acoes).forEach((acaoKey: string) => {
+                  this.acaoSrvc.get(funcionalidadeKey,acaoKey).then((acao: Acao) => {
+                    if (this.usuarioAtual.usr_funcionalidades[indFuncionalidade].fun_acoes.filter(x => x.aca_mnemonico == acao.aca_mnemonico).length == 0) {
+                      this.usuarioAtual.usr_funcionalidades[indFuncionalidade].fun_acoes.push(<Acao>{
+                        aca_mnemonico: acao.aca_mnemonico,
+                        aca_nome: acao.aca_nome
+                      })
+                    }
+                  })
+                })
+              })
+            })
           })
         })
       })
     })
-
   }
 
   loadUsuarioAtualByEmail(email) {

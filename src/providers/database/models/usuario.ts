@@ -1,6 +1,7 @@
 import { Endereco } from './shared-models';
 import { PerfilAcesso } from './perfil-acesso';
 import { MenuAcesso } from './menu-acesso';
+import { Funcionalidade } from './funcionalidade';
 export class Usuario {
   $key?: string;
   usr_fb_id?: string;
@@ -15,6 +16,7 @@ export class Usuario {
   usr_endereco?: Endereco;
   usr_perfis?: any[];
   usr_menus?: MenuAcesso[];
+  usr_funcionalidades?: Funcionalidade[];
 }
 
 /*

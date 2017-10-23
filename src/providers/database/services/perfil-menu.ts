@@ -10,7 +10,7 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 export class PerfilMenuService {
   private basePath: string;
   public perfilMenus: FirebaseListObservable<any[]> = null; //  list of objects
-  public menus: MenuAcesso[] = null; //  list of objects
+  public menus;
 
   constructor(
     private db: AngularFireDatabase,
@@ -19,18 +19,13 @@ export class PerfilMenuService {
   ) {
   }
 
-  get(key: string) {
+  getAll(key: string) {
     this.basePath = `/perfis/${key}/per_menus`;
     this.perfilMenus = this.db.list(this.basePath);
     this.perfilMenus.subscribe((itens) => {
-      this.menus = []
-      itens.forEach(item => {
-        this.menuSrvc.get(item.$key).then((menu: MenuAcesso) => {
-          if (menu) {
-            this.menus.push(menu)
-          }
-        })
-      })
+      this.menus = itens.map(menu => {
+        return this.db.object(this.menuSrvc.basePath + `/${menu.$key}`);
+      });
     })
   }
 

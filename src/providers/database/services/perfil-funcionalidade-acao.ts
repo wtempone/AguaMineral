@@ -1,32 +1,36 @@
+
+import { AcaoService } from './acao';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController, ToastController, AlertController } from 'ionic-angular';
+import { UsuarioService } from './usuario';
 import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 import { Acao } from "../models/acao";
 
 @Injectable()
-export class AcaoService {
-  public basePath:string;
-  public acoes: FirebaseListObservable<Acao[]> = null; //  list of objects
-  public acao: FirebaseObjectObservable<Acao> = null; //   single object
+export class PerfilFuncionalidadeAcaoService {
+  private basePath: string;
+  public perfilFuncionalidadeAcoes: FirebaseListObservable<any[]> = null; //  list of objects
+  public acoes
 
   constructor(
     private db: AngularFireDatabase,
+    private usuarioSrvc: UsuarioService,
+    private acaoSrvc: AcaoService
   ) {
   }
-  getAll(key: string) {
-    this.basePath = `/funcionalidades/${key}/fun_acoes`;
-    this.acoes = this.db.list(this.basePath);    
-  }
 
-  get(keyFuncionalidade, key:string): Promise<Acao> {
-    return new Promise(resolve => {
-      const path = `/funcionalidades/${keyFuncionalidade}/fun_acoes/${key}`
-      this.db.object(path).take(1).subscribe((acao: Acao) => {
-        resolve(acao);
+  getAll(keyPerfil: string, keyFuncionalidades: string) {
+    this.basePath = `/perfis/${keyPerfil}/per_funcionalidades/${keyFuncionalidades}/fun_acoes`;
+    console.log(`basepath:${this.basePath}`)
+    this.perfilFuncionalidadeAcoes = this.db.list(this.basePath);
+    this.perfilFuncionalidadeAcoes.subscribe((itens) => {
+      this.acoes = itens.map(acao => {
+        return this.db.object( `/funcionalidades/${keyFuncionalidades}/fun_acoes/${acao.$key}`);
       });
     })
-  }  
+  }
+
 
   exists(field: string, value: string, key?): Promise<boolean> {
     return new Promise(resolve => {
@@ -67,21 +71,20 @@ export class AcaoService {
     ).take(1);
   }
 
-  create(Acao: Acao) {
-    return this.acoes.push(Acao)
+  create(key: string) {
+    const path = `${this.basePath}/${key}`
+    console.log(`path create:${path}`)
+
+    return this.db.object(path).set(true);
   }
 
-  update(key: string, value: any) {
-    return this.acoes.update(key, value);
-  }
 
   delete(key: string) {
-    return this.acoes.remove(key);
+    return this.perfilFuncionalidadeAcoes.remove(key);
   }
 
-  deleteAll(): void {
-    this.acoes.remove()
-      .catch(error => this.handleError(error))
+  deleteAll() {
+    return this.perfilFuncionalidadeAcoes.remove();
   }
 
   private handleError(error) {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { PainelControleAdmPage } from './painel-controle-adm';
 import { PerfilListPageModule } from './perfis/_painel/perfil-list.module';
+import { DirectivesModule } from '../../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { PerfilListPageModule } from './perfis/_painel/perfil-list.module';
   ],
   imports: [
     IonicPageModule.forChild(PainelControleAdmPage),
-    PerfilListPageModule
+    PerfilListPageModule,
+    DirectivesModule
   ],
 })
 export class PainelControleAdmPageModule {}

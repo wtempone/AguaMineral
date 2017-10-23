@@ -2,6 +2,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { PerfilListPage } from './perfil-list';
+import { DirectivesModule } from '../../../../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { PerfilListPage } from './perfil-list';
   ],
   imports: [
     IonicPageModule.forChild(PerfilListPage),
-    TranslateModule.forChild(),        
+    TranslateModule.forChild(),
+    DirectivesModule 
   ],
 })
 export class PerfilListPageModule {}

@@ -42,6 +42,7 @@ import { ImageCropperModule, ImageCropperComponent } from "ng2-img-cropper";
 import { PhotoProvider } from '../providers/photo/photo';
 import { PerfilAcessoService } from "../providers/database/services/perfil-acesso";
 import { ComponentsModule } from "../components/components.module";
+import { PerfilFuncionalidadeAcaoService } from '../providers/database/services/perfil-funcionalidade-acao';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -131,7 +132,8 @@ export function provideSettings(storage: Storage) {
     MenuService,
     AcaoService,
     PerfilFuncionalidadeService,
-    PerfilMenuService
+    PerfilMenuService,
+    PerfilFuncionalidadeAcaoService
   ]
 })
 export class AppModule { }
