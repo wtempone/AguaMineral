@@ -29,11 +29,11 @@ export class AuthServiceProvider {
     public perfilAcessoSrvc: PerfilAcessoService,
     public storage: Storage
   ) {
-    // this.storage.get("_oauthCredentials").then((token:string)=>{
-    //   // if (token){
-    //   //   this.afAuth.auth.signInWithCustomToken(token);        
-    //   // }
-    // })
+    this.storage.get("_keyUsuarioAtual").then((key: string) => {
+      if (key) {
+        this.usuarioSrvc.loadPerfisAcesso(key);
+      }
+    })
   }
 
   signInWithFacebook(): firebase.Promise<any> {
@@ -64,8 +64,8 @@ export class AuthServiceProvider {
             usuario.usr_fb_foto = facebookUser.picture;
             usuario.usr_data = new Date(Date.now());
             this.usuarioSrvc.update(key, usuario).then((key) => {
-              this.usuarioSrvc.usuarioAtual = usuario;              
-              this.usuarioSrvc.loadPerfisAcesso(key)              
+              this.usuarioSrvc.usuarioAtual = usuario;
+              this.usuarioSrvc.loadPerfisAcesso(key)
               resolve();
             })
           } else {
@@ -78,7 +78,7 @@ export class AuthServiceProvider {
               usr_fb_foto: facebookUser.picture
             }
             this.usuarioSrvc.create(usuario).then((key) => {
-              this.usuarioSrvc.loadPerfisAcesso(key)                            
+              this.usuarioSrvc.loadPerfisAcesso(key)
               resolve();
             })
           }
@@ -115,7 +115,7 @@ export class AuthServiceProvider {
             usr_data: new Date(Date.now())
           }
           this.usuarioSrvc.create(usuario).then((key) => {
-            this.usuarioSrvc.loadPerfisAcesso(key)                          
+            this.usuarioSrvc.loadPerfisAcesso(key)
             resolve();
           });
         }

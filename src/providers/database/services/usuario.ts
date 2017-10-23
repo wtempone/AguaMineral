@@ -4,6 +4,7 @@ import { Usuario } from './../models/usuario';
 import { PerfilAcesso } from './../models/perfil-acesso';
 import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
+import { Storage } from '@ionic/storage';
 
 import { PerfilAcessoService } from './perfil-acesso';
 
@@ -16,8 +17,8 @@ export class UsuarioService {
   constructor(
     private db: AngularFireDatabase,
     private perfilAcessoSrvc: PerfilAcessoService,
-    private menuSrvc: MenuService
-
+    private menuSrvc: MenuService,
+    private storage: Storage
   ) {
     this.usuarios = this.db.list(this.basePath);
   }
@@ -25,6 +26,8 @@ export class UsuarioService {
   loadPerfisAcesso(key) {
     this.get(key).take(1).subscribe((usuario: Usuario) => {
       this.usuarioAtual = usuario;
+      this.storage.set("_keyUsuarioAtual",this.usuarioAtual.$key)
+        
       this.db.list(`${this.basePath}/${this.usuarioAtual.$key}/usr_perfis`).subscribe((perfis) => {
         this.usuarioAtual.usr_menus = [];
         perfis.forEach((perfil) => {
