@@ -22,7 +22,6 @@ export class PerfilFuncionalidadeAcaoService {
 
   getAll(keyPerfil: string, keyFuncionalidades: string) {
     this.basePath = `/perfis/${keyPerfil}/per_funcionalidades/${keyFuncionalidades}/fun_acoes`;
-    console.log(`basepath:${this.basePath}`)
     this.perfilFuncionalidadeAcoes = this.db.list(this.basePath);
     this.perfilFuncionalidadeAcoes.subscribe((itens) => {
       this.acoes = itens.map(acao => {

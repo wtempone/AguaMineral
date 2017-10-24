@@ -18,6 +18,7 @@ export class UsuarioService {
   public usuarios: FirebaseListObservable<Usuario[]> = null; //  list of objects
   public usuario: FirebaseObjectObservable<Usuario> = null; //   single object
   public usuarioAtual: Usuario;
+  public perfis
   constructor(
     private db: AngularFireDatabase,
     private perfilAcessoSrvc: PerfilAcessoService,
@@ -28,6 +29,22 @@ export class UsuarioService {
   ) {
     this.usuarios = this.db.list(this.basePath);
   }
+
+  loadPerfisAcesso(key) {
+    this.get(key).subscribe((usuario: Usuario) => {
+      this.usuarioAtual = usuario;
+      this.storage.set("_keyUsuarioAtual", this.usuarioAtual.$key)
+      this.db.list(`${this.basePath}/${usuario.$key}/usr_perfis`).subscribe((itens) => {
+        console.log(`${this.basePath}/${usuario.$key}/usr_perfis`);
+        console.log(itens);
+        this.perfis = itens.map(perfis => {
+          console.log(`/perfis/${perfis.$key}`);
+          return this.db.object(`/perfis/${perfis.$key}`)
+        });
+      })
+    })
+  }
+/*
 
   loadPerfisAcesso(key) {
     this.get(key).take(1).subscribe((usuario: Usuario) => {
@@ -79,96 +96,96 @@ export class UsuarioService {
       })
     })
   }
-
+*/
   loadUsuarioAtualByEmail(email) {
-    return this.getOnce('usr_email', email).subscribe((res) => {
-      if (res.length > 0) {
-        let usuario: Usuario = res[0];
-        this.usuarioAtual = usuario;
-      }
-    })
-  }
-
-  exists(field: string, value: string, key?): Promise<boolean> {
-    return new Promise(resolve => {
-      this.db.list(this.basePath, {
-        query: {
-          orderByChild: field,
-          equalTo: value,
-          limitToFirst: 1
-        }
-      }
-      ).take(1).subscribe((res) => {
-        if (res.length > 0) {
-          if (key) {
-            if (res[0].$key == key)
-              resolve(false);
-            else
-              resolve(true);
+        return this.getOnce('usr_email', email).subscribe((res) => {
+          if (res.length > 0) {
+            let usuario: Usuario = res[0];
+            this.usuarioAtual = usuario;
           }
-          else
-            resolve(true);
+        })
+      }
 
-        } else {
-          resolve(false);
-        }
-      });
-    })
-  }
+  exists(field: string, value: string, key ?): Promise < boolean > {
+        return new Promise(resolve => {
+          this.db.list(this.basePath, {
+            query: {
+              orderByChild: field,
+              equalTo: value,
+              limitToFirst: 1
+            }
+          }
+          ).take(1).subscribe((res) => {
+            if (res.length > 0) {
+              if (key) {
+                if (res[0].$key == key)
+                  resolve(false);
+                else
+                  resolve(true);
+              }
+              else
+                resolve(true);
 
-  getList(query = {}): FirebaseListObservable<Usuario[]> {
-    this.usuarios = this.db.list(this.basePath, { query: query });
-    return this.usuarios;
-  }
+            } else {
+              resolve(false);
+            }
+          });
+        })
+      }
 
-  get(key: string): FirebaseObjectObservable<Usuario> {
-    const itemPath = `${this.basePath}/${key}`;
-    this.usuario = this.db.object(itemPath)
+  getList(query = {}): FirebaseListObservable < Usuario[] > {
+        this.usuarios = this.db.list(this.basePath, { query: query });
+        return this.usuarios;
+      }
+
+  get(key: string): FirebaseObjectObservable < Usuario > {
+        const itemPath = `${this.basePath}/${key}`;
+        this.usuario = this.db.object(itemPath)
     return this.usuario
-  }
+      }
 
   getOnce(field: string, value: string) {
-    return this.db.list(this.basePath, {
-      query: {
-        orderByChild: field,
-        equalTo: value,
-        limitToFirst: 1
+        return this.db.list(this.basePath, {
+          query: {
+            orderByChild: field,
+            equalTo: value,
+            limitToFirst: 1
+          }
+        }
+        ).take(1);
       }
-    }
-    ).take(1);
-  }
 
   create(usuario: Usuario) {
-    //this.updateMenu(usuario)
-    return new Promise(resolve => {
-      this.usuarios.push(usuario).then((usuarioCriado) => {
-        this.addPerfil(usuarioCriado.key, 'USR')
-        resolve(usuarioCriado.key)
-      });
-    })
-  }
+        //this.updateMenu(usuario)
+        return new Promise(resolve => {
+          this.usuarios.push(usuario).then((usuarioCriado) => {
+            this.addPerfil(usuarioCriado.key, 'USR')
+            resolve(usuarioCriado.key)
+          });
+        })
+      }
 
 
   update(key: string, value: any) {
-    //this.updateMenu(value);
-    return new Promise(resolve => {
-      this.usuarios.update(key, value).then(usuarioAlterado => {
-        resolve(key);
-      });
-    });
-  }
+        //this.updateMenu(value);
+        return new Promise(resolve => {
+          this.usuarios.update(key, value).then(usuarioAlterado => {
+            resolve(key);
+          });
+        });
+      }
 
   addPerfil(key: string, mnemonico: string) {
-    return this.perfilAcessoSrvc.getByMnemonico(this.perfilAcessoSrvc.PERFIL_UsuarioPadrao).then((perfil: PerfilAcesso) => {
-      const path = `${this.basePath}/${key}/usr_perfis/${Object.keys(perfil)[0]}`
-      return this.db.object(path).set(true);
-    })
-  }
+        return this.perfilAcessoSrvc.getByMnemonico(this.perfilAcessoSrvc.PERFIL_UsuarioPadrao).then((perfil: PerfilAcesso) => {
+          const path = `${this.basePath}/${key}/usr_perfis/${Object.keys(perfil)[0]}`
+          return this.db.object(path).set(true);
+        })
+      }
 
   delete(key: string): void {
-    this.usuarios.remove(key)
-      .catch(error => this.handleError(error))
-  }
+      this.usuarios.remove(key)
+        .catch(error => this.handleError(error))
+    }
 
   private handleError(error) {
     console.log(error)
