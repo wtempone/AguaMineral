@@ -1,11 +1,11 @@
 <ion-split-pane>
-    <ion-menu class="menu content-desktop" [content]="content" when="xs" [enabled]="usuarioSrvc.usuarioAtual">
+    <ion-menu class="menu content-desktop" [content]="content" when="xs" [enabled]="usuarioSrvc?.usuarioAtual">
         <ion-content class="item-menu">
             <ion-list class="menu-list" no-lines>
-                <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.perfis" (click)="openPage(m)">
+                <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.usuarioAtual?.usr_menus" (click)="openPage(m)">
                     <button class="item-menu-button" icon-left menuClose>
-                        <!-- <ion-icon name="{{m.mnu_icone}}"></ion-icon> -->
-                        {{(m | async)?.per_nome}}
+                        <ion-icon name="{{m.mnu_icone}}"></ion-icon>
+                        {{m.mnu_nome}}
                     </button>
                 </ion-item>
             </ion-list>

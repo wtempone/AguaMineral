@@ -7,7 +7,7 @@ import { PerfilAcesso } from "../models/perfil-acesso";
 
 @Injectable()
 export class PerfilAcessoService {
-  private basePath: string = '/perfis';
+  public basePath: string = '/perfis';
   public perfisAcesso: FirebaseListObservable<PerfilAcesso[]> = null; //  list of objects
   public perfilAcesso: FirebaseObjectObservable<PerfilAcesso> = null; //   single object
 
