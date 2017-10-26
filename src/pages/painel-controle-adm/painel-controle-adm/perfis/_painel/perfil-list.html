@@ -4,7 +4,7 @@
 
     <ion-card>
       <ion-card-header>
-        <ion-buttons end  controle-acesso='teste'>
+        <ion-buttons end *ngIf="usuarioSrvc.valida(mnemonico,'criar-funcionalidade') | async">
           <button ion-button outline icon-left (click)=" editPerfil(null)">
             <ion-icon name="add-circle"></ion-icon>
             Criar novo Perfil
@@ -15,7 +15,7 @@
       <ion-list>
         <ion-item-sliding *ngFor='let perfil of perfilSrvc.perfisAcesso | async'>
           <ion-item>
-            <h2>{{perfil.per_nome}}</h2>
+            <h2>{{perfil.per_nome}} ({{perfil.per_mnemonico}})</h2>
             <p>{{perfil.per_descricao}}</p>
           </ion-item>
           <ion-item-options>
@@ -51,7 +51,7 @@
       <ion-list>
         <ion-item-sliding *ngFor='let funcionalidade of funcionalidadeSrvc.funcionalidades | async'>
           <ion-item>
-            <h2>{{funcionalidade.fun_nome}}</h2>
+            <h2>{{funcionalidade.fun_nome}} ({{funcionalidade.fun_mnemonico}})</h2>
             <p>{{funcionalidade.fun_descricao}}</p>
           </ion-item>
           <ion-item-options>
@@ -89,7 +89,7 @@
         <ion-item-sliding *ngFor='let menu of menuSrvc.menus | async'>
           <ion-item>
             <ion-icon name="{{menu.mnu_icone}}" item-start></ion-icon>
-            <h2>{{menu.mnu_nome}}</h2>
+            <h2>{{menu.mnu_nome}} ({{menu.mnu_page}})</h2>
             <p>{{menu.mnu_descricao}}</p>
           </ion-item>
           <ion-item-options>

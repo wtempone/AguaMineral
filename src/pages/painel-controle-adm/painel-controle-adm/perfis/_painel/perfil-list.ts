@@ -6,6 +6,7 @@ import { PerfilAcessoService } from './../../../../../providers/database/service
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { MenuService } from '../../../../../providers/database/services/menu';
+import { UsuarioService } from '../../../../../providers/database/services/usuario';
 
 @IonicPage()
 @Component({
@@ -13,7 +14,7 @@ import { MenuService } from '../../../../../providers/database/services/menu';
   templateUrl: 'perfil-list.html',
 })
 export class PerfilListPage {
-
+  mnemonico = "PerfilListPage"
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -22,7 +23,8 @@ export class PerfilListPage {
     public menuSrvc: MenuService,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public usuarioSrvc: UsuarioService
   ) {
   }
 

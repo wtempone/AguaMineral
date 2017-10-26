@@ -77,7 +77,6 @@ export class FuncionalidadeEditPage {
       this.funcionalidade.fun_mnemonico = this.formulario.get('fun_mnemonico').value;
       this.funcionalidade.fun_nome = this.formulario.get('fun_nome').value;
       this.funcionalidade.fun_descricao = this.formulario.get('fun_descricao').value;
-      this.funcionalidade.fun_mnemonico = this.funcionalidade.fun_mnemonico.toUpperCase();
       this.funcionalidadeSrvc.exists('fun_mnemonico',this.funcionalidade.fun_mnemonico, this.funcionalidade.$key).then((exists) => {
         if (exists){
           let toast = this.toastCtrl.create({

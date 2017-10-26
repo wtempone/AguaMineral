@@ -73,7 +73,6 @@ export class AcaoEditPage {
       this.acao.aca_mnemonico = this.formulario.get('aca_mnemonico').value;
       this.acao.aca_nome = this.formulario.get('aca_nome').value;
       this.acao.aca_descricao = this.formulario.get('aca_descricao').value;
-      this.acao.aca_mnemonico = this.acao.aca_mnemonico.toUpperCase();
       this.acaoSrvc.exists('aca_mnemonico',this.acao.aca_mnemonico, this.acao.$key).then((exists) => {
         if (exists){
           let toast = this.toastCtrl.create({

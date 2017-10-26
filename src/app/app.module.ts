@@ -133,7 +133,7 @@ export function provideSettings(storage: Storage) {
     AcaoService,
     PerfilFuncionalidadeService,
     PerfilMenuService,
-    PerfilFuncionalidadeAcaoService
+    PerfilFuncionalidadeAcaoService,
   ]
 })
 export class AppModule { }

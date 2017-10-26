@@ -10,7 +10,7 @@
   <ion-list>
 
     <ion-item *ngFor="let funcionalidade of funcionalidades">
-      <ion-label>{{funcionalidade.fun_nome}}</ion-label>
+      <ion-label>{{funcionalidade.fun_nome}} ({{funcionalidade.fun_mnemonico}})</ion-label>
       <ion-checkbox [(ngModel)]="funcionalidade._selecionada"></ion-checkbox>
     </ion-item>
 

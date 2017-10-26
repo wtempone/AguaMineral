@@ -15,7 +15,6 @@ export class PainelControleAdmPage {
   }
 
   ionViewDidLoad() {
-    console.log(`pagina atual:${this.navCtrl.getActive()}`)
   }
 
 }

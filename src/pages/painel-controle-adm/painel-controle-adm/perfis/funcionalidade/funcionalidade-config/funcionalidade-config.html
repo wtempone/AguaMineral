@@ -8,7 +8,7 @@
 
 
 <ion-content padding  class="content-desktop">
-  <h4>{{funcionalidade.fun_nome}}</h4>
+  <h4>{{funcionalidade.fun_nome}} ({{funcionalidade.fun_mnemonico}})</h4>
   <p>{{funcionalidade.fun_descricao}}</p>
 
   <h5>Ações</h5>
@@ -26,7 +26,7 @@
         <ion-list>
           <ion-item-sliding *ngFor='let acao of acaoSrvc.acoes | async'>
             <ion-item>
-              <h2>{{acao.aca_nome}}</h2>
+              <h2>{{acao.aca_nome}} ({{acao.aca_mnemonico}})</h2>
               <p>{{acao.aca_descricao}}</p>
             </ion-item>
             <ion-item-options>

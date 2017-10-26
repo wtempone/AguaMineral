@@ -26,7 +26,7 @@
       <ion-list>
         <ion-item-sliding *ngFor='let funcionalidade of perfilFuncionalidadeSrvc.funcionalidades'>
           <ion-item>
-            <h2>{{(funcionalidade | async)?.fun_nome}}</h2>
+            <h2>{{(funcionalidade | async)?.fun_nome}} ({{(funcionalidade | async)?.fun_mnemonico}})</h2>
             <p>{{(funcionalidade | async)?.fun_descricao}}</p>
           </ion-item>
           <ion-item-options>
@@ -63,7 +63,7 @@
         <ion-item-sliding *ngFor='let menu of perfilMenuSrvc.menus'>
           <ion-item>
             <ion-icon name="{{(menu | async)?.mnu_icone}}" item-start></ion-icon>
-            <h2>{{(menu | async)?.mnu_nome}}</h2>
+            <h2>{{(menu | async)?.mnu_nome}} ({{(menu | async)?.mnu_page}})</h2>
             <p>{{(menu | async)?.mnu_descricao}}</p>
           </ion-item>
           <ion-item-options>

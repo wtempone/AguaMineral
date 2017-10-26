@@ -10,7 +10,7 @@
     <ion-list>
   
       <ion-item *ngFor="let acao of acoes">
-        <ion-label>{{acao.aca_nome}}</ion-label>
+        <ion-label>{{acao.aca_nome}} ({{acao.aca_nome}})</ion-label>
         <ion-checkbox [(ngModel)]="acao._selecionada"></ion-checkbox>
       </ion-item>
   
