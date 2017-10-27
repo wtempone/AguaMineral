@@ -1,5 +1,5 @@
-<ion-split-pane>
-    <ion-menu class="menu content-desktop" [content]="content" when="xs" [enabled]="usuarioSrvc?.usuarioAtual">
+<ion-split-pane [when]="exibeMenu">
+    <ion-menu class="content-desktop"  [content]="content" when="xs"  [enabled]="usuarioSrvc?.usuarioAtual">
         <ion-content class="item-menu">
             <ion-list class="menu-list" no-lines>
                 <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.usuarioAtual?.usr_menus" (click)="openPage(m)">
@@ -12,11 +12,11 @@
         </ion-content>
         <ion-footer color="customColor1">
             <ion-toolbar color="customColor1" class="main-footer">
-                <ion-buttons end small >
-                        <button ion-button icon-only  (click)="reloadMenu()" >
-                          <ion-icon class="button-small" name="refresh"></ion-icon>
-                        </button>
-                      </ion-buttons>
+                <ion-buttons end small>
+                    <button ion-button icon-only (click)="reloadMenu()">
+                        <ion-icon class="button-small" name="refresh"></ion-icon>
+                    </button>
+                </ion-buttons>
             </ion-toolbar>
         </ion-footer>
     </ion-menu>
@@ -25,7 +25,12 @@
 <ion-header>
     <ion-navbar class="main-toolbar" color="customColor1">
         <ion-title text-left (click)="show()">
-            <img class="image-profile" src="assets/img/appicon.png" />
+            <span>
+                <ion-icon class="title-app" name="menu" (click)="showMenu()" ></ion-icon>
+            </span>
+            <span>
+                <img class="image-profile" src="assets/img/appicon.png" />
+            </span>
             <span class="title-app" showWhen="landscape">{{ 'APP_NAME' | translate }}</span>
         </ion-title>
         <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
@@ -46,7 +51,7 @@
                 <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg"
                 />
             </button>
-            <button ion-button icon-only >
+            <button ion-button icon-only>
                 <ion-icon name="more"></ion-icon>
             </button>
         </ion-buttons>

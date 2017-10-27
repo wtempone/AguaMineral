@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Config, Nav, Platform } from 'ionic-angular';
+import { Config, Nav, Platform, MenuController } from 'ionic-angular';
 
 import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
@@ -24,7 +24,7 @@ import { MenuAcesso } from '../providers/database/models/menu-acesso';
   templateUrl: 'app.html'
 })
 export class MyApp {
-
+  public exibeMenu = true;
   rootPage = FirstRunPage;
 
   @ViewChild(Nav) nav: Nav;
@@ -42,7 +42,8 @@ export class MyApp {
     public http: Http,
     public distribuidorSrvc: DistribuidorService,
     public marcaSrvc: MarcaService,
-    public authServiceProvider:AuthServiceProvider
+    public authServiceProvider:AuthServiceProvider,
+    public menuCtrl: MenuController
   ) {
     this.initTranslate();
     this.authServiceProvider
@@ -59,6 +60,10 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  showMenu(){
+    this.exibeMenu = !this.exibeMenu;
   }
 
   initTranslate() {

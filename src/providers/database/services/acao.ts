@@ -9,7 +9,7 @@ export class AcaoService {
   public basePath:string;
   public acoes: FirebaseListObservable<Acao[]> = null; //  list of objects
   public acao: FirebaseObjectObservable<Acao> = null; //   single object
-
+  public funcionalidadeAtualKey;
   constructor(
     private db: AngularFireDatabase,
   ) {
@@ -22,6 +22,7 @@ export class AcaoService {
   get(keyFuncionalidade, key:string): Promise<Acao> {
     return new Promise(resolve => {
       const path = `/funcionalidades/${keyFuncionalidade}/fun_acoes/${key}`
+      this.funcionalidadeAtualKey = keyFuncionalidade;
       this.db.object(path).take(1).subscribe((acao: Acao) => {
         resolve(acao);
       });
@@ -76,7 +77,7 @@ export class AcaoService {
   }
 
   delete(key: string) {
-    return this.acoes.remove(key);
+    return this.acoes.remove(key)
   }
 
   deleteAll(): void {

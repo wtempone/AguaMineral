@@ -46,68 +46,81 @@ export class UsuarioService {
             this.db.list(this.funcionalidadeSrvc.basePath).subscribe((funcionalidades: Funcionalidade[]) => {
               if (usuario.usr_perfis) {
                 var usr_perfis = (<any>Object).entries(usuario.usr_perfis);
-                usr_perfis.forEach(([key, value]) => {
-                  var usr_perfil = perfis.filter(x => x.$key == key)[0];
-                  if (usr_perfil) {
-                  //Obtem funcionalidades e acoes do usuario pelo perfil                
-                  if (usr_perfil.per_menus) {
-                    var per_menus = (<any>Object).entries(usr_perfil.per_menus);
-                    per_menus.forEach(([keyFuncionlidade, valueFuncionalidade]) => {
-                      var menu = menus.filter(x => x.$key == keyFuncionlidade)[0];
+                if (usr_perfis) {
+                  usr_perfis.forEach(([key, value]) => {
+                    var usr_perfil = perfis.filter(x => x.$key == key)[0];
+                    if (usr_perfil) {
+                      //Obtem funcionalidades e acoes do usuario pelo perfil                
+                      if (usr_perfil.per_menus) {
+                        var per_menus = (<any>Object).entries(usr_perfil.per_menus);
+                        if (per_menus) {
+                          per_menus.forEach(([keyFuncionlidade, valueFuncionalidade]) => {
+                            var menu = menus.filter(x => x.$key == keyFuncionlidade)[0];
+                            if (menu) {
+                              if (usuario.usr_menus.filter(x => x.$key == menu.$key).length == 0) {
+                                usuario.usr_menus.push(<MenuAcesso>{
+                                  $key: menu.$key,
+                                  mnu_icone: menu.mnu_icone,
+                                  mnu_nome: menu.mnu_nome,
+                                  mnu_descricao: menu.mnu_descricao,
+                                  mnu_page: menu.mnu_page,
+                                })
+                              }
+                            }
 
-                      if (usuario.usr_menus.filter(x => x.$key == menu.$key).length == 0) {
-                        usuario.usr_menus.push(<MenuAcesso>{
-                          $key: menu.$key,
-                          mnu_icone: menu.mnu_icone,
-                          mnu_nome: menu.mnu_nome,
-                          mnu_descricao: menu.mnu_descricao,
-                          mnu_page: menu.mnu_page,
-                        })
-                      }
-                    })
-                  }
-
-                  //Obtem funcionalidades e acoes do usuario pelo perfil                
-                  if (usr_perfil.per_funcionalidades) {
-                    var per_funcionalidades = (<any>Object).entries(usr_perfil.per_funcionalidades);
-                    if (per_funcionalidades) {
-                      per_funcionalidades.forEach(([keyFuncionlidade, valueFuncionalidade]) => {
-                        var funcionalidade = funcionalidades.filter(x => x.$key == keyFuncionlidade)[0];
-  
-                        if (usuario.usr_funcionalidades.filter(x => x.$key == funcionalidade.$key).length == 0) {
-                          usuario.usr_funcionalidades.push(<Funcionalidade>{
-                            $key: funcionalidade.$key,
-                            fun_mnemonico: funcionalidade.fun_mnemonico,
-                            fun_nome: funcionalidade.fun_nome,
-                            fun_acoes: []
                           })
                         }
-  
-                        //obtem acoes 
-                        if (valueFuncionalidade.fun_acoes) {
-                          var fun_acoes = (<any>Object).entries(valueFuncionalidade.fun_acoes);
-                          if (fun_acoes){
-                            fun_acoes.forEach(([keyAcao, valueAcao]) => {
-                              var acoes = (<any>Object).entries(funcionalidade.fun_acoes);
-                              var acao = acoes.filter(([key, value]) => key == keyAcao)[0];
-                              
-                              if (usuario.usr_funcionalidades.filter(x => x.$key == funcionalidade.$key)[0]
-                                .fun_acoes.filter(x => x.$key == acao.$key).length == 0) {
-    
-                                usuario.usr_funcionalidades.filter(x => x.$key == funcionalidade.$key)[0].fun_acoes.push(acao);
-    
+
+                      }
+
+                      //Obtem funcionalidades e acoes do usuario pelo perfil                
+                      if (usr_perfil.per_funcionalidades) {
+                        var per_funcionalidades = (<any>Object).entries(usr_perfil.per_funcionalidades);
+                        if (per_funcionalidades) {
+                          per_funcionalidades.forEach(([keyFuncionlidade, valueFuncionalidade]) => {
+                            var funcionalidade = funcionalidades.filter(x => x.$key == keyFuncionlidade)[0];
+                            if (funcionalidade) {
+                              if (usuario.usr_funcionalidades.filter(x => x.$key == funcionalidade.$key).length == 0) {
+                                usuario.usr_funcionalidades.push(<Funcionalidade>{
+                                  $key: funcionalidade.$key,
+                                  fun_mnemonico: funcionalidade.fun_mnemonico,
+                                  fun_nome: funcionalidade.fun_nome,
+                                  fun_acoes: []
+                                })
                               }
-                            })
-                          }
+                            }
+
+
+                            //obtem acoes 
+                            if (valueFuncionalidade.fun_acoes) {
+                              var fun_acoes = (<any>Object).entries(valueFuncionalidade.fun_acoes);
+                              if (fun_acoes) {
+                                fun_acoes.forEach(([keyAcao, valueAcao]) => {
+                                  if (funcionalidade.fun_acoes) {
+                                    var acoes = (<any>Object).entries(funcionalidade.fun_acoes);
+                                    var acao = acoes.filter(([key, value]) => key == keyAcao)[0];
+                                    if (acao) {
+                                      if (usuario.usr_funcionalidades.filter(x => x.$key == funcionalidade.$key)[0]
+                                        .fun_acoes.filter(x => x.$key == acao.$key).length == 0) {
   
+                                        usuario.usr_funcionalidades.filter(x => x.$key == funcionalidade.$key)[0].fun_acoes.push(acao);
+  
+                                      }
+                                    }
+                                  }
+                                })
+                              }
+
+                            }
+                          })
                         }
-                      })
+
+                      }
                     }
 
-                  }                    
-                  }
+                  })
+                }
 
-                })
                 this.usuarioAtual = usuario;
                 resolve(this.usuarioAtual);
               }
@@ -119,13 +132,13 @@ export class UsuarioService {
   }
 
   valida(mnemonico: string, acesso: string): boolean {
-      let temAcesso: boolean = false;
-      if (!this.usuarioAtual) {
-        temAcesso = false;
-      } else {
-        temAcesso = this.verificaAcesso(mnemonico, acesso);
-      }
-      return temAcesso;
+    let temAcesso: boolean = false;
+    if (!this.usuarioAtual) {
+      temAcesso = false;
+    } else {
+      temAcesso = this.verificaAcesso(mnemonico, acesso);
+    }
+    return temAcesso;
   }
 
   verificaAcesso(mnemonico: string, acesso: string): boolean {
