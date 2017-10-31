@@ -17,6 +17,7 @@ export class Usuario {
   usr_perfis?: any[];
   usr_menus?: MenuAcesso[];
   usr_funcionalidades?: Funcionalidade[];
+  _selecionado: boolean;
 }
 
 /*

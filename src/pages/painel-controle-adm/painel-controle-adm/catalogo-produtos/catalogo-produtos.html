@@ -1,0 +1,79 @@
+<ion-header class="content-desktop">
+    
+      <ion-navbar>
+        <ion-title>Catálogo de Produtos</ion-title>
+      </ion-navbar>
+    </ion-header>
+    
+    <ion-content padding class="content-desktop">
+      <div class="content-desktop-margin-bottom">
+    
+        <h5>Marca</h5>
+    
+        <ion-card>
+          <ion-card-header>
+            <ion-buttons end>
+              <button ion-button outline icon-left>
+                <ion-icon name="add-circle"></ion-icon>
+                Marca
+              </button>
+            </ion-buttons>
+          </ion-card-header>
+    
+          <ion-list>
+            <ion-item-sliding *ngFor='let marca of marcaSrvc.marcas | async'>
+              <ion-item>
+                <h2>{{marca.mrc_nome}}</h2>
+              </ion-item>
+              <ion-item-options>
+                <button ion-button (click)="editFuncionalidade(marca)">
+                  <ion-icon name="create"></ion-icon>
+                  Editar
+                </button>
+                <button ion-button color="danger" (click)="removerFuncionalidade(marca)">
+                  <ion-icon name="trash"></ion-icon>
+                  Excluir
+                </button>
+                <button ion-button color="dark" (click)="configurarFuncionalidade(marca)">
+                  <ion-icon name="settings"></ion-icon>
+                  Configurar
+                </button>            
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card>
+    
+        <!-- h5>Produtos</h5>
+    
+        <ion-card>
+          <ion-card-header>
+            <ion-buttons end>
+              <button ion-button outline icon-left (click)="selecionarProduto()">
+                <ion-icon name="add-circle"></ion-icon>
+                Adiconar produto
+              </button>
+            </ion-buttons>
+          </ion-card-header>
+    
+          <ion-list>
+            <ion-item-sliding *ngFor='let produto of perfilProdutoSrvc.produtos'>
+              <ion-item>
+                <ion-icon name="{{(produto | async)?.pro_icone}}" item-start></ion-icon>
+                <h2>{{(produto | async)?.pro_nome}} ({{(produto | async)?.pro_page}})</h2>
+                <p>{{(produto | async)?.pro_descricao}}</p>
+              </ion-item>
+              <ion-item-options>
+                <button ion-button (click)="editProduto(produto)">
+                  <ion-icon name="create"></ion-icon>
+                  Editar
+                </button>
+                <button ion-button color="danger" (click)="removerProduto(produto)">
+                  <ion-icon name="trash"></ion-icon>
+                  Excluir
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card-->
+      </div>
+    </ion-content>

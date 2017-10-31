@@ -10,6 +10,7 @@ export class PainelControleAdmPage {
 
   perfilListPage = 'PerfilListPage';
   grupoUsuarioPage = 'GrupoUsuarioPage';
+  catalogoProdutosPage = 'CatalogoProdutosPage';
   emConstrucaoPage = 'EmConstrucaoPage';
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {

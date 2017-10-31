@@ -1,4 +1,4 @@
-import { Marca } from './../models/marca';
+import { Produto } from './../models/produto';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController, ToastController, AlertController } from 'ionic-angular';
 import { UsuarioService } from './usuario';
@@ -7,10 +7,10 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 
 
 @Injectable()
-export class MarcaService {
-  private basePath: string = '/marcas';
-  public marcas: FirebaseListObservable<Marca[]> = null; //  list of objects
-  public marca: FirebaseObjectObservable<Marca> = null; //   single object
+export class ProdutoService {
+  private basePath: string = '/produtos';
+  public produtos: FirebaseListObservable<Produto[]> = null; //  list of objects
+  public produto: FirebaseObjectObservable<Produto> = null; //   single object
   constructor(
     private db: AngularFireDatabase,
     private usuarioSrvc: UsuarioService,
@@ -19,7 +19,7 @@ export class MarcaService {
     private toastCtrl: ToastController,
     private translate: TranslateService
   ) {
-    this.marcas = this.db.list(this.basePath);
+    this.produtos = this.db.list(this.basePath);
   }
   exists(field: string, value: string, key?): Promise<boolean> {
     return new Promise(resolve => {
@@ -47,35 +47,36 @@ export class MarcaService {
       });
     })
   }
-  getList(query = {}): FirebaseListObservable<Marca[]> {
-    this.marcas = this.db.list(this.basePath, { query: query });
-    return this.marcas;
+  getList(query = {}): FirebaseListObservable<Produto[]> {
+    this.produtos = this.db.list(this.basePath, { query: query });
+    return this.produtos;
   }
 
-  get(key: string): FirebaseObjectObservable<Marca> {
+  get(key: string): FirebaseObjectObservable<Produto> {
     const itemPath = `${this.basePath}/${key}`;
-    this.marca = this.db.object(itemPath)
-    return this.marca
+    this.produto = this.db.object(itemPath)
+    return this.produto
   }
 
   getOnce(field: string, value: string) {
     return this.db.list(this.basePath).$ref.orderByChild(field).equalTo(value).limitToFirst(1).once('value');
   }
 
-  create(Marca: Marca) {
-    return this.marcas.push(Marca)
+  create(Produto: Produto) {
+    return this.produtos.push(Produto)
   }
 
   update(key: string, value: any) {
-    return this.marcas.update(key, value);
+    return this.produtos.update(key, value);
   }
 
-  delete(key: string) {
-    return this.marcas.remove(key);
+  delete(key: string): void {
+    this.produtos.remove(key)
+      .catch(error => this.handleError(error))
   }
 
   deleteAll(): void {
-    this.marcas.remove()
+    this.produtos.remove()
       .catch(error => this.handleError(error))
   }
 

@@ -193,6 +193,16 @@ export class UsuarioService {
     })
   }
 
+  excluirPerfil(usuarioKey:string, keyPerfil: string){
+    const path = `${this.basePath}/${usuarioKey}/usr_perfis/${keyPerfil}`
+    return this.db.object(path).remove();
+  }
+
+  adicionarPerfil(usuarioKey:string, keyPerfil: string){
+    const path = `${this.basePath}/${usuarioKey}/usr_perfis/${keyPerfil}`
+    return this.db.object(path).set(true);
+  }
+
   getList(query = {}): FirebaseListObservable<Usuario[]> {
     this.usuarios = this.db.list(this.basePath, { query: query });
     return this.usuarios;

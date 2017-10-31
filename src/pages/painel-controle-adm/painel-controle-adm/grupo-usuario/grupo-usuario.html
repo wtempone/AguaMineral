@@ -1,28 +1,27 @@
-
 <ion-content padding class="content-desktop">
-<h5>Grupos de Usuarios</h5>
+  <h5>Grupos de Usuarios</h5>
 
-<ion-card *ngFor="let perfil of perfilAcessoSrvc.perfisAcesso | async">
+  <ion-card *ngFor="let perfil of perfisUsuarios  ">
     <ion-card-header>
-      <span>{{perfil.per_nome}}</span>
-      <ion-buttons end>
-          <button ion-button outline icon-left (click)=" adirionarUsuario()">
-              <ion-icon name="add-circle"></ion-icon>
-              Adicionar usuário
-            </button>
+      <ion-toolbar>
+        <h2>{{perfil.per_nome}}</h2>
+        <ion-buttons end>
+          <button ion-button outline icon-left color="primary" (click)="selecionarUsuario(perfil)">
+            <ion-icon name="add-circle"></ion-icon>
+            Adicionar usuário
+          </button>
         </ion-buttons>
+      </ion-toolbar>
     </ion-card-header>
-    <!--ion-card>
-        <img src="img/nin-live.png"/>
-        <ion-card-content>
-          <ion-card-title>
-            Nine Inch Nails Live
-            </ion-card-title>
-          <p>
-            The most popular industrial group ever, and largely
-            responsible for bringing the music to a mass audience.
-          </p>
-        </ion-card-content>
-      </ion-card-->
+    <ion-card-content>
+      <ion-card class="perfil-grupo" *ngFor="let usuario of perfil.per_usuarios">
+        <button (click)="excluiPerfil(perfil, usuario)">
+          <ion-icon name="close"></ion-icon>
+        </button>
+        <img *ngIf="usuario.usr_fb_foto" class="image-profile" [src]="usuario.usr_fb_foto.data.url" />
+        <img *ngIf="!usuario.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg" />
+        <h5 text-center>{{usuario.usr_nome}}</h5>
+      </ion-card>
+    </ion-card-content>
   </ion-card>
 </ion-content>
