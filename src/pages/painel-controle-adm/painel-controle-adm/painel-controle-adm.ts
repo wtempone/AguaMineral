@@ -9,6 +9,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class PainelControleAdmPage {
 
   perfilListPage = 'PerfilListPage';
+  grupoUsuarioPage = 'GrupoUsuarioPage';
   emConstrucaoPage = 'EmConstrucaoPage';
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
