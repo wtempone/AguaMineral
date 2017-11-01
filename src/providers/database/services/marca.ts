@@ -8,7 +8,7 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 
 @Injectable()
 export class MarcaService {
-  private basePath: string = '/marcas';
+  public basePath: string = '/marcas';
   public marcas: FirebaseListObservable<Marca[]> = null; //  list of objects
   public marca: FirebaseObjectObservable<Marca> = null; //   single object
   constructor(

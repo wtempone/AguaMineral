@@ -4,6 +4,7 @@ import { PhotoCropperPage } from './photo-cropper';
 import { TranslateModule } from "@ngx-translate/core";
 import { ComponentsModule } from "../../../components/components.module";
 import { ImageCropperModule } from "ng2-img-cropper";
+import { LyResizingCroppingImageModule } from 'angular2-resizing-cropping-image';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { ImageCropperModule } from "ng2-img-cropper";
     IonicPageModule.forChild(PhotoCropperPage),
     TranslateModule.forChild(),
     ComponentsModule,
-    ImageCropperModule            
+    ImageCropperModule
   ],
 })
 export class PhotoCropperPageModule {}

@@ -1,0 +1,53 @@
+<ion-header class="content-desktop">
+
+  <ion-navbar>
+    <ion-title>Cadastro de Produto</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="cancel()">
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button block color="customColor2" (click)="salvarProduto()">Salvar</button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+<ion-content>
+  <div class="content-desktop">
+    <ion-header>
+      <ion-title>Produto</ion-title>
+    </ion-header>
+    <form [formGroup]="formulario" novalidate>
+      <ion-list no-lines>
+        <ion-item>
+          <ion-label stacked>Nome</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('pro_nome')" formControlName="pro_nome" type="text" placeholder="Digite o nome do produto"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('pro_nome')">
+          <p class="error-message">O nome do produto é obrigatório</p>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Descrição</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('pro_descricao')" formControlName="pro_descricao" type="text" placeholder="Digite a descrição do produto"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('pro_descricao')">
+          <p class="error-message">A descrição do produto é obrigatória</p>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Marca</ion-label>
+          <ion-select formControlName="pro_marca" type="text" placeholder="Selecione a marca do produto" multiple="false">
+            <ion-option *ngFor="let marca of marcas" value="{{marca.$key}}">{{marca.mrc_nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="verificaValidTouched('pro_marca')">
+          <p class="error-message">A marca do produto é obrigatória</p>
+        </ion-item>
+        <input-photo [value]="produto.pro_img"></input-photo>
+        <ion-item *ngIf="!pro_img">
+          <p class="error-message">Seleciona uma imagem para o produto</p>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

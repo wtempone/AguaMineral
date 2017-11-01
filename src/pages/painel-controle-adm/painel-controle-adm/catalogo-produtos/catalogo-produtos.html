@@ -1,79 +1,94 @@
 <ion-header class="content-desktop">
-    
-      <ion-navbar>
-        <ion-title>Catálogo de Produtos</ion-title>
-      </ion-navbar>
-    </ion-header>
-    
-    <ion-content padding class="content-desktop">
-      <div class="content-desktop-margin-bottom">
-    
-        <h5>Marca</h5>
-    
-        <ion-card>
-          <ion-card-header>
+
+  <ion-navbar>
+    <ion-title>Catálogo de Produtos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="content-desktop">
+  <div class="content-desktop-margin-bottom">
+    <div>
+      <ion-segment [(ngModel)]="catalogo">
+        <ion-segment-button value="produtos">
+          Produtos
+        </ion-segment-button>
+        <ion-segment-button value="marcas">
+          Marcas
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div [ngSwitch]="catalogo">
+      <ion-card *ngSwitchCase="'marcas'">
+        <ion-card-header>
+          <ion-toolbar>
+            <h2>Marcas</h2>
             <ion-buttons end>
-              <button ion-button outline icon-left>
+              <button ion-button outline icon-left color="primary" (click)="editMarca(null)">
                 <ion-icon name="add-circle"></ion-icon>
-                Marca
+                Nova marca
               </button>
             </ion-buttons>
-          </ion-card-header>
-    
-          <ion-list>
-            <ion-item-sliding *ngFor='let marca of marcaSrvc.marcas | async'>
-              <ion-item>
-                <h2>{{marca.mrc_nome}}</h2>
-              </ion-item>
-              <ion-item-options>
-                <button ion-button (click)="editFuncionalidade(marca)">
-                  <ion-icon name="create"></ion-icon>
-                  Editar
-                </button>
-                <button ion-button color="danger" (click)="removerFuncionalidade(marca)">
-                  <ion-icon name="trash"></ion-icon>
-                  Excluir
-                </button>
-                <button ion-button color="dark" (click)="configurarFuncionalidade(marca)">
-                  <ion-icon name="settings"></ion-icon>
-                  Configurar
-                </button>            
-              </ion-item-options>
-            </ion-item-sliding>
-          </ion-list>
-        </ion-card>
-    
-        <!-- h5>Produtos</h5>
-    
-        <ion-card>
-          <ion-card-header>
+          </ion-toolbar>
+        </ion-card-header>
+        <ion-searchbar placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarMarca($event)" ></ion-searchbar>                
+        <ion-list>
+          <ion-item-sliding *ngFor='let marca of marcas | async'>
+            <ion-item>
+              <ion-thumbnail item-start>
+                <img *ngIf="!marca.mrc_img" src="assets/img/appicon.png">
+                <img *ngIf="marca.mrc_img" [src]="marca.mrc_img">
+              </ion-thumbnail>
+              <h2>{{marca.mrc_nome}}</h2>
+            </ion-item>
+            <ion-item-options>
+              <button ion-button (click)="editMarca(marca)">
+                <ion-icon name="create"></ion-icon>
+                Editar
+              </button>
+              <button ion-button color="danger" (click)="removerMarca(marca)">
+                <ion-icon name="trash"></ion-icon>
+                Excluir
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+      <ion-card *ngSwitchCase="'produtos'">
+        <ion-card-header>
+          <ion-toolbar>
+            <h2>Produtos</h2>
             <ion-buttons end>
-              <button ion-button outline icon-left (click)="selecionarProduto()">
+              <button ion-button outline icon-left color="primary" (click)="editProduto(null)">
                 <ion-icon name="add-circle"></ion-icon>
-                Adiconar produto
+                Novo produto
               </button>
             </ion-buttons>
-          </ion-card-header>
-    
-          <ion-list>
-            <ion-item-sliding *ngFor='let produto of perfilProdutoSrvc.produtos'>
-              <ion-item>
-                <ion-icon name="{{(produto | async)?.pro_icone}}" item-start></ion-icon>
-                <h2>{{(produto | async)?.pro_nome}} ({{(produto | async)?.pro_page}})</h2>
-                <p>{{(produto | async)?.pro_descricao}}</p>
-              </ion-item>
-              <ion-item-options>
-                <button ion-button (click)="editProduto(produto)">
-                  <ion-icon name="create"></ion-icon>
-                  Editar
-                </button>
-                <button ion-button color="danger" (click)="removerProduto(produto)">
-                  <ion-icon name="trash"></ion-icon>
-                  Excluir
-                </button>
-              </ion-item-options>
-            </ion-item-sliding>
-          </ion-list>
-        </ion-card-->
-      </div>
-    </ion-content>
+          </ion-toolbar>
+        </ion-card-header>
+        <ion-searchbar placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarProduto($event)" ></ion-searchbar>        
+        <ion-list>
+          <ion-item-sliding *ngFor='let produto of produtos | async'>
+            <ion-item>
+              <ion-thumbnail item-start>
+                <img *ngIf="!produto.pro_img" src="assets/img/appicon.png">
+                <img *ngIf="produto.pro_img" [src]="produto.pro_img">
+              </ion-thumbnail>
+              <h2>{{produto.pro_nome}}</h2>
+              <p>{{produto.pro_descricao}}</p>
+            </ion-item>
+            <ion-item-options>
+              <button ion-button (click)="editProduto(produto)">
+                <ion-icon name="create"></ion-icon>
+                Editar
+              </button>
+              <button ion-button color="danger" (click)="removerProduto(produto)">
+                <ion-icon name="trash"></ion-icon>
+                Excluir
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

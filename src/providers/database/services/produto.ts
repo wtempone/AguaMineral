@@ -8,7 +8,7 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 
 @Injectable()
 export class ProdutoService {
-  private basePath: string = '/produtos';
+  public basePath: string = '/produtos';
   public produtos: FirebaseListObservable<Produto[]> = null; //  list of objects
   public produto: FirebaseObjectObservable<Produto> = null; //   single object
   constructor(
@@ -70,9 +70,8 @@ export class ProdutoService {
     return this.produtos.update(key, value);
   }
 
-  delete(key: string): void {
-    this.produtos.remove(key)
-      .catch(error => this.handleError(error))
+  delete(key: string) {
+    return this.produtos.remove(key);
   }
 
   deleteAll(): void {
