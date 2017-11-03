@@ -1,8 +1,8 @@
+import { PerfilAcesso } from './../../../../providers/database/models/perfil-acesso';
 import { PerfilAcessoService } from './../../../../providers/database/services/perfil-acesso';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { UsuarioService } from '../../../../providers/database/services/usuario';
-import { PerfilAcesso } from '../../../../providers/database/models/perfil-acesso';
 import { Usuario } from '../../../../providers/database/models/usuario';
 
 @IonicPage()
@@ -31,7 +31,8 @@ export class GrupoUsuarioPage {
   refresh() {
     this.perfisUsuarios = [];
     this.usuarioSrvc.usuarios.take(1).subscribe((usuarios: Usuario[]) => {
-      this.perfilAcessoSrvc.perfisAcesso.take(1).subscribe(perfis => perfis
+      this.perfilAcessoSrvc.perfisAcesso.take(1).subscribe((perfis: PerfilAcesso[]) => perfis
+        .filter(x => x.per_ativo && !x.per_padrao && !x.per_distribuidor)
         .map(perfil => {
           let perfilUsuario: any = perfil;
           perfilUsuario.per_usuarios = usuarios.filter(x => (<any>Object).keys(x.usr_perfis).filter(key => key == perfil.$key).length > 0);

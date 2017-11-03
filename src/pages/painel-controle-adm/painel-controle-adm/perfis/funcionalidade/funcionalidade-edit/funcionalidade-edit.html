@@ -2,10 +2,11 @@
   <ion-navbar>
     <ion-title text-center>Cadastro de Funcionalidade</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="navCtrl.pop()">
-        <ion-icon item-right name="ios-close-outline"></ion-icon>
-      </button>
-    </ion-buttons>
+        <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+        <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding class="modal-desktop" >
@@ -32,9 +33,6 @@
       </ion-item>
       <ion-item *ngIf="verificaValidTouched('fun_descricao')">
         <p class="error-message">Descrição obrigatório</p>
-      </ion-item>
-      <ion-item>
-        <button ion-button block color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
       </ion-item>
     </ion-list>
   </form>

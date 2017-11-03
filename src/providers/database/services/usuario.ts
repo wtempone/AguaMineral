@@ -229,12 +229,19 @@ export class UsuarioService {
     //this.updateMenu(usuario)
     return new Promise(resolve => {
       this.usuarios.push(usuario).then((usuarioCriado) => {
-        this.addPerfil(usuarioCriado.key, 'USR')
-        resolve(usuarioCriado.key)
+        this.perfilAcessoSrvc.getByChild('per_ativo',true).subscribe((perfis:PerfilAcesso[]) => {
+          if (perfis.filter(x => x.per_distribuidor == false && x.per_padrao == true).length > 0) {
+            perfis.filter(x => x.per_distribuidor == false && x.per_padrao == true).forEach((perfilPadrao: PerfilAcesso) => {
+              this.addPerfil(usuarioCriado.key, perfilPadrao.per_mnemonico)
+            })
+            resolve(usuarioCriado.key)            
+          } else {
+            resolve(usuarioCriado.key)            
+          }
+        })
       });
     })
   }
-
 
   update(key: string, value: any) {
     //this.updateMenu(value);
@@ -246,7 +253,7 @@ export class UsuarioService {
   }
 
   addPerfil(key: string, mnemonico: string) {
-    return this.perfilAcessoSrvc.getByMnemonico(this.perfilAcessoSrvc.PERFIL_UsuarioPadrao).then((perfil: PerfilAcesso) => {
+    return this.perfilAcessoSrvc.getByMnemonico(mnemonico).then((perfil: PerfilAcesso) => {
       const path = `${this.basePath}/${key}/usr_perfis/${Object.keys(perfil)[0]}`
       return this.db.object(path).set(true);
     })

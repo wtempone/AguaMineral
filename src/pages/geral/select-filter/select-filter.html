@@ -1,0 +1,12 @@
+<ion-content>
+  <ion-toolbar>
+    <ion-title>
+      Campo de Pesquisa
+    </ion-title>
+  </ion-toolbar>
+  <ion-list>
+    <button ion-item *ngFor="let item of listFields" (click)="set(item)">
+      {{ item.nome }}
+    </button>
+  </ion-list>
+</ion-content>

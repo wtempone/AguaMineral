@@ -14,7 +14,8 @@ import { UsuarioService } from '../../../../../providers/database/services/usuar
   templateUrl: 'perfil-list.html',
 })
 export class PerfilListPage {
-  mnemonico = "PerfilListPage"
+  mnemonico = "PerfilListPage";
+  configuracao = "perfis";
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

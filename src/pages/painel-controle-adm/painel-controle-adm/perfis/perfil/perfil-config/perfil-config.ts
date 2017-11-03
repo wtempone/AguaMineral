@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class PerfilConfigPage {
   perfil: PerfilAcesso;
+  configuracao = "funcionalidades";
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

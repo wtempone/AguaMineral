@@ -51,7 +51,7 @@
                 <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg"
                 />
             </button>
-            <button ion-button icon-only>
+            <button ion-button icon-only (click)="userOptions($event)">
                 <ion-icon name="more"></ion-icon>
             </button>
         </ion-buttons>

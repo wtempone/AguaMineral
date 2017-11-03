@@ -13,6 +13,28 @@ import { ProdutoService } from '../../../../providers/database/services/produto'
   templateUrl: 'catalogo-produtos.html',
 })
 export class CatalogoProdutosPage {
+  listFieldsProduto = [
+    {
+      nome: "Nome",
+      campo: "pro_nome"
+    },
+    {
+      nome: "Descrição",
+      campo: "pro_descricao"
+    },
+  ];
+  listFieldsMarca = [
+    {
+      nome: "Nome",
+      campo: "mrc_nome"
+    },
+    {
+      nome: "Descrição",
+      campo: "mrc_descricao"
+    },
+  ];
+  campoOrdernacaoProduto;
+  campoOrdernacaoMarca;
   catalogo;
   produtos: FirebaseListObservable<Produto[]>;
   marcas: FirebaseListObservable<Marca[]>;
@@ -30,8 +52,9 @@ export class CatalogoProdutosPage {
     this.catalogo = "produtos";
     this.produtos = this.produtoSrvc.produtos;
     this.marcas = this.marcaSrvc.marcas;
+    this.campoOrdernacaoProduto = this.listFieldsProduto[0];
+    this.campoOrdernacaoMarca = this.listFieldsMarca[0];
   }
-
 
   editMarca(marca: Marca) {
     let modal = this.modalCtrl.create('MarcaEditPage', { marca: marca });
@@ -102,7 +125,16 @@ export class CatalogoProdutosPage {
     });
     confirm.present();
   }
-
+  mudaOrdemProduto(evento) {
+    console.log(evento);
+    this.campoOrdernacaoProduto = evento;
+    this.produtos = this.db.list(this.produtoSrvc.basePath, {
+      query: {
+        orderByChild: this.campoOrdernacaoProduto.campo,
+      }
+    }
+    )
+  }
   pesquisarProduto(evento) {
     var q = evento.srcElement.value;
     if (!q) {
@@ -111,11 +143,10 @@ export class CatalogoProdutosPage {
     this.produtos =
       this.db.list(this.produtoSrvc.basePath, {
         query: {
-          orderByChild: "pro_nome",
+          orderByChild: this.campoOrdernacaoProduto.campo,
           startAt: q
         }
-      }
-      )
+      })
   }
 
 
@@ -130,7 +161,6 @@ export class CatalogoProdutosPage {
           orderByChild: "mrc_nome",
           startAt: q
         }
-      }
-      )
+      })
   }
 }

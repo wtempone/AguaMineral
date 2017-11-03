@@ -1,0 +1,22 @@
+<ion-content padding>
+  <div>
+    <input (change)="_img.imgChange($event)" type="file">
+
+    <button (click)="_img.zoom('+')">+</button>
+    <button (click)="_img.zoom('-')">-</button>
+    <button (click)="_img.center()">center</button>
+
+    <ly-cropping-img #_img format="png" sizeW=300 sizeH=300></ly-cropping-img>
+    <div>Format input: {{_img._img.type}}</div>
+    <br />
+    <div>Format output: {{_img.format}}</div>
+    <br />
+    <div>Result: </div>
+    <br />
+    <img [src]="_img.imgCrop">
+    <br />
+    <input [(ngModel)]="_img.sizeW" placeholder="_img size W">
+    <input [(ngModel)]="_img.sizeH" placeholder="_img size H">
+    <input [(ngModel)]="_img.img" placeholder="Img">
+  </div>
+</ion-content>

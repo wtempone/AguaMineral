@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { Config, Nav, Platform, MenuController } from 'ionic-angular';
+import { Config, Nav, Platform, MenuController, PopoverController } from 'ionic-angular';
 
 import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
@@ -42,8 +42,9 @@ export class MyApp {
     public http: Http,
     public distribuidorSrvc: DistribuidorService,
     public marcaSrvc: MarcaService,
-    public authServiceProvider:AuthServiceProvider,
-    public menuCtrl: MenuController
+    public authServiceProvider: AuthServiceProvider,
+    public menuCtrl: MenuController,
+    public popoverCtrl: PopoverController
   ) {
     this.initTranslate();
     this.authServiceProvider
@@ -62,7 +63,7 @@ export class MyApp {
     });
   }
 
-  showMenu(){
+  showMenu() {
     this.exibeMenu = !this.exibeMenu;
   }
 
@@ -80,11 +81,11 @@ export class MyApp {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
     });
   }
-  
+
   signup() {
     this.modalCtrl.create('SignupPage').present();
   }
-  
+
   openPage(menu: MenuAcesso) {
     this.nav.setRoot(menu.mnu_page);
   }
@@ -93,11 +94,29 @@ export class MyApp {
     this.modalCtrl.create('LoginPage').present();
   }
 
-  signupDistribuidora(){
-    if (this.usuarioSrvc.usuarioAtual){
-      this.nav.setRoot('DistribuidorEditPage')      
+  userOptions(event) {
+    let popover = this.popoverCtrl.create('MenuUsuarioPage');
+    popover.present({
+      ev: event,
+    });
+    popover.onDidDismiss(data => {
+      if (data)
+        if (data.option) {
+          if (data.option == "editarPerfil")
+            alert("Funcao não implementada!");
+          if (data.option == "sair") {
+            this.authServiceProvider.signOut();
+            this.nav.setRoot('WelcomePage')            
+          }
+        }
+    })
+  }
+
+  signupDistribuidora() {
+    if (this.usuarioSrvc.usuarioAtual) {
+      this.nav.setRoot('DistribuidorEditPage')
     } else {
-      this.modalCtrl.create('LoginPage',{message:"NOT_AUTHENTICATED"}).present(); 
+      this.modalCtrl.create('LoginPage', { message: "NOT_AUTHENTICATED" }).present();
     }
   }
   show() {
@@ -120,7 +139,7 @@ export class MyApp {
                   dist_update_data: distribuidor.dist_update_data,
                   dist_status: distribuidor.dist_status,
                   dist_online: distribuidor.dist_online,
-                  dist_endereco: <Endereco> {
+                  dist_endereco: <Endereco>{
                     cep: distribuidor.dist_cep,
                     numero: distribuidor.dist_numero,
                     complemento: "",
@@ -136,7 +155,7 @@ export class MyApp {
               })
             }
           }
-          if (1 == 1) return;    
+          if (1 == 1) return;
           if (dados.marcas) {
             let marcas: Marca[] = [];
             if (dados.marcas.length > 0) {

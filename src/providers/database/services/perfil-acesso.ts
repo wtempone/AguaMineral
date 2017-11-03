@@ -55,6 +55,15 @@ export class PerfilAcessoService {
      });
     })
   }
+
+  getByChild(field: string, value: any):FirebaseListObservable<PerfilAcesso[]> {
+    return this.db.list(this.basePath, {
+      query: {
+        orderByChild: field,
+        startAt: value
+      }
+    })
+  }
   getByKey(key: string): FirebaseObjectObservable<PerfilAcesso>  {
     const path = `${this.basePath}/${key}`
     return this.db.object(path)

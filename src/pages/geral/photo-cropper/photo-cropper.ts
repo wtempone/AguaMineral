@@ -28,21 +28,23 @@ export class PhotoCropperPage {
 
     this.cropperSettings.canvasWidth = 300;
     this.cropperSettings.canvasHeight = 300;
-    
+
     this.cropperSettings.noFileInput = true;
     this.data = {};
   }
 
   fileChangeListener($event) {
-    var image: any = new Image();
-    var file: File = $event.target.files[0];
-    var myReader: FileReader = new FileReader();
-    var that = this;
-    myReader.onloadend = function (loadEvent: any) {
-      image.src = loadEvent.target.result;
-      that.imageCropper.setImage(image);
-    };
-    myReader.readAsDataURL(file);
+    if ($event.target.files[0]) {
+      var image: any = new Image();
+      var file: File = $event.target.files[0];
+      var myReader: FileReader = new FileReader();
+      var that = this;
+      myReader.onloadend = function (loadEvent: any) {
+        image.src = loadEvent.target.result;
+        that.imageCropper.setImage(image);
+      };
+      myReader.readAsDataURL(file);
+    }
   }
 
   handleCropping(event) {

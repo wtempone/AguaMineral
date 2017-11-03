@@ -1,3 +1,5 @@
+import { PerfilAcesso } from './../models/perfil-acesso';
+import { PerfilAcessoService } from './perfil-acesso';
 import { Distribuidor } from './../models/distribuidor';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController, ToastController, AlertController } from 'ionic-angular';
@@ -16,7 +18,8 @@ export class DistribuidorService {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private perfilAcessoSrvc: PerfilAcessoService
   ) {
     this.distribuidores = this.db.list(this.basePath);
   }
@@ -47,7 +50,7 @@ export class DistribuidorService {
       });
     })
   }
-  
+
   getList(query = {}): FirebaseListObservable<Distribuidor[]> {
     this.distribuidores = this.db.list(this.basePath, { query: query });
     return this.distribuidores;
@@ -63,8 +66,34 @@ export class DistribuidorService {
     return this.db.list(this.basePath).$ref.orderByChild(field).equalTo(value).limitToFirst(1).once('value');
   }
 
-  create(Distribuidor: Distribuidor) {
-    return this.distribuidores.push(Distribuidor)
+  create(distribuidor: Distribuidor) {
+    return new Promise(resolve => {
+      this.distribuidores.push(distribuidor).then((distribuidorCriado) => {
+        this.perfilAcessoSrvc.getByChild('per_ativo', true).subscribe((perfis: PerfilAcesso[]) => {
+          if (perfis.filter(x => x.per_distribuidor == true && x.per_padrao == true).length > 0) {
+            perfis.filter(x => x.per_distribuidor == true && x.per_padrao == true).forEach((perfilPadrao: PerfilAcesso) => {
+              this.addPerfil(distribuidorCriado.key, perfilPadrao.$key)
+            })
+            this.addFuncionario(distribuidorCriado.key,this.usuarioSrvc.usuarioAtual.$key);
+            resolve(distribuidorCriado.key)
+          } else {
+            this.addFuncionario(distribuidorCriado.key,this.usuarioSrvc.usuarioAtual.$key);            
+            resolve(distribuidorCriado.key)
+          }
+        })
+      });
+    })
+  }
+
+
+  addPerfil(key: string, keyPerfil: string) {
+    const path = `${this.basePath}/${key}/dist_perfis/${keyPerfil}`
+    return this.db.object(path).set(true);
+  }
+
+  addFuncionario(key: string, keyUsuario: string) {
+    const path = `${this.basePath}/${key}/dist_funcionarios/${keyUsuario}`
+    return this.db.object(path).set(true);
   }
 
   update(key: string, value: any) {

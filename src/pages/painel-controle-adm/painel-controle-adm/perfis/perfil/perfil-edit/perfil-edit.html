@@ -2,13 +2,14 @@
   <ion-navbar>
     <ion-title text-center>Cadastro de Perfil</ion-title>
     <ion-buttons end>
+      <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
       <button ion-button icon-only (click)="navCtrl.pop()">
         <ion-icon item-right name="ios-close-outline"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content padding class="modal-desktop" >
+<ion-content padding class="modal-desktop">
   <form [formGroup]="formulario" novalidate>
     <ion-list no-lines>
       <ion-item>
@@ -34,7 +35,16 @@
         <p class="error-message">Descrição obrigatória</p>
       </ion-item>
       <ion-item>
-        <button ion-button block color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+        <ion-label stacked>Perfil padrão</ion-label>
+        <ion-toggle formControlName="per_padrao"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked> Perfil de distribuidor</ion-label>
+        <ion-toggle formControlName="per_distribuidor"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Ativo</ion-label>
+        <ion-toggle formControlName="per_ativo"></ion-toggle>
       </ion-item>
     </ion-list>
   </form>

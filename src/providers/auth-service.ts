@@ -161,8 +161,12 @@ export class AuthServiceProvider {
     });
     toast.present();
   }
+
   signOut(): void {
-    this.afAuth.auth.signOut();
+    this.afAuth.auth.signOut().then(() => {
+      this.usuarioSrvc.usuarioAtual = null;
+      this.storage.clear();
+    });
   }
 
 }

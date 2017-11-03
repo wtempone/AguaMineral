@@ -1,5 +1,6 @@
 import { Endereco } from './shared-models';
 export interface Distribuidor {
+  $key: string;
   dist_nome: string;
   dist_cnpj: string;
   dist_telefone: string;
@@ -11,4 +12,6 @@ export interface Distribuidor {
   dist_status: string;
   dist_online: boolean;
   dist_endereco: Endereco;
+  dist_perfis: any[]; 
+  dist_funcionarios: any[]; 
 }

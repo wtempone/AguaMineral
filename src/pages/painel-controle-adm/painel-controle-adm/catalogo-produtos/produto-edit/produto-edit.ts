@@ -35,7 +35,9 @@ export class ProdutoEditPage {
       this.produto = <Produto>{
         pro_nome: null,
         pro_marca: null,
-        pro_descricao: null
+        pro_descricao: null,
+        pro_img: null,
+        pro_ativo: null
       }
   }
 
@@ -44,10 +46,15 @@ export class ProdutoEditPage {
       pro_nome: [null, Validators.required],
       pro_marca: [null, Validators.required],
       pro_descricao: [null, Validators.required],
+      pro_ativo:[null]
     });
 
     this.formulario.patchValue({
       pro_nome: this.produto.pro_nome,
+      pro_descricao: this.produto.pro_descricao,
+      pro_marca: this.produto.pro_marca,
+      pro_img: this.produto.pro_img,
+      pro_ativo: this.produto.pro_ativo,
     });
   }
 
@@ -76,7 +83,8 @@ export class ProdutoEditPage {
       this.produto.pro_descricao = this.formulario.get('pro_descricao').value;
       this.produto.pro_marca = this.formulario.get('pro_marca').value;
       this.produto.pro_img = this.pro_img.value;
-
+      this.produto.pro_ativo = this.formulario.get('pro_ativo').value;
+      
       let parsekey: any = this.produto;
       if (parsekey.$key) {
         this.produtoSrvc.update(parsekey.$key, this.produto).then(() => {

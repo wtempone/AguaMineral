@@ -23,14 +23,13 @@
           <ion-toolbar>
             <h2>Marcas</h2>
             <ion-buttons end>
-              <button ion-button outline icon-left color="primary" (click)="editMarca(null)">
+              <button ion-button clear icon-only color="primary" (click)="editMarca(null)">
                 <ion-icon name="add-circle"></ion-icon>
-                Nova marca
               </button>
             </ion-buttons>
           </ion-toolbar>
         </ion-card-header>
-        <ion-searchbar placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarMarca($event)" ></ion-searchbar>                
+        <ion-searchbar placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarMarca($event)"></ion-searchbar>
         <ion-list>
           <ion-item-sliding *ngFor='let marca of marcas | async'>
             <ion-item>
@@ -58,14 +57,21 @@
           <ion-toolbar>
             <h2>Produtos</h2>
             <ion-buttons end>
-              <button ion-button outline icon-left color="primary" (click)="editProduto(null)">
+              <button ion-button clear icon-only color="primary" (click)="editProduto(null)">
                 <ion-icon name="add-circle"></ion-icon>
-                Novo produto
               </button>
             </ion-buttons>
           </ion-toolbar>
         </ion-card-header>
-        <ion-searchbar placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarProduto($event)" ></ion-searchbar>        
+        <ion-toolbar>
+          <ion-buttons>
+            <ion-searchbar style="float:left!important" placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarProduto($event)"></ion-searchbar>
+          </ion-buttons>
+          <ion-buttons end>
+            <order-by-general [listFields]="listFieldsProduto" (changeOrder)="mudaOrdemProduto($event)"></order-by-general>
+          </ion-buttons>
+        </ion-toolbar>
+
         <ion-list>
           <ion-item-sliding *ngFor='let produto of produtos | async'>
             <ion-item>

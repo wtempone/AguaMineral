@@ -29,7 +29,10 @@ export class PerfilEditPage {
       this.perfil = <PerfilAcesso>{
         per_mnemonico: null,
         per_nome: null,
-        per_descricao: null
+        per_descricao: null,
+        per_distribuidor: null,
+        per_padrao: null,
+        per_ativo: null,
       }
 
   }
@@ -44,12 +47,18 @@ export class PerfilEditPage {
       per_mnemonico: [null, Validators.required],
       per_nome: [null, Validators.required],
       per_descricao: [null, Validators.required],
+      per_padrao: [null],
+      per_distribuidor: [null],
+      per_ativo: [null],
     });
 
     this.formulario.patchValue({
       per_mnemonico: this.perfil.per_mnemonico,
       per_nome: this.perfil.per_nome,
       per_descricao: this.perfil.per_descricao,
+      per_padrao: this.perfil.per_padrao,
+      per_distribuidor: this.perfil.per_distribuidor,
+      per_ativo: this.perfil.per_ativo,
     });
   }
 
@@ -88,6 +97,9 @@ export class PerfilEditPage {
         } else {
           this.perfil.per_nome = this.formulario.get('per_nome').value;
           this.perfil.per_descricao = this.formulario.get('per_descricao').value;
+          this.perfil.per_padrao = this.formulario.get('per_padrao').value;
+          this.perfil.per_distribuidor = this.formulario.get('per_distribuidor').value;
+          this.perfil.per_ativo = this.formulario.get('per_ativo').value;
           let parsekey: any = this.perfil;
           if (parsekey.$key) {
             this.perfilSrvc.update(parsekey.$key, this.perfil).then(() => {

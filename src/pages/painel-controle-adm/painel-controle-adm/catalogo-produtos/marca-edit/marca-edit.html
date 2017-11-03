@@ -1,38 +1,32 @@
-<ion-header class="content-desktop">
+<ion-header>
 
   <ion-navbar>
     <ion-title>Cadastro de Marca</ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="cancel()">
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-      </button>
-    </ion-buttons>
+
     <ion-buttons end>
-      <button ion-button block color="customColor2" (click)="salvarMarca()">Salvar</button>
-    </ion-buttons>
+        <button ion-button color="customColor2" (click)="salvarMarca()">Salvar</button>
+        <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+        </button>
+      </ion-buttons>       
   </ion-navbar>
 
 </ion-header>
 <ion-content>
-  <div class="content-desktop">
-    <ion-header>
-      <ion-title>Marca</ion-title>
-    </ion-header>
-    <form [formGroup]="formulario" novalidate>
-      <ion-list no-lines>
-        <ion-item>
-          <ion-label stacked>Nome</ion-label>
-          <ion-input [class.invalid]="verificaValidTouched('mrc_nome')" formControlName="mrc_nome" type="text" placeholder="Digite o nome da marca"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="verificaValidTouched('mrc_nome')">
-          <p class="error-message">O nome da marca é obrigatório</p>
-        </ion-item>
+  <form [formGroup]="formulario" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('mrc_nome')" formControlName="mrc_nome" type="text" placeholder="Digite o nome da marca"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('mrc_nome')">
+        <p class="error-message">O nome da marca é obrigatório</p>
+      </ion-item>
 
-        <input-photo [value]="marca.mrc_img"></input-photo>
-        <ion-item *ngIf="!mrc_img">
-          <p class="error-message">Seleciona uma imagem para a marca</p>
-        </ion-item>
-      </ion-list>
-    </form>
-  </div>
+      <input-photo [value]="marca.mrc_img"></input-photo>
+      <ion-item *ngIf="!mrc_img">
+        <p class="error-message">Selecione uma imagem para a marca</p>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>

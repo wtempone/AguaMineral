@@ -7,12 +7,14 @@ import { EnderecoComponent } from './endereco/endereco';
 import { CommonModule } from '@angular/common';
 import { InputPhotoComponent } from './input-photo/input-photo';
 import { UsuarioToolbarComponent } from './usuario-toolbar/usuario-toolbar';
+import { OrderByGeneralComponent } from './order-by-general/order-by-general';
 @NgModule({
 	declarations: [EnderecoComponent,
     EnderecoComponent,
     EnderecoComponent,
     InputPhotoComponent,
     UsuarioToolbarComponent,
+    OrderByGeneralComponent,
     ],
 	imports: [
         DirectivesModule,
@@ -26,6 +28,7 @@ import { UsuarioToolbarComponent } from './usuario-toolbar/usuario-toolbar';
     EnderecoComponent,
     InputPhotoComponent,
     UsuarioToolbarComponent,
+    OrderByGeneralComponent,
     ]
 })
 export class ComponentsModule {}

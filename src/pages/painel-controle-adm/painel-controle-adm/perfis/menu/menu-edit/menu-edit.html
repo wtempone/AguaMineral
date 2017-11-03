@@ -2,10 +2,11 @@
   <ion-navbar>
     <ion-title text-center>Cadastro de Menu</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="navCtrl.pop()">
-        <ion-icon item-right name="ios-close-outline"></ion-icon>
-      </button>
-    </ion-buttons>
+        <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+        <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding class="modal-desktop">
@@ -36,9 +37,6 @@
           <ion-icon name="{{menu.mnu_icone}}"></ion-icon>
           Icone do menu  
         </button>
-      <ion-item>
-        <button ion-button block color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
-      </ion-item>
     </ion-list>
   </form>
 </ion-content>
