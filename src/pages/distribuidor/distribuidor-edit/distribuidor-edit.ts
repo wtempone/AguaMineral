@@ -18,10 +18,10 @@ import { IonicPage, NavController, NavParams, Platform, ToastController, AlertCo
 export class DistribuidorEditPage {
   distribuidor: Distribuidor;
   formulario: FormGroup;
-  
+
   @ViewChild(EnderecoComponent) endereco: EnderecoComponent;
   @ViewChild(InputPhotoComponent) dist_img: InputPhotoComponent;
-  
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -34,7 +34,9 @@ export class DistribuidorEditPage {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    this.distribuidor = this.navParams.data;
+    if (this.navParams.data.distribuidor) {
+      this.distribuidor = this.navParams.data.distribuidor;
+    }
   }
 
   ngOnInit() {
@@ -72,7 +74,7 @@ export class DistribuidorEditPage {
       }
     });
   }
-  
+
   saveDistribuidor() {
     if (this.formulario.valid) {
 
@@ -85,24 +87,24 @@ export class DistribuidorEditPage {
           this.distribuidor.dist_email = this.formulario.get('dist_email').value;
           this.distribuidor.dist_img = this.dist_img.value;
           this.distribuidor.dist_data = new Date(Date.now());
-          this.distribuidor.dist_online = false;          
-          this.distribuidor.dist_ativo = false;          
+          this.distribuidor.dist_online = false;
+          this.distribuidor.dist_ativo = false;
           this.distribuidor.dist_endereco = endereco;
           let parsekey: any = this.distribuidor;
           if (parsekey.$key) {
-            this.distribuidorSrvc.update(parsekey.$key, this.distribuidor).then(()=>{
+            this.distribuidorSrvc.update(parsekey.$key, this.distribuidor).then(() => {
 
               this.translate.get("DIST_MESSAGE_UPDATE").subscribe((message) => {
                 let toast = this.toastCtrl.create({
                   message: message,
                   duration: 3000,
                   position: 'top',
-                  cssClass: 'toast-success'                   
+                  cssClass: 'toast-success'
                 });
                 toast.present();
                 this.navCtrl.pop();
               });
-                      
+
             })
           } else {
             this.distribuidorSrvc.create(this.distribuidor).then(() => {
@@ -125,16 +127,16 @@ export class DistribuidorEditPage {
                       ]
                     });
                     confirm.present();
-                    confirm.onDidDismiss(() =>{
-                      this.navCtrl.pop();                      
+                    confirm.onDidDismiss(() => {
+                      this.navCtrl.pop();
                     })
                   })
               });
-                                    
+
             })
-          }          
+          }
         }
-        });
+      });
     } else {
       this.endereco.getAddress();
       this.verificaValidacoesForm(this.formulario);

@@ -85,6 +85,8 @@ export class PainelControleDistribuidorPage {
             });
 
             marker.addListener('click', function () {
+              this.map.setZoom(17);
+              this.map.panTo(marker.position);
               infowindow.open(this.map, marker);
             });
 
@@ -110,12 +112,13 @@ export class PainelControleDistribuidorPage {
             });
 
             marker.addListener('click', function () {
+              this.map.setZoom(17);
+              this.map.panTo(marker.position);
               infowindow.open(this.map, marker);
             });
 
           })
         }
-
         this.directionsDisplay.setMap(this.map);
       }
     }, 100)

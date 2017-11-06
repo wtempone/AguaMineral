@@ -38,6 +38,9 @@ export class PainelControleDistribuidorConfigPage {
       this.navCtrl.setRoot('PainelControleDistribuidorPage');
     }
   }
+  alterarDados(distribuidor) {
+    this.navCtrl.push('DistribuidorEditPage', { distribuidor: distribuidor });
+  }  
   ativar() {
     this.distribuidor.dist_ativo = !this.distribuidor.dist_ativo;
     this.distribuidorSrvc.update(this.distribuidor.$key, this.distribuidor)

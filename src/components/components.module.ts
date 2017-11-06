@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { InputPhotoComponent } from './input-photo/input-photo';
 import { UsuarioToolbarComponent } from './usuario-toolbar/usuario-toolbar';
 import { OrderByGeneralComponent } from './order-by-general/order-by-general';
+import { Ng2ImgMaxModule } from 'ng2-img-max';
+
 @NgModule({
 	declarations: [EnderecoComponent,
     EnderecoComponent,
@@ -21,7 +23,8 @@ import { OrderByGeneralComponent } from './order-by-general/order-by-general';
         CommonModule,
         IonicPageModule,
         TranslateModule.forChild(),
-        ImageCropperModule          
+        ImageCropperModule,
+        Ng2ImgMaxModule                
     ],
 	exports: [EnderecoComponent,
     EnderecoComponent,

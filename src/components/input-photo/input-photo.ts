@@ -1,5 +1,7 @@
 import { ModalController, Modal } from 'ionic-angular';
 import { Component, ViewChild, Input } from '@angular/core';
+import { Ng2ImgMaxService } from 'ng2-img-max';
+
 @Component({
   selector: 'input-photo',
   templateUrl: 'input-photo.html',
@@ -11,6 +13,7 @@ export class InputPhotoComponent {
   @Input() format: any;
   constructor(
     public modalCtrl: ModalController,
+    private ng2ImgMax: Ng2ImgMaxService
   ) {
 
   }
@@ -24,18 +27,20 @@ export class InputPhotoComponent {
   }
 
 
-  fileChangeListener($event) : void {
+  fileChangeListener($event): void {
     this.readThis($event.target);
   }
-  
+
   readThis(inputValue: any): void {
-    var file:File = inputValue.files[0];
-    var myReader:FileReader = new FileReader();
-  
-    myReader.onloadend = (e) => {
-      this.value = myReader.result;
-    }
-    myReader.readAsDataURL(file);
+    var fileInput: File = inputValue.files[0];
+    this.ng2ImgMax.resizeImage(fileInput, 504, 504).subscribe(file => {
+      var myReader: FileReader = new FileReader();
+
+      myReader.onloadend = (e) => {
+        this.value = myReader.result;
+      }
+      myReader.readAsDataURL(file);
+    });
   }
-  
+
 }

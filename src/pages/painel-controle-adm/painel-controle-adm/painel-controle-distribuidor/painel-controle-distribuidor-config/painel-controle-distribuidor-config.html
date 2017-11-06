@@ -57,7 +57,8 @@
               </ion-list>
             </ion-col>
             <ion-col>
-                <button (click)="ativar()" ion-button block color="{{distribuidor.dist_ativo ? 'danger' : 'secondary'}}">{{distribuidor.dist_ativo ? 'Inativar Distribuidora' : 'Ativar distribuidora'}}</button>
+              <button (click)="ativar()" ion-button block color="{{distribuidor.dist_ativo ? 'danger' : 'secondary'}}">{{distribuidor.dist_ativo ? 'Inativar Distribuidora' : 'Ativar distribuidora'}}</button>
+              <button (click)="alterarDados(distribuidor)" ion-button block>Alterar Dados</button>
             </ion-col>                
           </ion-row>
         </ion-grid>
