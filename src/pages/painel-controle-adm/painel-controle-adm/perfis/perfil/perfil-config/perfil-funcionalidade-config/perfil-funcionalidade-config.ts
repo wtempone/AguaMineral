@@ -30,7 +30,6 @@ export class PerfilFuncionalidadeConfigPage {
       this.funcionalidade = this.navParams.data.funcionalidade;
       this.perfilFuncionalidadeAcaoSrvc.getAll(this.perfil.$key, this.funcionalidade.$key)
       this.acaoSrvc.getAll(this.funcionalidade.$key)
-      console.log(this.perfilFuncionalidadeAcaoSrvc.acoes)
     } else {
       this.perfil = <PerfilAcesso>{
         per_nome: "",

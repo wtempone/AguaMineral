@@ -84,7 +84,14 @@ export class DistribuidorService {
       });
     })
   }
-
+  getByChild(field: string, value: any):FirebaseListObservable<Distribuidor[]> {
+    return this.db.list(this.basePath, {
+      query: {
+        orderByChild: field,
+        equalTo: value
+      }
+    })
+  }
 
   addPerfil(key: string, keyPerfil: string) {
     const path = `${this.basePath}/${key}/dist_perfis/${keyPerfil}`

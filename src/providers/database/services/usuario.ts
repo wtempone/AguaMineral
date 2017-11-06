@@ -1,3 +1,4 @@
+import { PerfilUsuario } from './../models/perfil-usuario';
 import { MenuAcesso } from './../models/menu-acesso';
 import { MenuService } from './menu';
 import { Usuario } from './../models/usuario';
@@ -27,9 +28,9 @@ export class UsuarioService {
     private storage: Storage
   ) {
     this.usuarios = this.db.list(this.basePath);
-    this.storage.get("_keyUsuarioAtual").then((key: string) => {
-      if (key) {
-        this.loadPerfisAcesso(key);
+    this.storage.get("_UsuarioAtual").then((usuario: Usuario) => {
+      if (usuario) {
+        this.usuarioAtual = usuario;
       }
     });
   }
@@ -40,7 +41,6 @@ export class UsuarioService {
       this.get(key).subscribe((usuario: Usuario) => {
         usuario.usr_menus = []
         usuario.usr_funcionalidades = []
-        this.storage.set("_keyUsuarioAtual", usuario.$key)
         this.db.list(this.perfilAcessoSrvc.basePath).subscribe((perfis: PerfilAcesso[]) => {
           this.db.list(this.menuSrvc.basePath).subscribe((menus: MenuAcesso[]) => {
             this.db.list(this.funcionalidadeSrvc.basePath).subscribe((funcionalidades: Funcionalidade[]) => {
@@ -120,7 +120,7 @@ export class UsuarioService {
 
                   })
                 }
-
+                this.storage.set("_UsuarioAtual", usuario)                
                 this.usuarioAtual = usuario;
                 resolve(this.usuarioAtual);
               }
@@ -198,11 +198,6 @@ export class UsuarioService {
     return this.db.object(path).remove();
   }
 
-  adicionarPerfil(usuarioKey:string, keyPerfil: string){
-    const path = `${this.basePath}/${usuarioKey}/usr_perfis/${keyPerfil}`
-    return this.db.object(path).set(true);
-  }
-
   getList(query = {}): FirebaseListObservable<Usuario[]> {
     this.usuarios = this.db.list(this.basePath, { query: query });
     return this.usuarios;
@@ -232,7 +227,7 @@ export class UsuarioService {
         this.perfilAcessoSrvc.getByChild('per_ativo',true).subscribe((perfis:PerfilAcesso[]) => {
           if (perfis.filter(x => x.per_distribuidor == false && x.per_padrao == true).length > 0) {
             perfis.filter(x => x.per_distribuidor == false && x.per_padrao == true).forEach((perfilPadrao: PerfilAcesso) => {
-              this.addPerfil(usuarioCriado.key, perfilPadrao.per_mnemonico)
+              this.addPerfil(usuarioCriado.key, perfilPadrao.$key, null)
             })
             resolve(usuarioCriado.key)            
           } else {
@@ -252,11 +247,15 @@ export class UsuarioService {
     });
   }
 
-  addPerfil(key: string, mnemonico: string) {
-    return this.perfilAcessoSrvc.getByMnemonico(mnemonico).then((perfil: PerfilAcesso) => {
-      const path = `${this.basePath}/${key}/usr_perfis/${Object.keys(perfil)[0]}`
-      return this.db.object(path).set(true);
-    })
+  addPerfil(key: string, keyPerfil: string, perfil?: PerfilUsuario) {
+    if (!perfil){
+      perfil = {
+        per_distribuidora: false,
+        per_keyDistribuidora: null
+      }
+    }
+    const path = `${this.basePath}/${key}/usr_perfis/${keyPerfil}`
+    return this.db.object(path).set(perfil);
   }
 
   delete(key: string): void {

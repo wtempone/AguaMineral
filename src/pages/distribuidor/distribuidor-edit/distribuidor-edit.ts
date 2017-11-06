@@ -86,6 +86,7 @@ export class DistribuidorEditPage {
           this.distribuidor.dist_img = this.dist_img.value;
           this.distribuidor.dist_data = new Date(Date.now());
           this.distribuidor.dist_online = false;          
+          this.distribuidor.dist_ativo = false;          
           this.distribuidor.dist_endereco = endereco;
           let parsekey: any = this.distribuidor;
           if (parsekey.$key) {

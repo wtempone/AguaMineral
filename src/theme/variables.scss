@@ -186,3 +186,20 @@ $modal-inset-min-height-large: 300px;
       object-fit: contain;      
   }
 }
+
+.img-mapa {
+  img {
+    display: inline-block;
+    max-width: 50px;    
+    max-height: 50px;
+    width: auto;
+    height: auto;
+    object-fit: contain;      
+  }
+  .img-mapa-title {
+    display: inline-block;
+    float: right;
+    font-weight: bold;
+    padding-top: 20px;    
+  }
+}

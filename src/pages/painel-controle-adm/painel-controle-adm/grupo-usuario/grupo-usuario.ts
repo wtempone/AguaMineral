@@ -1,3 +1,4 @@
+import { PerfilUsuario } from './../../../../providers/database/models/perfil-usuario';
 import { PerfilAcesso } from './../../../../providers/database/models/perfil-acesso';
 import { PerfilAcessoService } from './../../../../providers/database/services/perfil-acesso';
 import { Component } from '@angular/core';
@@ -23,9 +24,6 @@ export class GrupoUsuarioPage {
     public modalCtrl: ModalController
   ) {
     this.refresh();
-  }
-
-  adirionarUsuario(perfil) {
   }
 
   refresh() {
@@ -81,7 +79,7 @@ export class GrupoUsuarioPage {
           if (data)
             if (data.usuariosSelecionados) {
               data.usuariosSelecionados.forEach((usuario: Usuario) => {
-                this.usuarioSrvc.adicionarPerfil(usuario.$key, perfil.$key).then(()=>{
+                this.usuarioSrvc.addPerfil(usuario.$key, perfil.$key).then(()=>{
                   this.refresh();
                 })
               });

@@ -1,4 +1,54 @@
 <ion-content padding class="content-desktop">
-    
-tudo pronto para comecar
+
+    <div class="content-desktop-margin-bottom">
+        <div>
+            <ion-segment [(ngModel)]="config">
+                <ion-segment-button value="ativas">
+                    Ativas
+                </ion-segment-button>
+                <ion-segment-button value="inativas">
+                    Inativas
+                </ion-segment-button>
+                <ion-segment-button value="mapa" (click)="initMap()">
+                    Mapa
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+        <div [ngSwitch]="config">
+            <ion-card *ngSwitchCase="'ativas'">
+                <ion-list>
+                    <ion-item-sliding *ngFor='let distribuidor of distribuidoresOk'>
+                        <ion-item>
+                            <ion-thumbnail item-start>
+                                <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
+                                <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
+                            </ion-thumbnail>
+                            <h2> {{ distribuidor.dist_nome }} </h2>
+                            <p> {{ distribuidor.dist_endereco.bairro }}</p>
+                            <button (click)="congurarDistribuidor(distribuidor)" ion-button item-end>Configurar</button>
+                        </ion-item>
+                    </ion-item-sliding>
+                </ion-list>
+            </ion-card>
+            <ion-card *ngSwitchCase="'inativas'">
+                <ion-list>
+                    <ion-item-sliding *ngFor='let distribuidor of distribuidoresPendentes'>
+                        <ion-item>
+                            <ion-thumbnail item-start>
+                                <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
+                                <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
+                            </ion-thumbnail>
+                            <h2> {{ distribuidor.dist_nome }} </h2>
+                            <p> {{ distribuidor.dist_endereco.bairro }}</p>
+                            <button (click)="congurarDistribuidor(distribuidor)" ion-button item-end>Configurar</button>
+                        </ion-item>
+                    </ion-item-sliding>
+                </ion-list>
+            </ion-card>
+
+            <ion-card class="transparent-card" *ngSwitchCase="'mapa'">
+                <div #map id="map"></div>
+            </ion-card>
+        </div>
+    </div>
 </ion-content>

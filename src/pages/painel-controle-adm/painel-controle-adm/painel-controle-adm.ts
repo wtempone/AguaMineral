@@ -1,3 +1,5 @@
+import { Distribuidor } from './../../../providers/database/models/distribuidor';
+import { DistribuidorService } from './../../../providers/database/services/distribuidor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -14,7 +16,19 @@ export class PainelControleAdmPage {
   painelControleDistribuidorPage = 'PainelControleDistribuidorPage';
   emConstrucaoPage = 'EmConstrucaoPage';
   
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  distribuidorNaoHomoloado:number;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public distribuidorSrvc: DistribuidorService
+  ) {
+    this.distribuidorSrvc.getByChild('dist_ativo',false).subscribe((distribuidores:Distribuidor[]) => {
+      if (distribuidores.length > 0 ){
+        this.distribuidorNaoHomoloado = distribuidores.length;        
+      } else {
+        this.distribuidorNaoHomoloado = null;
+      }
+    })
   }
 
   ionViewDidLoad() {

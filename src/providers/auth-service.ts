@@ -29,11 +29,6 @@ export class AuthServiceProvider {
     public perfilAcessoSrvc: PerfilAcessoService,
     public storage: Storage
   ) {
-    this.storage.get("_keyUsuarioAtual").then((key: string) => {
-      if (key) {
-        this.usuarioSrvc.loadPerfisAcesso(key);
-      }
-    })
   }
 
   signInWithFacebook(): firebase.Promise<any> {

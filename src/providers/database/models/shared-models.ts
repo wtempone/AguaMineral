@@ -6,8 +6,8 @@ export interface Endereco {
   bairro: string;
   cidade: string;
   estado: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 

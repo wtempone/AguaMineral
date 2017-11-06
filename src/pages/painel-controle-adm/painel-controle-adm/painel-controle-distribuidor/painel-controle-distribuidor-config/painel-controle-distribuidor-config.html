@@ -1,0 +1,109 @@
+<ion-header class="content-desktop">
+  <ion-navbar>
+    <ion-title>{{distribuidor.dist_nome}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="content-desktop">
+  <div class="content-desktop-margin-bottom">
+
+    <div>
+      <ion-segment [(ngModel)]="configuracao">
+        <ion-segment-button value="geral">
+          Geral
+        </ion-segment-button>
+        <ion-segment-button value="funcionarios">
+          Funcionários
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div [ngSwitch]="configuracao">
+      <div *ngSwitchCase="'geral'">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-list no-lines>
+                <ion-item>
+                  <ion-label stacked>{{ 'DIST_CNPJ' | translate }}</ion-label>
+                  <ion-input [ngModel]="distribuidor.dist_cnpj" disabled></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label stacked>{{ 'DIST_PHONE' | translate }}</ion-label>
+                  <ion-input [ngModel]="distribuidor.dist_telefone" disabled></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label stacked>{{ 'DIST_MOBILE' | translate }}</ion-label>
+                  <ion-input [ngModel]="distribuidor.dist_celular" disabled></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label stacked>{{ 'DIST_EMAIL' | translate }}</ion-label>
+                  <ion-input [ngModel]="distribuidor.dist_email" disabled></ion-input>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col text-center>
+              <img class="logo" *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img" />
+              <img class="logo" *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png" />
+              <ion-label stacked>Logotipo</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-list no-lines>
+                <ion-item>
+                  <ion-label stacked>Endereço:</ion-label>
+                  <ion-textarea value="{{distribuidor.dist_endereco.rua + ', ' + distribuidor.dist_endereco.complemento + ', ' + distribuidor.dist_endereco.numero + ', ' + distribuidor.dist_endereco.bairro + ', ' + distribuidor.dist_endereco.cidade + ', ' + distribuidor.dist_endereco.estado + ' - ' + distribuidor.dist_endereco.cep}}" disabled></ion-textarea>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+            <ion-col>
+                <button (click)="ativar()" ion-button block color="{{distribuidor.dist_ativo ? 'danger' : 'secondary'}}">{{distribuidor.dist_ativo ? 'Inativar Distribuidora' : 'Ativar distribuidora'}}</button>
+            </ion-col>                
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div *ngSwitchCase="'funcionarios'">
+        <ion-card *ngFor="let perfil of perfisDistribuidor  ">
+          <ion-card-header>
+            <ion-toolbar>
+              <h2>{{perfil.per_nome}}</h2>
+              <ion-buttons end>
+                <button ion-button clear icon-only color="primary" (click)="selecionarUsuario(perfil)">
+                  <ion-icon name="add-circle"></ion-icon>
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card class="perfil-grupo" *ngFor="let usuario of perfil.per_usuarios">
+              <button (click)="excluiPerfil(perfil, usuario)">
+                <ion-icon name="close"></ion-icon>
+              </button>
+              <img *ngIf="usuario.usr_fb_foto" class="image-profile" [src]="usuario.usr_fb_foto.data.url" />
+              <img *ngIf="!usuario.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg" />
+              <h5 text-center>{{usuario.usr_nome}}</h5>
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-toolbar>
+              <h2>Funcionários</h2>
+            </ion-toolbar>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card class="perfil-grupo" *ngFor="let usuario of funcionarios">
+              <button (click)="excluiFuncionario(usuario)">
+                <ion-icon name="close"></ion-icon>
+              </button>
+              <img *ngIf="usuario.usr_fb_foto" class="image-profile" [src]="usuario.usr_fb_foto.data.url" />
+              <img *ngIf="!usuario.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg" />
+              <h5 text-center>{{usuario.usr_nome}}</h5>
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+    </div>
+  </div>
+</ion-content>
