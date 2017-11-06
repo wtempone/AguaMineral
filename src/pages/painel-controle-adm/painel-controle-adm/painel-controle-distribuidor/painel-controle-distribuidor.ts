@@ -81,7 +81,7 @@ export class PainelControleDistribuidorPage {
                 lng: distribuidor.dist_endereco.longitude
               },
               title: distribuidor.dist_nome,
-              icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+              icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
             });
 
             marker.addListener('click', function () {
@@ -108,7 +108,7 @@ export class PainelControleDistribuidorPage {
                 lng: distribuidor.dist_endereco.longitude
               },
               title: distribuidor.dist_nome,
-              icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+              icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
 
             marker.addListener('click', function () {
