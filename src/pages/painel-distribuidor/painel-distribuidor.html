@@ -1,0 +1,14 @@
+<ion-header class="content-desktop">
+    
+      <ion-navbar>
+        <ion-title>Painel do Distribuidor</ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+    <ion-content class="tab-desktop">
+      <ion-tabs #tab color="customColor1" selectedIndex="0">
+        <ion-tab tabIcon="settings" tabTitle="Meus Dados" [root]="painelDistribuidorConfigPage" [rootParams]='distribuidor'></ion-tab>
+        <ion-tab tabIcon="bookmark" tabTitle="Catálogo" [root]="catalogoProdutoDistribuidorPage"></ion-tab>
+
+      </ion-tabs>
+    </ion-content>

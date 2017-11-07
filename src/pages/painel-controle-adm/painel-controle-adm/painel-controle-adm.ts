@@ -1,7 +1,8 @@
 import { Distribuidor } from './../../../providers/database/models/distribuidor';
 import { DistribuidorService } from './../../../providers/database/services/distribuidor';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import {  IonicPage, NavController, NavParams, AlertController, ToastController, ModalController, Tabs } from 'ionic-angular';
+import { Content } from 'ionic-angular/navigation/nav-interfaces';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,8 @@ export class PainelControleAdmPage {
   catalogoProdutosPage = 'CatalogoProdutosPage';
   painelControleDistribuidorPage = 'PainelControleDistribuidorPage';
   emConstrucaoPage = 'EmConstrucaoPage';
+  
+  @ViewChild("tab") tab: Tabs;
   
   distribuidorNaoHomoloado:number;
   constructor(
@@ -30,8 +33,10 @@ export class PainelControleAdmPage {
       }
     })
   }
-
-  ionViewDidLoad() {
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.tab.select(0);
+    }, 100);
   }
 
 }

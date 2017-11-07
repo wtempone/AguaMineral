@@ -1,11 +1,11 @@
 <ion-header class="content-desktop">
   <ion-navbar>
-    <ion-title>{{distribuidor.dist_nome}}</ion-title>
+    <ion-title *ngIf="distribuidor" >{{distribuidor.dist_nome}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="content-desktop">
-  <div class="content-desktop-margin-bottom">
+  <div class="content-desktop-margin-bottom"  *ngIf="distribuidor">
 
     <div>
       <ion-segment [(ngModel)]="configuracao">

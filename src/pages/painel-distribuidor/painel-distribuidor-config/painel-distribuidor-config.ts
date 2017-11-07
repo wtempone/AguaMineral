@@ -1,19 +1,19 @@
-import { DistribuidorService } from './../../../../../providers/database/services/distribuidor';
-import { PerfilAcesso } from './../../../../../providers/database/models/perfil-acesso';
-import { Usuario } from './../../../../../providers/database/models/usuario';
-import { PerfilAcessoService } from './../../../../../providers/database/services/perfil-acesso';
-import { UsuarioService } from './../../../../../providers/database/services/usuario';
-import { Distribuidor } from './../../../../../providers/database/models/distribuidor';
+import { DistribuidorService } from './../../../providers/database/services/distribuidor';
+import { PerfilAcesso } from './../../../providers/database/models/perfil-acesso';
+import { Usuario } from './../../../providers/database/models/usuario';
+import { PerfilAcessoService } from './../../../providers/database/services/perfil-acesso';
+import { UsuarioService } from './../../../providers/database/services/usuario';
+import { Distribuidor } from './../../../providers/database/models/distribuidor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController } from 'ionic-angular';
-import { PerfilUsuario } from '../../../../../providers/database/models/perfil-usuario';
+import { PerfilUsuario } from '../../../providers/database/models/perfil-usuario';
 
 @IonicPage()
 @Component({
-  selector: 'page-painel-controle-distribuidor-config',
-  templateUrl: 'painel-controle-distribuidor-config.html',
+  selector: 'page-painel-distribuidor-config',
+  templateUrl: 'painel-distribuidor-config.html',
 })
-export class PainelControleDistribuidorConfigPage {
+export class PainelDistribuidorConfigPage {
   distribuidor: Distribuidor;
   perfisDistribuidor: any[];
   funcionarios: Usuario[];
@@ -28,14 +28,22 @@ export class PainelControleDistribuidorConfigPage {
     public modalCtrl: ModalController,
     public distribuidorSrvc: DistribuidorService
   ) {
-    if (navParams.data.distribuidor) {
-      this.distribuidor = navParams.data.distribuidor;
-      this.refresh();
+    console.log(navParams.data);
+    if (navParams.data.key) {
+      this.mudarDistribuidor(this.navParams.data.key);
+    }
+  }
+  public mudarDistribuidor(key: string) {
+    if (key) {
+      this.distribuidorSrvc.get(key).take(1).subscribe((distribuidor: Distribuidor)=>{
+        this.distribuidor = distribuidor;
+        this.refresh();
+      })
     }
   }
   alterarDados(distribuidor) {
     this.navCtrl.push('DistribuidorEditPage', { distribuidor: distribuidor });
-  }  
+  }
   ativar() {
     this.distribuidor.dist_ativo = !this.distribuidor.dist_ativo;
     this.distribuidorSrvc.update(this.distribuidor.$key, this.distribuidor)
@@ -53,7 +61,7 @@ export class PainelControleDistribuidorConfigPage {
       (<any>Object).keys(this.distribuidor.dist_perfis).map(keyPerfil => {
         this.perfilAcessoSrvc.getByKey(keyPerfil).take(1).subscribe((perfil: PerfilAcesso) => {
           let perfisDistribuidor: any = perfil;
-          perfisDistribuidor.per_usuarios = usuarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key,value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length > 0)
+          perfisDistribuidor.per_usuarios = usuarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key, value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length > 0)
           this.perfisDistribuidor.push(perfisDistribuidor);
         })
       })
@@ -84,7 +92,7 @@ export class PainelControleDistribuidorConfigPage {
 
   selecionarUsuario(perfil) {
     let usuariosLista: Usuario[] = [];
-    usuariosLista = this.funcionarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key,value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length == 0)
+    usuariosLista = this.funcionarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key, value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length == 0)
     if (usuariosLista.length == 0) {
       let toast = this.toastCtrl.create({
         message: 'Não há funcionarios para adicionar.',

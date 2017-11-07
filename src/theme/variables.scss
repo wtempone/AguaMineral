@@ -203,3 +203,44 @@ $modal-inset-min-height-large: 300px;
     padding-top: 20px;    
   }
 }
+
+.tab-desktop {
+  margin-bottom: 155px !important;
+}
+
+.perfil-grupo{
+  position: relative; 
+  width: 80px !important;
+  height: 80px !important;
+  float:left;
+  margin: 0 10px 10px 10px !important;
+  button {
+      background-color: #efefef;
+      margin-right: 0px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      border: solid 1px #cccccc;
+      text-align: center;
+      font-size: 10px;
+      color: #999999;
+  }
+  img {
+      margin: 10px auto 0px auto;
+      width: 50px;
+      height: 50px;
+      border-radius: 0px;
+  }
+}
+
+.logo {
+  border: solid 1px #cccccc;
+  max-width: 20em;    
+  min-width: 20em;
+  width: auto;
+  height: auto;
+  object-fit: contain;      
+}
