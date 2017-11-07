@@ -35,8 +35,8 @@ export class AuthServiceProvider {
     if (this.platform.is('cordova')) {
       return this.facebook.login(['email', 'public_profile']).then(res => {
         this.facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        return this.setUserFacebook();
-        //return this.afAuth.auth.signInWithCredential(this.facebookCredential);
+        this.afAuth.auth.signInWithCredential(this.facebookCredential);
+        return this.setUserFacebook();        
       });
     } else {
       return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).then((res => {
