@@ -28,7 +28,6 @@ export class PainelDistribuidorConfigPage {
     public modalCtrl: ModalController,
     public distribuidorSrvc: DistribuidorService
   ) {
-    console.log(navParams.data);
     if (navParams.data.key) {
       this.mudarDistribuidor(this.navParams.data.key);
     }

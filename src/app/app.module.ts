@@ -44,6 +44,7 @@ import { PerfilAcessoService } from "../providers/database/services/perfil-acess
 import { ComponentsModule } from "../components/components.module";
 import { PerfilFuncionalidadeAcaoService } from '../providers/database/services/perfil-funcionalidade-acao';
 import { ProdutoService } from '../providers/database/services/produto';
+import { DistribuidorProdutoService } from '../providers/database/services/distribuidor-produto';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -137,6 +138,7 @@ export function provideSettings(storage: Storage) {
     PerfilFuncionalidadeAcaoService,
     MarcaService,
     ProdutoService,
+    DistribuidorProdutoService,
   ]
 })
 export class AppModule { }

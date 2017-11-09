@@ -1,18 +1,34 @@
-<!--
-  Generated template for the CatalogoProdutoDistribuidorPage page.
+<ion-content padding class="content-desktop">
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>catalogo-produto-distribuidor</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-toolbar>
+        <h2>Catálogo de Produtos</h2>
+        <ion-buttons end>
+          <button ion-button clear icon-only color="primary" (click)="editDistribuidorProduto(null)">
+            <ion-icon name="add-circle"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-card-header>
+    <ion-list>
+      <ion-item-sliding *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.produtos | async'>
+        <ion-item>
+          <h2>{{distribuidorProduto.produto.pro_nome}} ({{distribuidorProduto.produto.pro_mnemonico}})</h2>
+          <p>{{distribuidorProduto.produto.pro_descricao}}</p>
+        </ion-item>
+        <ion-item-options>
+          <button ion-button color="primary" (click)="editDistribuidorProduto(distribuidorProduto)">
+            <ion-icon name="create"></ion-icon>
+            Editar
+          </button>
+          <button ion-button color="danger" (click)="excluirDistribuidorProduto(distribuidorProduto.$key)">
+            <ion-icon name="trash"></ion-icon>
+            Excluir
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-card>
 
 </ion-content>

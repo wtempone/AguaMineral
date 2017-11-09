@@ -16,5 +16,3 @@ export interface Distribuidor {
   dist_perfis: any[]; 
   dist_funcionarios: any[]; 
 }
-
-"{{distribuidor.dist_endereco.rua + ', ' + distribuidor.dist_endereco.complemento + ', ' + distribuidor.dist_endereco.numero + ', ' + distribuidor.dist_endereco.bairro + ', ' + distribuidor.dist_endereco.cidade + ', ' + distribuidor.dist_endereco.estado + ' / ' + distribuidor.dist_endereco.uf + ' -  ' + distribuidor.dist_endereco.cep}}"
