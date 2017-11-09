@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>Cadastro de Categoria</ion-title>
+    <ion-buttons end>
+      <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+        <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding class="modal-desktop">
+  <form [formGroup]="formulario" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label stacked>Categoria</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('cat_nome')" formControlName="cat_nome" type="text" placeholder="Digite o nome da categoria."></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('cat_nome')">
+        <p class="error-message">Nome da categoria é obrigatório</p>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

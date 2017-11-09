@@ -5,26 +5,37 @@ import { UsuarioService } from './usuario';
 import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase } from "angularfire2/database";
 import { Produto } from "../models/produto";
+import { DistribuidorProduto } from '../models/distribuidor-produto';
+import { DistribuidorCategoriaService } from './distribuidor-categoria';
+import { DistribuidorCategoria } from '../models/distribuidor-categoria';
 
 @Injectable()
 export class DistribuidorProdutoService {
   private basePath: string;
-  public distribuidorProdutos;
-  public produtos;
+  public distribuidorProdutos: DistribuidorProduto[] = null; ;
 
   constructor(
     private db: AngularFireDatabase,
     private usuarioSrvc: UsuarioService,
-    private produtoSrvc: ProdutoService
+    private produtoSrvc: ProdutoService,
+    private distribuidorCategoriaSrvc: DistribuidorCategoriaService,
   ) {
   }
 
   getAll(key: string) {
     this.basePath = `/distribuidores/${key}/dist_produtos`;
-    this.distribuidorProdutos = this.db.list(this.basePath);
-    this.distribuidorProdutos.subscribe((itens) => {
-      this.produtos = itens.map(produto => {
-        return this.db.object(this.produtoSrvc.basePath + `/${produto.$key}`);
+    this.db.list(this.basePath, {query: {
+      orderByChild: 'dist_categoria'
+    }}).subscribe((distribuidorProdutos) => {
+      this.distribuidorProdutos = distribuidorProdutos;
+      this.distribuidorProdutos.map(distribuidorProduto => {
+        this.db.object(this.produtoSrvc.basePath + `/${distribuidorProduto.dist_produto}`).take(1).subscribe((produto: Produto) => {
+          distribuidorProduto.produto = produto;
+        })
+        this.db.object(this.distribuidorCategoriaSrvc.basePath + `/${distribuidorProduto.dist_categoria}`).take(1).subscribe((categoria: DistribuidorCategoria) => {
+          distribuidorProduto.categoria = categoria;
+        })
+        
       });
     })
   }
@@ -69,18 +80,21 @@ export class DistribuidorProdutoService {
     ).take(1);
   }
 
-  create(key: string) {
-    const path = `${this.basePath}/${key}`
-    return this.db.object(path).set(true);
+  create(distribuidorProduto: DistribuidorProduto) {
+    return this.db.list(this.basePath).push(distribuidorProduto)
   }
 
 
+  update(key: string, value: any) {
+    return this.db.list(this.basePath).update(key, value);
+  }
+
   delete(key: string) {
-    return this.distribuidorProdutos.remove(key);
+    return this.db.list(this.basePath).remove(key);
   }
 
   deleteAll() {
-    return this.distribuidorProdutos.remove();
+    return this.db.list(this.basePath).remove();
   }
 
   private handleError(error) {

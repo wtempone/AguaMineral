@@ -12,14 +12,13 @@ import { Content } from 'ionic-angular/navigation/nav-interfaces';
   templateUrl: 'painel-distribuidor.html',
 })
 export class PainelDistribuidorPage {
-  distribuidores:Distribuidor[] = [];
-  
-  distribuidor: any;
+  distribuidores: Distribuidor[] = [];
+  distribuidor: Distribuidor;
+  keyDistribuidor: any;
 
   catalogoProdutoDistribuidorPage = 'CatalogoProdutoDistribuidorPage';
   painelDistribuidorConfigPage = 'PainelDistribuidorConfigPage';
   @ViewChild("tab") tab: Tabs;
-
 
   constructor(
     public navCtrl: NavController,
@@ -27,22 +26,23 @@ export class PainelDistribuidorPage {
     public distribuidorSrvc: DistribuidorService,
     public usuarioSrvc: UsuarioService
   ) {
-    (<any>Object).entries(this.usuarioSrvc.usuarioAtual.usr_perfis).filter(([key,value]) => value.per_distribuidora == true)
-      .map(([key, value]) => {
-        this.distribuidores = [];
-        this.distribuidor = {key: value.per_keyDistribuidora};        
-        this.distribuidorSrvc.get(value.per_keyDistribuidora).subscribe((distribuidor:Distribuidor) => {
-          this.distribuidores.push(distribuidor);
-        })
-      })
+    this.keyDistribuidor = this.usuarioSrvc.usuarioAtual.usr_distribuidores[0]
+    this.carregaDistribuidor(this.keyDistribuidor);
+  }
+
+  carregaDistribuidor(key){
+    this.distribuidorSrvc.get(key).subscribe((distribuidor:Distribuidor) =>{
+      this.distribuidor = distribuidor;
+    })
   }
   ionViewDidLoad() {
-    
+
   }
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.tab.select(0);
-    }, 100);
+    this.carregaDistribuidor(this.keyDistribuidor);
+    // setTimeout(() => {
+    //   this.tab.select(0);
+    // }, 100);
   }
 
 }

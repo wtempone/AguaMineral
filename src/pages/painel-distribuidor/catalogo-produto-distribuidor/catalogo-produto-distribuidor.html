@@ -1,34 +1,83 @@
 <ion-content padding class="content-desktop">
 
-  <ion-card>
-    <ion-card-header>
-      <ion-toolbar>
-        <h2>Catálogo de Produtos</h2>
-        <ion-buttons end>
-          <button ion-button clear icon-only color="primary" (click)="editDistribuidorProduto(null)">
-            <ion-icon name="add-circle"></ion-icon>
-          </button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-card-header>
-    <ion-list>
-      <ion-item-sliding *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.produtos | async'>
-        <ion-item>
-          <h2>{{distribuidorProduto.produto.pro_nome}} ({{distribuidorProduto.produto.pro_mnemonico}})</h2>
-          <p>{{distribuidorProduto.produto.pro_descricao}}</p>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button color="primary" (click)="editDistribuidorProduto(distribuidorProduto)">
-            <ion-icon name="create"></ion-icon>
-            Editar
-          </button>
-          <button ion-button color="danger" (click)="excluirDistribuidorProduto(distribuidorProduto.$key)">
-            <ion-icon name="trash"></ion-icon>
-            Excluir
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
-  </ion-card>
+  <div class="content-desktop-margin-bottom" *ngIf="distribuidor">
 
+    <div>
+      <ion-segment [(ngModel)]="configuracao">
+        <ion-segment-button value="catalogo">
+          Catálogo
+        </ion-segment-button>
+        <ion-segment-button value="categorias">
+          Categorias
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div [ngSwitch]="configuracao">
+      <ion-card *ngSwitchCase="'catalogo'">
+        <ion-card-header>
+          <ion-toolbar>
+            <h2>Catálogo de Produtos</h2>
+            <ion-buttons end>
+              <button ion-button clear icon-only color="primary" (click)="editDistribuidorProduto(null)">
+                <ion-icon name="add-circle"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-card-header>
+        <ion-list>
+          <ion-item-sliding *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.distribuidorProdutos'>
+            <ion-item>              
+              <ion-thumbnail item-start>
+                <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
+              </ion-thumbnail>
+              <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
+              <p>{{distribuidorProduto.produto?.pro_descricao}}</p>
+              <p>Valor: {{distribuidorProduto.dist_preco}}</p>
+              <p>Categoria:{{distribuidorProduto.categoria?.cat_nome}}</p>
+            </ion-item>            
+            <ion-item-options>
+              <button ion-button color="primary" (click)="editDistribuidorProduto(distribuidorProduto)">
+                <ion-icon name="create"></ion-icon>
+                Editar
+              </button>
+              <button ion-button color="danger" (click)="excluirDistribuidorProduto(distribuidorProduto.$key)">
+                <ion-icon name="trash"></ion-icon>
+                Excluir
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+
+      <ion-card *ngSwitchCase="'categorias'">
+        <ion-card-header>
+          <ion-toolbar>
+            <h2>Categorias</h2>
+            <ion-buttons end>
+              <button ion-button clear icon-only color="primary" (click)="editDistribuidorCategoria(null)">
+                <ion-icon name="add-circle"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-card-header>
+        <ion-list>
+          <ion-item-sliding *ngFor='let distribuidorCategoria of distribuidorCategoriaSrvc.distribuidorCategorias | async'>
+            <ion-item>
+              <h2>{{distribuidorCategoria.cat_nome}}</h2>
+            </ion-item>
+            <ion-item-options>
+              <button ion-button color="primary" (click)="editDistribuidorCategoria(distribuidorCategoria)">
+                <ion-icon name="create"></ion-icon>
+                Editar
+              </button>
+              <button ion-button color="danger" (click)="excluirDistribuidorCategoria(distribuidorCategoria.$key)">
+                <ion-icon name="trash"></ion-icon>
+                Excluir
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

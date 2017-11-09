@@ -1,20 +1,18 @@
-import { MenuService } from './../../../../providers/database/services/menu';
-import { DistribuidorProduto } from './../../../../providers/database/models/distribuidor-produto';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { DistribuidorCategoria } from '../../../../providers/database/models/distribuidor-categoria';
-import { DistribuidorProdutoService } from '../../../../providers/database/services/distribuidor-produto';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { MenuService } from '../../../../providers/database/services/menu';
+import { DistribuidorCategoriaService } from '../../../../providers/database/services/distribuidor-categoria';
 
 @IonicPage()
 @Component({
-  selector: 'page-distribuidor-produto-edit',
-  templateUrl: 'distribuidor-produto-edit.html',
+  selector: 'page-categoria-edit',
+  templateUrl: 'categoria-edit.html',
 })
-export class DistribuidorProdutoEditPage {
-  [x: string]: any;
-  distribuidorProduto: DistribuidorProduto;
+export class CategoriaEditPage {
+  categoria: DistribuidorCategoria;
   formulario: FormGroup;
   
   constructor(
@@ -25,30 +23,24 @@ export class DistribuidorProdutoEditPage {
     private toastCtrl: ToastController,
     private menuSrvc: MenuService,
     private popoverCtrl:PopoverController,
-    private distribuidorProdutoSrvc: DistribuidorProdutoService,
+    private distribuidorCategoriaSrvc: DistribuidorCategoriaService
   ) {
     console.log(this.navParams.data)
-    if (this.navParams.data.distribuidorProduto)
-      this.distribuidorProduto = this.navParams.data.distribuidorProduto;
+    if (this.navParams.data.categoria)
+      this.categoria = this.navParams.data.categoria;
     else
-      this.distribuidorProduto = <DistribuidorProduto>{
-        dist_produto: null,
-        dist_preco: null,
-        dist_categoria: null   
+      this.categoria = <DistribuidorCategoria>{
+        cat_nome: null   
       }
   }
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
-      dist_produto: [null, Validators.required],
-      dist_preco: [null, Validators.required],
-      dist_categoria: [null, Validators.required],
+      cat_nome: [null, Validators.required],
     });
 
     this.formulario.patchValue({
-      dist_produto: this.distribuidorProduto.dist_produto,
-      dist_preco: this.distribuidorProduto.dist_preco,
-      dist_categoria: this.distribuidorProduto.dist_categoria,
+      cat_nome: this.categoria.cat_nome,
     });
   }
 
@@ -59,20 +51,6 @@ export class DistribuidorProdutoEditPage {
       (this.formulario.get(campo).touched || this.formulario.get(campo).dirty)
     );
   }
-
-  selecionarProduto(event) {
-    let popover = this.popoverCtrl.create('CatalogoProdutosPage');
-    popover.present({
-      ev: event
-    });
-    popover.onDidDismiss(data => {
-      if (data)
-        if (data.produto) {
-          this.distribuidorProduto.dist_produto = data.produto
-        }
-    })
-
-  }  
 
   verificaValidacoesForm(formGroup: FormGroup) {
     console.log(formGroup);
@@ -87,22 +65,20 @@ export class DistribuidorProdutoEditPage {
   save() {
     if (this.formulario.valid) {
 
-      this.distribuidorProduto.dist_produto = this.formulario.get('dist_produto').value;
-      this.distribuidorProduto.dist_preco = this.formulario.get('dist_preco').value;
-      this.distribuidorProduto.dist_categoria = this.formulario.get('dist_categoria').value;
-      this.distribuidorProdutoSrvc.exists('dist_produto',this.distribuidorProduto.dist_produto, this.distribuidorProduto.$key).then((exists) => {
+      this.categoria.cat_nome = this.formulario.get('cat_nome').value;
+      this.distribuidorCategoriaSrvc.exists('cat_nome',this.categoria.cat_nome, this.categoria.$key).then((exists) => {
         if (exists){
           let toast = this.toastCtrl.create({
-            message: 'Já existe um registro criado com este produto.',
+            message: 'Já existe um registro criado com este nome.',
             duration: 3000,
             position: 'top'
           });
           toast.present()  
           return;
         } else {
-          let parsekey: any = this.distribuidorProduto;
+          let parsekey: any = this.categoria;
           if (parsekey.$key) {
-            this.distribuidorProdutoSrvc.update(parsekey.$key, this.distribuidorProduto).then(() => {
+            this.distribuidorCategoriaSrvc.update(parsekey.$key, this.categoria).then(() => {
               let toast = this.toastCtrl.create({
                 message: 'Registro atualizado com sucesso',
                 duration: 3000,
@@ -119,7 +95,7 @@ export class DistribuidorProdutoEditPage {
               toast.present();              
             });;
           } else {
-            this.distribuidorProdutoSrvc.create(this.distribuidorProduto).then(() => {
+            this.distribuidorCategoriaSrvc.create(this.categoria).then(() => {
               let toast = this.toastCtrl.create({
                 message: 'Registro criado com sucesso',
                 duration: 3000,

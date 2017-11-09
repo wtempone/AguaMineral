@@ -28,16 +28,9 @@ export class PainelDistribuidorConfigPage {
     public modalCtrl: ModalController,
     public distribuidorSrvc: DistribuidorService
   ) {
-    if (navParams.data.key) {
-      this.mudarDistribuidor(this.navParams.data.key);
-    }
-  }
-  public mudarDistribuidor(key: string) {
-    if (key) {
-      this.distribuidorSrvc.get(key).take(1).subscribe((distribuidor: Distribuidor)=>{
-        this.distribuidor = distribuidor;
-        this.refresh();
-      })
+    if (this.navParams.data) {
+      this.distribuidor = this.navParams.data;
+      this.refresh();
     }
   }
   alterarDados(distribuidor) {
@@ -50,22 +43,24 @@ export class PainelDistribuidorConfigPage {
   refresh() {
     this.perfisDistribuidor = [];
     this.funcionarios = [];
-    (<any>Object).keys(this.distribuidor.dist_funcionarios).map(keyUsuario => {
-      this.usuarioSrvc.get(keyUsuario).take(1).subscribe((usuario: Usuario) => {
-        this.funcionarios.push(usuario);
-      })
-    })
-
-    this.usuarioSrvc.usuarios.take(1).subscribe((usuarios: Usuario[]) => {
-      (<any>Object).keys(this.distribuidor.dist_perfis).map(keyPerfil => {
-        this.perfilAcessoSrvc.getByKey(keyPerfil).take(1).subscribe((perfil: PerfilAcesso) => {
-          let perfisDistribuidor: any = perfil;
-          perfisDistribuidor.per_usuarios = usuarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key, value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length > 0)
-          this.perfisDistribuidor.push(perfisDistribuidor);
+    if (this.distribuidor.dist_funcionarios) {
+      (<any>Object).keys(this.distribuidor.dist_funcionarios).map(keyUsuario => {
+        this.usuarioSrvc.get(keyUsuario).take(1).subscribe((usuario: Usuario) => {
+          this.funcionarios.push(usuario);
         })
       })
-    })
-
+    }
+    if (this.distribuidor.dist_perfis) {
+      this.usuarioSrvc.usuarios.take(1).subscribe((usuarios: Usuario[]) => {
+        (<any>Object).keys(this.distribuidor.dist_perfis).map(keyPerfil => {
+          this.perfilAcessoSrvc.getByKey(keyPerfil).take(1).subscribe((perfil: PerfilAcesso) => {
+            let perfisDistribuidor: any = perfil;
+            perfisDistribuidor.per_usuarios = usuarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key, value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length > 0)
+            this.perfisDistribuidor.push(perfisDistribuidor);
+          })
+        })
+      })
+    }
   }
 
   excluiPerfil(perfil, usuario) {

@@ -20,8 +20,8 @@ export class SelectProdutoComponent implements ControlValueAccessor, OnChanges {
   ){
     this.produto = <Produto> {
       pro_img: null,
-      pro_nome: null,
-      pro_descricao: null
+      pro_nome: 'Nome do Produto',
+      pro_descricao: 'Selecione o produto'
     }
   }
   propagateChange: any = () => { };

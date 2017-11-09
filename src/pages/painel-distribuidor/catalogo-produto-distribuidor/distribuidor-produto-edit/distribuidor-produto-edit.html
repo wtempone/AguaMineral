@@ -18,14 +18,16 @@
       </ion-item>
       <ion-item>
         <ion-label stacked>Preço</ion-label>
-        <ion-input [class.invalid]="verificaValidTouched('dist_preco')" formControlName="dist_preco" type="text" placeholder="Digite o preço do produto"></ion-input>
+        <ion-input [class.invalid]="verificaValidTouched('dist_preco')"  step="0.01" min="0.00" max="9999999999.99" formControlName="dist_preco" type="number" text-right placeholder="0,00"></ion-input>
       </ion-item>
       <ion-item *ngIf="verificaValidTouched('dist_preco')">
-        <p class="error-message">Preço obrigatório</p>
+        <p *ngIf="formulario.get('dist_preco').hasError('required')" class="error-message">Preço obrigatório</p>
       </ion-item>
       <ion-item>
         <ion-label stacked>Categoria</ion-label>
-        <ion-input [class.invalid]="verificaValidTouched('dist_categoria')" formControlName="dist_categoria" type="text" placeholder="Selecione o código do produto"></ion-input>
+        <ion-select [class.invalid]="verificaValidTouched('dist_categoria')" formControlName="dist_categoria" type="text" placeholder="Selecione a categoria">
+          <ion-option *ngFor="let categoria of navParams.data.distribuidorCategorias | async" value="{{categoria.$key}}">{{categoria.cat_nome}}</ion-option>
+        </ion-select>
       </ion-item>
       <ion-item *ngIf="verificaValidTouched('dist_categoria')">
         <p class="error-message">Categoria obrigatória</p>

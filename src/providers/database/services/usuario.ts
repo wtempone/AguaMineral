@@ -119,7 +119,12 @@ export class UsuarioService {
                     }
 
                   })
-                }
+                  //guarda distribuidores
+                  usuario.usr_distribuidores = [];                 
+                  (<any>Object).entries(usuario.usr_perfis).filter(([key, value]) => value.per_distribuidora == true).map(([key, value]) => {
+                    usuario.usr_distribuidores.push(value.per_keyDistribuidora);
+                  })
+                }                               
                 this.storage.set("_UsuarioAtual", usuario)                
                 this.usuarioAtual = usuario;
                 resolve(this.usuarioAtual);
