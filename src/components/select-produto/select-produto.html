@@ -1,0 +1,9 @@
+<ion-item>
+  <ion-thumbnail item-start>
+    <img *ngIf="!produto.pro_img" src="assets/img/appicon.png">
+    <img *ngIf="produto.pro_img" [src]="produto.pro_img">
+  </ion-thumbnail>
+  <h2>{{produto.pro_nome}}</h2>
+  <p>{{produto.pro_descricao}}</p>
+  <button ion-button item-end (click)="selecionarProduto($event)">Selecionar</button>
+</ion-item>

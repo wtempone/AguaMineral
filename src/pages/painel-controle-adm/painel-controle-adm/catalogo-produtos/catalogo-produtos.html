@@ -2,12 +2,17 @@
 
   <ion-navbar>
     <ion-title>Catálogo de Produtos</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="navCtrl.pop()">
+          <ion-icon item-right name="ios-close-outline"></ion-icon>
+        </button>
+      </ion-buttons>    
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="content-desktop">
   <div class="content-desktop-margin-bottom">
-    <div>
+    <div *ngIf="!selecao">
       <ion-segment [(ngModel)]="catalogo">
         <ion-segment-button value="produtos">
           Produtos
@@ -53,7 +58,7 @@
         </ion-list>
       </ion-card>
       <ion-card *ngSwitchCase="'produtos'">
-        <ion-card-header>
+        <ion-card-header  *ngIf="!selecao">
           <ion-toolbar>
             <h2>Produtos</h2>
             <ion-buttons end>
@@ -74,7 +79,7 @@
 
         <ion-list>
           <ion-item-sliding *ngFor='let produto of produtos | async'>
-            <ion-item>
+            <ion-item (click)="selecionarProduto(produto)"> 
               <ion-thumbnail item-start>
                 <img *ngIf="!produto.pro_img" src="assets/img/appicon.png">
                 <img *ngIf="produto.pro_img" [src]="produto.pro_img">
@@ -82,7 +87,7 @@
               <h2>{{produto.pro_nome}}</h2>
               <p>{{produto.pro_descricao}}</p>
             </ion-item>
-            <ion-item-options>
+            <ion-item-options *ngIf="!selecao">
               <button ion-button (click)="editProduto(produto)">
                 <ion-icon name="create"></ion-icon>
                 Editar

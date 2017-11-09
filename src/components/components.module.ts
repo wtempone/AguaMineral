@@ -9,6 +9,7 @@ import { InputPhotoComponent } from './input-photo/input-photo';
 import { UsuarioToolbarComponent } from './usuario-toolbar/usuario-toolbar';
 import { OrderByGeneralComponent } from './order-by-general/order-by-general';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
+import { SelectProdutoComponent } from './select-produto/select-produto';
 
 @NgModule({
 	declarations: [EnderecoComponent,
@@ -17,6 +18,7 @@ import { Ng2ImgMaxModule } from 'ng2-img-max';
     InputPhotoComponent,
     UsuarioToolbarComponent,
     OrderByGeneralComponent,
+    SelectProdutoComponent,
     ],
 	imports: [
         DirectivesModule,
@@ -32,6 +34,7 @@ import { Ng2ImgMaxModule } from 'ng2-img-max';
     InputPhotoComponent,
     UsuarioToolbarComponent,
     OrderByGeneralComponent,
+    SelectProdutoComponent,
     ]
 })
 export class ComponentsModule {}

@@ -1,38 +1,35 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title text-center>Cadastro de Produto</ion-title>
-      <ion-buttons end>
-          <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
-          <button ion-button icon-only (click)="navCtrl.pop()">
-            <ion-icon item-right name="ios-close-outline"></ion-icon>
-          </button>
-        </ion-buttons>
-    </ion-navbar>
-  </ion-header>
-  <ion-content padding class="modal-desktop">
-    <form [formGroup]="formulario" novalidate>
-      <ion-list no-lines>
-        <ion-item>
-          <ion-label stacked>Produto</ion-label>
-          <ion-input [class.invalid]="verificaValidTouched('dist_produto')" formControlName="dist_produto" type="text" placeholder="Digite o cógido da página"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="verificaValidTouched('dist_produto')">
-          <p class="error-message">Produto obrigatório</p>
-        </ion-item>
-        <ion-item>
-          <ion-label stacked>Preço</ion-label>
-          <ion-input [class.invalid]="verificaValidTouched('dist_preco')" formControlName="dist_preco" type="text" placeholder="Digite o nome"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="verificaValidTouched('dist_preco')">
-          <p class="error-message">Preço obrigatório</p>
-        </ion-item>
-        <ion-item>
-          <ion-label stacked>Categoria</ion-label>
-          <ion-input [class.invalid]="verificaValidTouched('dist_categoria')" formControlName="dist_categoria" type="text" placeholder="Digite a descrição"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="verificaValidTouched('dist_categoria')">
-          <p class="error-message">Categoria obrigatória</p>
-        </ion-item>
-      </ion-list>
-    </form>
-  </ion-content>
+  <ion-navbar>
+    <ion-title text-center>Cadastro de Produto</ion-title>
+    <ion-buttons end>
+      <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+        <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding class="modal-desktop">
+  <form [formGroup]="formulario" novalidate>
+    <ion-list no-lines>
+      <select-produto [class.invalid]="verificaValidTouched('dist_produto')" formControlName="dist_produto" type="text" placeholder="Selecione o produto"></select-produto>
+      <ion-item *ngIf="verificaValidTouched('dist_produto')">
+        <p class="error-message">Produto obrigatório</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Preço</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('dist_preco')" formControlName="dist_preco" type="text" placeholder="Digite o preço do produto"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('dist_preco')">
+        <p class="error-message">Preço obrigatório</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Categoria</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('dist_categoria')" formControlName="dist_categoria" type="text" placeholder="Selecione o código do produto"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('dist_categoria')">
+        <p class="error-message">Categoria obrigatória</p>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

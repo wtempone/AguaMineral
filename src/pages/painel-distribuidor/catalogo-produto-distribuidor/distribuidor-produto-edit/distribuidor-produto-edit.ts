@@ -1,7 +1,9 @@
+import { MenuService } from './../../../../providers/database/services/menu';
 import { DistribuidorProduto } from './../../../../providers/database/models/distribuidor-produto';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormGroup, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
@@ -15,7 +17,12 @@ export class DistribuidorProdutoEditPage {
   
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams
+    public navParams: NavParams,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService,
+    private toastCtrl: ToastController,
+    private menuSrvc: MenuService,
+    private popoverCtrl:PopoverController
   ) {
     console.log(this.navParams.data)
     if (this.navParams.data.distribuidorProduto)
@@ -36,7 +43,7 @@ export class DistribuidorProdutoEditPage {
     });
 
     this.formulario.patchValue({
-      dist_produto: this.distribuidorProduto.dist_produto,
+      dist_produto: '-Ky1Ie8w_O13ICx93ZRB',
       dist_preco: this.distribuidorProduto.dist_preco,
       dist_categoria: this.distribuidorProduto.dist_categoria,
     });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ToastController, AlertController, ViewController } from 'ionic-angular';
 import { MarcaService } from '../../../../providers/database/services/marca';
 import { Observable } from 'rxjs/Observable';
 import { Marca } from '../../../../providers/database/models/marca';
@@ -13,6 +13,7 @@ import { ProdutoService } from '../../../../providers/database/services/produto'
   templateUrl: 'catalogo-produtos.html',
 })
 export class CatalogoProdutosPage {
+  selecao: boolean;
   listFieldsProduto = [
     {
       nome: "Nome",
@@ -47,6 +48,7 @@ export class CatalogoProdutosPage {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     private db: AngularFireDatabase,
+    private viewCtrl: ViewController
 
   ) {
     this.catalogo = "produtos";
@@ -54,6 +56,9 @@ export class CatalogoProdutosPage {
     this.marcas = this.marcaSrvc.marcas;
     this.campoOrdernacaoProduto = this.listFieldsProduto[0];
     this.campoOrdernacaoMarca = this.listFieldsMarca[0];
+    if (this.navParams.data.selecao){
+      this.selecao = this.navParams.data.selecao;
+    }
   }
 
   editMarca(marca: Marca) {
@@ -162,5 +167,13 @@ export class CatalogoProdutosPage {
           startAt: q
         }
       })
+  }
+
+  selecionarProduto(produto) {
+    if (!this.selecao) {
+      return;
+    }
+    this.viewCtrl.dismiss({ produto: produto });
+    
   }
 }
