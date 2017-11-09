@@ -17,7 +17,7 @@ export class PainelDistribuidorConfigPage {
   distribuidor: Distribuidor;
   perfisDistribuidor: any[];
   funcionarios: Usuario[];
-  configuracao = "geral";
+  configuracao = "funcionarios";
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
