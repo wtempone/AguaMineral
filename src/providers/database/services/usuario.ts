@@ -20,7 +20,7 @@ export class UsuarioService {
   public usuarioAtual: Usuario;
   public perfis
   constructor(
-    private db: AngularFireDatabase,
+    public db: AngularFireDatabase,
     private perfilAcessoSrvc: PerfilAcessoService,
     private menuSrvc: MenuService,
     private funcionalidadeSrvc: FuncionalidadeService,
@@ -125,7 +125,9 @@ export class UsuarioService {
                     usuario.usr_distribuidores.push(value.per_keyDistribuidora);
                   })
                 }                               
-                this.storage.set("_UsuarioAtual", usuario)                
+                usuario.key = usuario.$key;
+                this.storage.set("_UsuarioAtual", usuario)
+       
                 this.usuarioAtual = usuario;
                 resolve(this.usuarioAtual);
               }

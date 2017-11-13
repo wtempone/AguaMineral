@@ -4,6 +4,7 @@ import { MenuAcesso } from './menu-acesso';
 import { Funcionalidade } from './funcionalidade';
 export class Usuario {
   $key?: string;
+  key?:string;
   usr_fb_id?: string;
   usr_fb_foto?: any;
   usr_nome: string;
