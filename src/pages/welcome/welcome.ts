@@ -31,8 +31,11 @@ export class WelcomePage {
   }
   
   updateEndereco(endereco:Endereco){
-      this.usuarioSrvc.usuarioAtual.usr_endereco = endereco;
-      this.usuarioSrvc.update(this.usuarioSrvc.usuarioAtual.$key, this.usuarioSrvc.usuarioAtual)    
+      if (!this.usuarioSrvc.usuarioAtual.usr_endereco) {
+        this.usuarioSrvc.usuarioAtual.usr_endereco = [];
+      }
+      this.usuarioSrvc.usuarioAtual.usr_endereco.push(endereco);      
+      this.usuarioSrvc.set(this.usuarioSrvc.usuarioAtual.$key, this.usuarioSrvc.usuarioAtual)    
   }
 
   signupDistribuidora(){

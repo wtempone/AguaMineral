@@ -1,3 +1,4 @@
+import { GoogleApis } from './../services/consulta-google-apis';
 import { Marca } from './../providers/database/models/marca';
 import { MarcaService } from './../providers/database/services/marca';
 import { AuthServiceProvider } from './../providers/auth-service';
@@ -44,7 +45,8 @@ export class MyApp {
     public marcaSrvc: MarcaService,
     public authServiceProvider: AuthServiceProvider,
     public menuCtrl: MenuController,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    public googleApis: GoogleApis
   ) {
     this.initTranslate();
     this.authServiceProvider
@@ -128,7 +130,7 @@ export class MyApp {
             let distribuidores: Distribuidor[] = [];
             if (dados.distribuidor.length > 0) {
               dados.distribuidor.forEach((distribuidor) => {
-                this.distribuidorSrvc.create(<Distribuidor>{
+                let dist = <Distribuidor>{
                   dist_nome: distribuidor.dist_nome,
                   dist_cnpj: distribuidor.dist_cnpj,
                   dist_telefone: distribuidor.dist_telefone,
@@ -150,8 +152,19 @@ export class MyApp {
                     latitude: distribuidor.dist_latitude,
                     longitude: distribuidor.dist_longitude
                   }
-
-                })
+                }
+                if (!dist.dist_endereco.latitude || !dist.dist_endereco.longitude ){
+                  this.googleApis.geocodeingEndereco(dist.dist_endereco).subscribe(dadosGoogle => {
+                    //console.log(dadosGoogle);
+                    if (dadosGoogle.results[0]) {
+                      dist.dist_endereco.latitude = dadosGoogle.results[0].geometry.location.lat,
+                      dist.dist_endereco.longitude = dadosGoogle.results[0].geometry.location.lng                    
+                    }
+                    this.distribuidorSrvc.create(dist);
+                  })
+                } else {
+                  this.distribuidorSrvc.create(dist);                  
+                }
               })
             }
           }

@@ -1,0 +1,19 @@
+<ion-content class="content-desktop">
+  <div class="content-desktop-inside">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 col-xl-6 *ngFor='let distribuidor of distribuidorSrvc.distribuidores | async'>
+          <ion-item (click)="listaProdutos(distribuidor)">
+            <ion-thumbnail item-start>
+              <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
+              <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
+            </ion-thumbnail>
+            <h2> {{ distribuidor.dist_nome }} </h2>
+            <p> {{ distribuidor.dist_endereco.bairro }}</p>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+

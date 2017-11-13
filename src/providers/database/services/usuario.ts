@@ -242,6 +242,10 @@ export class UsuarioService {
       });
     })
   }
+  set(key: string, value: any) {
+    const path = `${this.basePath}/${key}`
+    return this.db.object(path).set(value);    
+  }    
 
   update(key: string, value: any) {
     //this.updateMenu(value);
