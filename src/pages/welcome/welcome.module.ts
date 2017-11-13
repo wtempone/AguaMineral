@@ -13,7 +13,7 @@ import { DirectivesModule } from '../../directives/directives.module';
     IonicPageModule.forChild(WelcomePage),
     TranslateModule.forChild(),
     DirectivesModule,
-    ComponentsModule
+    ComponentsModule,
   ],
 })
 export class WelcomePageModule {}

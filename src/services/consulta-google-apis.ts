@@ -32,6 +32,12 @@ export class GoogleApis {
       .map(dados => dados.json());
   }
 
+  geocodeingGetEndereco(placeId:String) {
+    return this.http
+      .get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&language=pt-BR&key=AIzaSyDvkH1UJdEJIqwuk_oORlsdaJHBuHRn9lE`)
+      .map(dados => dados.json());
+  }
+
   googgleMatrix(origins: string, destinations: string) {
     const path = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origins}&destinations=${destinations}&key=AIzaSyAlS93N7e4bdm0dhNrjqcmHL55gBRAjae0`
     return this.http

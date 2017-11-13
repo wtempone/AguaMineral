@@ -22,8 +22,8 @@ export class PainelControleDistribuidorPage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-  start = 'chicago, il';
-  end = 'chicago, il';
+  start;
+  end;
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
 

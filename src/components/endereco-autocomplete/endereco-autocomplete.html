@@ -1,0 +1,10 @@
+<div>
+<ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="updateSearch()" (ionCancel)="dismiss()"
+  placeholder="Digite o endereço ...">
+</ion-searchbar>
+<ion-list class='list-enderecos'>
+  <ion-item *ngFor="let item of autocompleteItems" (click)="chooseItem(item)">
+    {{ item.description }}
+  </ion-item>
+</ion-list>
+</div>

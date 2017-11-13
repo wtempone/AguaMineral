@@ -1,21 +1,37 @@
 <ion-content class="content-desktop">
-  <div class="content-desktop-inside">
-    <ion-grid>
-      <ion-row>
-        <ion-col col-12 col-xl-6 *ngFor='let distribuidor of distribuidores'>
-          <ion-item (click)="listaProdutos(distribuidor)">
-            <ion-thumbnail item-start>
-              <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
-              <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
-            </ion-thumbnail>
-            <h2> {{ distribuidor.dist_nome }} </h2>
-            <p> {{ distribuidor.dist_endereco.bairro }}</p>
-            <p *ngIf='!distribuidor.dist_distancia_text'> calculando ...</p>
-            <p *ngIf='distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p>
+  <div class="content-desktop-margin-bottom">
+    <div>
+      <ion-segment [(ngModel)]="view">
+        <ion-segment-button value="distribuidores">
+          Distribuidores
+        </ion-segment-button>
+        <ion-segment-button value="mapa" (click)="this.refreshMap()">
+          Mapa
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div [ngSwitch]="view">
+      <ion-card *ngSwitchCase="'distribuidores'">
+        <ion-item (click)="listaProdutos(distribuidor)" *ngFor='let distribuidor of distribuidores | orderBy : dist_duracao_value'>
+          <ion-thumbnail item-start>
+            <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
+            <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
+          </ion-thumbnail>
+          <h2> {{ distribuidor.dist_nome }} </h2>
+          <p> {{ distribuidor.dist_endereco.bairro }}</p>
+          <p *ngIf='!distribuidor.dist_distancia_text'> calculando ...</p>
+          <p *ngIf='distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p>
+        </ion-item>
+      </ion-card>
+      <ion-card class="transparent-card map-objects" *ngSwitchCase="'mapa'">
+        <ion-list>
+          <ion-item>
+            <ion-input (click)="showAddressModal()" [(ngModel)]="address.place" type="text" placeholder="Pick an address"></ion-input>
           </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+        </ion-list>
+        <div #map id="map">
+        </div>
+      </ion-card>
+    </div>
   </div>
 </ion-content>
-

@@ -100,7 +100,7 @@ export function provideSettings(storage: Storage) {
     FacebookModule.forRoot(),
     DirectivesModule,
     ImageCropperModule,
-    ComponentsModule    
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

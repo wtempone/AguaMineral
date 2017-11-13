@@ -24,7 +24,10 @@ export class WelcomePage {
     public distribuidorSrvc: DistribuidorService,
     public storage: Storage
   ) { }
+  detail(event) {
+    console.log('event',event);
 
+  }
   selectEndereco(endereco) {
     console.log(endereco);
     console.log(this.usuarioSrvc.usuarioAtual);

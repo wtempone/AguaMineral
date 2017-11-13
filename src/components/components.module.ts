@@ -10,6 +10,9 @@ import { UsuarioToolbarComponent } from './usuario-toolbar/usuario-toolbar';
 import { OrderByGeneralComponent } from './order-by-general/order-by-general';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { SelectProdutoComponent } from './select-produto/select-produto';
+import { EnderecoAutocompleteComponent } from './endereco-autocomplete/endereco-autocomplete';
+import { AutoCompleteModule } from 'ionic2-auto-complete';
+
 
 @NgModule({
 	declarations: [EnderecoComponent,
@@ -19,6 +22,7 @@ import { SelectProdutoComponent } from './select-produto/select-produto';
     UsuarioToolbarComponent,
     OrderByGeneralComponent,
     SelectProdutoComponent,
+    EnderecoAutocompleteComponent,
     ],
 	imports: [
         DirectivesModule,
@@ -26,7 +30,8 @@ import { SelectProdutoComponent } from './select-produto/select-produto';
         IonicPageModule,
         TranslateModule.forChild(),
         ImageCropperModule,
-        Ng2ImgMaxModule                
+        Ng2ImgMaxModule,
+        
     ],
 	exports: [EnderecoComponent,
     EnderecoComponent,
@@ -35,6 +40,7 @@ import { SelectProdutoComponent } from './select-produto/select-produto';
     UsuarioToolbarComponent,
     OrderByGeneralComponent,
     SelectProdutoComponent,
+    EnderecoAutocompleteComponent,
     ]
 })
 export class ComponentsModule {}
