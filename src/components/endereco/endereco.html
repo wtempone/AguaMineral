@@ -1,4 +1,7 @@
 <form [formGroup]="formulario" novalidate>
+    <h4 *ngIf="!cadastro" class='informe'>
+      Informe seu endereço
+    </h4>
     <ion-list>
       <div *ngIf="cadastro || buscaPorEndereco">
         <ion-item>
@@ -61,7 +64,7 @@
         </ion-item>
       </div>
       <div *ngIf="cadastro || !buscaPorEndereco">
-  
+        
         <ion-item>
           <ion-label stacked>{{ 'CEP' | translate }}</ion-label>
           <ion-input type="text" mask="**.***-***"  maxlength="10" formControlName="cep" placeholder="{{ 'CEP_PLACEHOLDER' | translate }}"></ion-input>
@@ -75,7 +78,8 @@
       <button *ngIf="cadastro && !noButtonSet" ion-button block color="customColor2" (click)="setAddress()">{{ 'USE_THIS_ADDRESS' | translate }}</button>
       <button ion-button block (click)="consultaCEP()">{{ (cadastro ? 'NEW_SEARCH' :'SEARCH') | translate }}</button>
       <button *ngIf="platform.is('cordova')" ion-button block (click)="geolocate()">{{ 'USE_LOCATION' | translate }}</button>
-      <button ion-button block clear (click)="togleTipoPesquisa()">{{ (buscaPorEndereco ? 'CEP_KNOW' : 'CEP_UNKNOW') | translate }}</button>
-
+      <button ion-button block outline color="customColor1"  (click)="togleTipoPesquisa()">{{ (buscaPorEndereco ? 'CEP_KNOW' : 'CEP_UNKNOW') | translate }}</button>
+      <button ion-button block outline color="customColor1"  (click)="googleMaps()">Google Maps</button>
+      
     </ion-list>
   </form>

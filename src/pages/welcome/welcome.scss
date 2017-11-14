@@ -5,7 +5,7 @@ page-welcome {
       max-width: 50px;
     } 
     ion-content {
-      background: url('../assets/img/splashbg.png') no-repeat center center fixed;    
+      //background: url('../assets/img/splashbg.png') no-repeat center center fixed;    
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
@@ -20,7 +20,7 @@ page-welcome {
       position: relative;
       //background: url('../assets/img/splashbg.png') no-repeat transparent;
       background-size: cover;
-      height: 60%;
+      height: 50%;
       z-index: 1;
       background-repeat: repeat-x;
       animation: animatedBackground 40s linear infinite;
@@ -34,7 +34,7 @@ page-welcome {
     .splash-info {
       position: relative;
       z-index: 2;
-      margin-top: 30vh;
+      margin-top: 15vh;
       text-align: center;
     }
     .splash-logo {

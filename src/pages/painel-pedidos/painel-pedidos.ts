@@ -1,9 +1,9 @@
+import { Distribuidor } from './../../providers/database/models/distribuidor';
 import { GoogleApis } from './../../services/consulta-google-apis';
 import { UsuarioService } from './../../providers/database/services/usuario';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { DistribuidorService } from '../../providers/database/services/distribuidor';
-import { Distribuidor } from '../../providers/database/models/distribuidor';
 declare var google;
 
 export interface Coord {
@@ -46,6 +46,9 @@ export class PainelPedidosPage {
     this.refresh();
   }
 
+  listaProdutos(distribuidor: Distribuidor){
+    this.navCtrl.push('PedidoListProdutosPage',distribuidor);
+  }
   refresh() {
     if (this.usuarioSrc.usuarioAtual.usr_endereco) {
       if (this.usuarioSrc.usuarioAtual.usr_endereco[0].latitude) {

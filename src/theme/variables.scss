@@ -25,12 +25,12 @@ $background-color:  #fff;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    #3396D8,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  customColor1:       #0062c7,
+  customColor1:       #3396D8,
   customColor2:       #e06637,
   
 );
@@ -138,8 +138,8 @@ $colors: (
 
 .image-profile {
   border-radius: 50%;
-  max-height: 50px;
-  max-width: 50px;
+  height: 38px ;
+  width: 38px;
 } 
 
 .toast-message {

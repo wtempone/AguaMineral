@@ -1,5 +1,5 @@
-<ion-split-pane [when]="exibeMenu">
-    <ion-menu class="content-desktop"  [content]="content" when="xs"  [enabled]="usuarioSrvc?.usuarioAtual">
+<ion-split-pane [when]="splitPane && menu">
+    <ion-menu class="content-desktop" [content]="content" [enabled]="usuarioSrvc?.usuarioAtual">
         <ion-content class="item-menu">
             <ion-list class="menu-list" no-lines>
                 <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.usuarioAtual?.usr_menus" (click)="openPage(m)">
@@ -24,15 +24,18 @@
 </ion-split-pane>
 <ion-header>
     <ion-navbar class="main-toolbar" color="customColor1">
-        <ion-title text-left (click)="show()">
-            <span>
-                <ion-icon class="title-app" name="menu" (click)="showMenu()" ></ion-icon>
-            </span>
-            <span>
+        <ion-buttons >
+            <button ion-button icon-only (click)="showMenu()">
+                <ion-icon class="title-app" name="menu" ></ion-icon>
+            </button>
+            <button ion-button icon-only>
                 <img class="image-profile" src="assets/img/appicon.png" />
-            </span>
-            <span class="title-app" showWhen="landscape">{{ 'APP_NAME' | translate }}</span>
-        </ion-title>
+            </button>
+            <button ion-button icon-only>
+                <span class="title-app" showWhen="landscape">{{ 'APP_NAME' | translate }}</span>
+            </button>
+        </ion-buttons>
+        
         <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
             <button ion-button icon-only icon-left (click)="signup()">
                 <ion-icon name="person-add"></ion-icon>
@@ -43,6 +46,7 @@
                 <span showWhen="landscape">{{ 'LOGIN' | translate }}</span>
             </button>
         </ion-buttons>
+
         <ion-buttons (click)="show()" end *ngIf="usuarioSrvc.usuarioAtual">
             <button showWhen="landscape" ion-button icon-only>{{ usuarioSrvc.usuarioAtual.usr_nome }}</button>
             <button ion-button icon-only>

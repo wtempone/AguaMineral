@@ -25,12 +25,13 @@ import { MenuAcesso } from '../providers/database/models/menu-acesso';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  public exibeMenu = true;
-  rootPage = FirstRunPage;
 
   @ViewChild(Nav) nav: Nav;
-
+  splitPane: boolean = false;
+  menu: boolean = true;
   menus: MenuAcesso[] = []
+  exibeMenu = true;
+  rootPage = FirstRunPage;
 
   constructor(private translate: TranslateService,
     private platform: Platform,
@@ -49,12 +50,20 @@ export class MyApp {
     public googleApis: GoogleApis
   ) {
     this.initTranslate();
+    this.splitPane = !this.platform.is('ios') && !this.platform.is('android');
+
     this.authServiceProvider
     if (this.authServiceProvider.afAuth.auth.currentUser) {
       this.usuarioSrvc.loadUsuarioAtualByEmail(this.authServiceProvider.afAuth.auth.currentUser.email);
       this.usuarioSrvc
     }
   }
+  ngOnInit() {
+    if(this.splitPane){
+      this.menuCtrl.swipeEnable(false);
+    }    
+  }
+
   reloadMenu() {
     this.usuarioSrvc.loadPerfisAcesso(this.usuarioSrvc.usuarioAtual.$key);
   }
@@ -66,7 +75,10 @@ export class MyApp {
   }
 
   showMenu() {
-    this.exibeMenu = !this.exibeMenu;
+    this.menu = !this.menu;
+    if (!this.splitPane){
+      this.menuCtrl.toggle() 
+    }
   }
 
   initTranslate() {
