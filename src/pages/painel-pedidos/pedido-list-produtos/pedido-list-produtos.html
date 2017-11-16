@@ -1,20 +1,18 @@
-<ion-content padding class="content-desktop">
-
+<ion-content class="content-desktop">
+  <ion-navbar icon-only>
+    <ion-item no-margin no-lines>
+      <ion-thumbnail item-start>
+        <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
+        <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
+      </ion-thumbnail>
+      <h2> {{ distribuidor.dist_nome }} </h2>
+      <p> {{ distribuidor.dist_endereco.bairro }}</p>
+      <p *ngIf='!distribuidor.dist_distancia_text'> calculando ...</p>
+      <p *ngIf='distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p>
+    </ion-item>
+  </ion-navbar>
   <div class="content-desktop-margin-bottom" *ngIf="distribuidor">
-
-    <ion-card>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
-          <img *ngIf="distribuidor.dist_img" [src]="distribuidor.dist_img">
-        </ion-thumbnail>
-        <h2> {{ distribuidor.dist_nome }} </h2>
-        <p> {{ distribuidor.dist_endereco.bairro }}</p>
-        <p *ngIf='!distribuidor.dist_distancia_text'> calculando ...</p>
-        <p *ngIf='distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p>
-      </ion-item>
-    </ion-card>
-    <div>
+    <div padding>
       <ion-segment [(ngModel)]="configuracao">
         <ion-segment-button value="catalogo">
           Produtos
@@ -26,24 +24,20 @@
     </div>
     <div [ngSwitch]="configuracao">
       <div *ngSwitchCase="'catalogo'">
-        <ion-card>
           <ion-list>
-            <ion-item *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.distribuidorProdutos'>
+            <ion-item (click)="adicionarAoCarrinho(distribuidorProduto)" *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.distribuidorProdutos'>
               <ion-thumbnail item-start>
                 <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
               </ion-thumbnail>
               <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
               <p>{{distribuidorProduto.produto?.pro_descricao}}</p>
-              <p>Valor: {{distribuidorProduto.dist_preco}}</p>
-              <button ion-button icon-left color="primary" (click)="editDistribuidorCategoria(null)">
+              <p ion-text text-right color="customColor3">R$ {{distribuidorProduto.dist_preco}}</p>
+              <!-- <button ion-button icon-left color="primary" (click)="editDistribuidorCategoria(null)">
                 <ion-icon name="add-circle"></ion-icon>
                 Adicionar ao Carrinho
-              </button>
+              </button> -->
             </ion-item>
-
           </ion-list>
-        </ion-card>
-
       </div>
     </div>
   </div>

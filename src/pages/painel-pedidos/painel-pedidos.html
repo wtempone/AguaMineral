@@ -1,7 +1,12 @@
 <ion-content class="content-desktop">
-  <div class="content-desktop-margin-bottom">
+  <div *ngIf="!distribuidores" class="loading-div"></div>
+  <div *ngIf="distribuidores" class="content-desktop-margin-bottom">
+    <ion-toolbar color="primary">
+      <ion-searchbar placeholder="Buscar diststribuirores" (ionInput)="buscarDistribuidor($event)" (ionCancel)="refresh()">
+      </ion-searchbar>
+    </ion-toolbar>
     <div>
-      <ion-segment [(ngModel)]="view">
+      <ion-segment [(ngModel)]="view" padding>
         <ion-segment-button value="distribuidores">
           Distribuidores
         </ion-segment-button>
@@ -11,7 +16,7 @@
       </ion-segment>
     </div>
     <div [ngSwitch]="view">
-      <ion-card *ngSwitchCase="'distribuidores'">
+      <div *ngSwitchCase="'distribuidores'">
         <ion-item (click)="listaProdutos(distribuidor)" *ngFor='let distribuidor of distribuidores | orderBy : dist_duracao_value'>
           <ion-thumbnail item-start>
             <img *ngIf="!distribuidor.dist_img" src="assets/img/appicon.png">
@@ -22,7 +27,7 @@
           <p *ngIf='!distribuidor.dist_distancia_text'> calculando ...</p>
           <p *ngIf='distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p>
         </ion-item>
-      </ion-card>
+      </div>
       <ion-card class="transparent-card map-objects" *ngSwitchCase="'mapa'">
         <ion-list>
           <ion-item>

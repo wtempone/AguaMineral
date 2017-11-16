@@ -12,6 +12,7 @@ import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { SelectProdutoComponent } from './select-produto/select-produto';
 import { EnderecoAutocompleteComponent } from './endereco-autocomplete/endereco-autocomplete';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
+import { CounterInputComponent } from './counter-input/counter-input';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     OrderByGeneralComponent,
     SelectProdutoComponent,
     EnderecoAutocompleteComponent,
+    CounterInputComponent,
     ],
 	imports: [
         DirectivesModule,
@@ -41,6 +43,7 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     OrderByGeneralComponent,
     SelectProdutoComponent,
     EnderecoAutocompleteComponent,
+    CounterInputComponent,
     ]
 })
 export class ComponentsModule {}

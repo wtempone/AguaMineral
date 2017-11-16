@@ -23,7 +23,7 @@ export class PainelPedidosPage {
   autocompleteItems;
   autocomplete;
   autocompleteService = new google.maps.places.AutocompleteService();
-  address; 
+  address;
   origins;
   view = 'distribuidores';
   @ViewChild('map') mapElement: ElementRef;
@@ -31,6 +31,8 @@ export class PainelPedidosPage {
 
   coordOrigin: Coord;
   distribuidores: any[] = [];
+  distribuidoresBack: any[] = [];
+  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -46,9 +48,22 @@ export class PainelPedidosPage {
     this.refresh();
   }
 
-  listaProdutos(distribuidor: Distribuidor){
-    this.navCtrl.push('PedidoListProdutosPage',distribuidor);
+  listaProdutos(distribuidor: Distribuidor) {
+    this.navCtrl.push('PedidoListProdutosPage', distribuidor);
   }
+
+  buscarDistribuidor(ev) {
+    let val = ev.target.value;
+    this.distribuidores = this.distribuidoresBack;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.distribuidores = this.distribuidores.filter((distribuidor) => {
+        return (distribuidor.dist_nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+
   refresh() {
     if (this.usuarioSrc.usuarioAtual.usr_endereco) {
       if (this.usuarioSrc.usuarioAtual.usr_endereco[0].latitude) {
@@ -73,7 +88,8 @@ export class PainelPedidosPage {
         })
 
         this.distribuidores = distribuidores.filter(dist => dist.dist_distancia < 10);
-
+        this.distribuidoresBack = distribuidores.filter(dist => dist.dist_distancia < 10);
+        
         this.distribuidores.map((distribuidor) => {
           if (distribuidor.dist_endereco.latitude) {
             let destinations = []
@@ -152,7 +168,7 @@ export class PainelPedidosPage {
     }, 100)
   }
 
-  showAddressModal () {
+  showAddressModal() {
     let modal = this.modalCtrl.create('EnderecoAutoCompletePage');
     let me = this;
     modal.onDidDismiss(data => {

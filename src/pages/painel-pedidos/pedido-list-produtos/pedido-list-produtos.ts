@@ -31,7 +31,9 @@ export class PedidoListProdutosPage {
       this.refresh();
     }
   }
-
+  adicionarAoCarrinho(distribuidorProduto) {
+    this.navCtrl.push('AdicionarProdutoCarrinhoPage',distribuidorProduto,{ animate: true, direction: 'switch'})
+  }
   refresh(){
     this.distribuidorProdutoSrvc.getAll(this.distribuidor.$key);
     this.distribuidorCategoriaSrvc.getAll(this.distribuidor.$key);

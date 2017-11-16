@@ -1,0 +1,47 @@
+<ion-header class="content-desktop">
+  <ion-navbar color="primary">
+    <ion-title>{{distribuidorProduto.produto?.pro_nome}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding class="content-desktop content-desktop-margin-bottom">
+  <ion-item text-center>
+    <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
+    <img *ngIf="!distribuidorProduto.produto?.pro_img" src="/assets/img/img_placeholder.png">
+    <p>{{distribuidorProduto.produto?.pro_descricao}}</p>
+    <!-- <p ion-text text-right color="customColor3">R$ {{}}</p> -->
+    <!-- <button ion-button icon-left color="primary" (click)="editDistribuidorCategoria(null)">
+          <ion-icon name="add-circle"></ion-icon>
+          Adicionar ao Carrinho
+        </button> -->
+  </ion-item>
+
+  <form [formGroup]="formulario" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>Observação</ion-label>
+        <ion-textarea [class.invalid]="verificaValidTouched('dist_observacao')" formControlName="dist_observacao" type="text" placeholder=""></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <div margin-top float-left>
+          Preço unitário:
+          <span ion-text color="customColor3"> R$ {{distribuidorProduto.dist_preco}} </span>
+        </div>
+        <counter-input margin-top ion-text text-right formControlName="dist_quantidade" [counterRangeMax]="99" [counterRangeMin]="0"></counter-input>
+      </ion-item>
+    </ion-list>
+    <ion-list no-lines no-padding>
+        <ion-item no-pading>
+          <div float-right>
+            <strong>Total: </strong><span ion-text color="customColor3"> R$ {{distribuidorProduto.dist_preco * formulario.get('dist_quantidade').value }} </span>
+          </div>
+        </ion-item>
+      </ion-list>
+  
+  </form>
+</ion-content>
+<ion-footer>
+  <button ion-button block icon-left color="customColor2">
+    <ion-icon name="checkmark"></ion-icon>
+    Adicionar
+  </button>
+</ion-footer>

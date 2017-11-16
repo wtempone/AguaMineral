@@ -6,6 +6,9 @@ export interface DistribuidorProduto {
   dist_produto: string;
   dist_preco: number;
   dist_categoria: string;
+  dist_quantidade: number;
+  dist_total: number;
+  dist_observacao: string;
   produto: Produto;
-  categoria: DistribuidorCategoria;
+  categoria: DistribuidorCategoria;  
 }

@@ -16,17 +16,26 @@ page-painel-pedidos {
         height: 32px;
         outline: none;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
+    }
 
-      #origin-input {
-        background-color: #fff;
-//        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 200px;
+    #origin-input {
+      background-color: #fff;
+      font-size: 15px;
+      font-weight: 300;
+      margin-left: 12px;
+      padding: 0 11px 0 13px;
+      text-overflow: ellipsis;
+      width: 200px;
 
+    }
+
+    .loading-div {
+        margin: auto;
+        background: url('../assets/img/gifs/ProcurandoDistribuidor.gif') repeat transparent;
+        background-size: 100%;
+        width: 600px;
+        height: 600px;
       }
+    
+
 }
