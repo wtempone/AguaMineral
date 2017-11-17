@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title text-center>Cadastro de Formas de Pagamento</ion-title>
+    <ion-buttons end>
+      <button ion-button color="customColor2" (click)="save()">{{ 'SAVE' | translate }}</button>
+      <button ion-button icon-only (click)="navCtrl.pop()">
+        <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding class="modal-desktop">
+  <form [formGroup]="formulario" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label stacked>Mnemonico</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('tipopag_mnemonico')" formControlName="tipopag_mnemonico" type="text" placeholder="Digite o mnemonico"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('tipopag_mnemonico')">
+        <p class="error-message">Mnemonico obrigatório</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('tipopag_descricao')" formControlName="tipopag_descricao" type="text" placeholder="Digite a descrição"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('tipopag_descricao')">
+        <p class="error-message">Descrição obrigatório</p>
+      </ion-item>
+      <ion-item>
+        <select-photo [class.invalid]="verificaValidTouched('tipopag_img')" formControlName="tipopag_img" type="text"></select-photo>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('tipopag_img')">
+        <p class="error-message">Imagem obrigatória</p>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

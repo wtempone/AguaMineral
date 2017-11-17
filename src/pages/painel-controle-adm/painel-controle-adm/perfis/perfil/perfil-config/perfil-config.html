@@ -1,17 +1,13 @@
 <ion-header class="content-desktop">
-
   <ion-navbar>
-    <ion-title>Configuração do Perfil</ion-title>
+    <h4>{{perfil.per_nome}}</h4>
+    <p>{{perfil.per_descricao}}</p>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="content-desktop">
+<ion-content class="content-desktop">
   <div class="content-desktop-margin-bottom">
-
-    <h4>{{perfil.per_nome}}</h4>
-    <p>{{perfil.per_descricao}}</p>
-
-    <div>
+    <div padding>
       <ion-segment [(ngModel)]="configuracao">
         <ion-segment-button value="funcionalidades">
           Funcionalidades
@@ -22,20 +18,18 @@
       </ion-segment>
     </div>
     <div [ngSwitch]="configuracao">
-      <ion-card *ngSwitchCase="'funcionalidades'">
-        <ion-card-header>
-          <ion-toolbar>
-            <h2>Funcionalidades</h2>
-            <ion-buttons end>
-              <button ion-button clear icon-only color="primary" (click)="selecionarFuncionalidade(null)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-card-header>
+      <div *ngSwitchCase="'funcionalidades'">
+        <ion-toolbar>
+          <ion-title>Funcionalidades</ion-title>
+          <ion-buttons end>
+            <button ion-button clear icon-only color="primary" (click)="selecionarFuncionalidade(null)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-list>
           <ion-item-sliding *ngFor='let funcionalidade of perfilFuncionalidadeSrvc.funcionalidades'>
-            <ion-item>
+            <ion-item padding>
               <h2>{{(funcionalidade | async)?.fun_nome}} ({{(funcionalidade | async)?.fun_mnemonico}})</h2>
               <p>{{(funcionalidade | async)?.fun_descricao}}</p>
             </ion-item>
@@ -55,19 +49,16 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
-      <ion-card *ngSwitchCase="'menus'">
-        <ion-card-header>
-          <ion-toolbar>
-            <h2>Menus</h2>
-            <ion-buttons end>
-              <button ion-button clear icon-only color="primary" (click)="selecionarMenu(null)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-card-header>
-
+      </div>
+      <div *ngSwitchCase="'menus'">
+        <ion-toolbar>
+          <ion-title>Menus</ion-title>
+          <ion-buttons end>
+            <button ion-button clear icon-only color="primary" (click)="selecionarMenu(null)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-list>
           <ion-item-sliding *ngFor='let menu of perfilMenuSrvc.menus'>
             <ion-item>
@@ -87,7 +78,7 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
     </div>
   </div>
 </ion-content>

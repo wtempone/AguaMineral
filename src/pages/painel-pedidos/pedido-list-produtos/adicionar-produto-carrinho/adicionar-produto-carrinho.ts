@@ -17,6 +17,7 @@ export class AdicionarProdutoCarrinhoPage {
   distribuidor: Distribuidor;
   carrinho: Pedido;
   formulario: FormGroup;
+  atualizar: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -32,14 +33,17 @@ export class AdicionarProdutoCarrinhoPage {
       this.carrinho = this.navParams.data.carrinho;
       if (this.carrinho.produtos) {
         if (this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key).length > 0) {
+          this.atualizar = true;
           this.distribuidorProduto = this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key)[0];
+        } else {
+          this.distribuidorProduto.dist_quantidade = 1;
         }
       }
     }
     else
       this.distribuidorProduto = <DistribuidorProduto>{
         dist_produto: null,
-        dist_preco: 10.55,
+        dist_preco: null,
         dist_categoria: null,
         dist_quantidade: null,
         dist_total: null,
@@ -49,8 +53,10 @@ export class AdicionarProdutoCarrinhoPage {
       }
 
   }
+
   ngOnInit() {
     this.formulario = this.formBuilder.group({
+      key: [null],
       dist_produto: [null],
       dist_preco: [null],
       dist_categoria: [null],
@@ -62,14 +68,46 @@ export class AdicionarProdutoCarrinhoPage {
     });
 
     this.formulario.patchValue({
+      key: this.distribuidorProduto.key,
       dist_produto: this.distribuidorProduto.dist_produto,
       dist_preco: this.distribuidorProduto.dist_preco,
       dist_categoria: this.distribuidorProduto.dist_categoria,
-      dist_quantidade: (this.distribuidorProduto.dist_quantidade ? this.distribuidorProduto.dist_quantidade : 1),
+      dist_quantidade: this.distribuidorProduto.dist_quantidade,
       dist_total: this.distribuidorProduto.dist_preco * (this.distribuidorProduto.dist_quantidade ? this.distribuidorProduto.dist_quantidade : 1),
       dist_observacao: this.distribuidorProduto.dist_observacao,
       produto: this.distribuidorProduto.produto,
       categoria: this.distribuidorProduto.categoria,
+    });
+
+    this.formulario.get('dist_quantidade').valueChanges.subscribe(valor => {
+      if (valor == 0) {
+        let confirm = this.alertCtrl.create({
+          title: 'Remover produto',
+          message: 'Deseja remover o produto do carrinho?',
+          buttons: [
+            {
+              text: 'Não',
+              handler: () => {
+                this.distribuidorProduto.dist_quantidade = 1
+                this.distribuidorProduto.dist_total = this.distribuidorProduto.dist_preco;
+              }
+            },
+            {
+              text: 'Sim',
+              handler: () => {
+                if (this.distribuidorProduto.key && this.carrinho) {
+                  this.carrinho.produtos.splice(
+                    this.carrinho.produtos.findIndex(x => x.key == this.distribuidorProduto.key), 1
+                  )
+                }
+                this.atualizarCarrinho();
+                this.navCtrl.pop();
+              }
+            }
+          ]
+        });
+        confirm.present();
+      }
     });
   }
 
@@ -92,7 +130,7 @@ export class AdicionarProdutoCarrinhoPage {
     });
   }
 
-  
+
   adicionarProduto() {
     if (!this.carrinho) {
       this.carrinho = <Pedido>{

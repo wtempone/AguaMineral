@@ -1,0 +1,37 @@
+<ion-header class="content-desktop">
+
+  <ion-navbar>
+    <h4>{{formaPagamento.pag_descricao}}
+    </h4>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding class="content-desktop">
+  <div>
+      <ion-toolbar>
+        <ion-title>Tipos de Pagamento</ion-title>
+        <ion-buttons end>
+          <button ion-button clear icon-only color="primary" (click)="editTipoPagamento(null)">
+            <ion-icon name="add-circle"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-toolbar>
+    <ion-list>
+      <ion-item-sliding *ngFor='let tipoPagamento of tipoPagamentoSrvc.tiposPagamento | async'>
+        <ion-item>
+          <h2>{{tipoPagamento.tipopag_descricao}} ({{tipoPagamento.tipopag_mnemonico}})</h2>
+        </ion-item>
+        <ion-item-options>
+          <button ion-button color="primary" (click)="editTipoPagamento(tipoPagamento)">
+            <ion-icon name="create"></ion-icon>
+            Editar
+          </button>
+          <button ion-button color="danger" (click)="excluirTipoPagamento(tipoPagamento.$key)">
+            <ion-icon name="trash"></ion-icon>
+            Excluir
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+</ion-content>

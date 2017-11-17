@@ -3,16 +3,17 @@
   <ion-navbar>
     <ion-title>Catálogo de Produtos</ion-title>
     <ion-buttons end>
-        <button ion-button icon-only (click)="navCtrl.pop()">
-          <ion-icon item-right name="ios-close-outline"></ion-icon>
-        </button>
-      </ion-buttons>    
+      <button ion-button icon-only (click)="navCtrl.pop()">
+        <ion-icon item-right name="ios-close-outline"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+
 </ion-header>
 
-<ion-content padding class="content-desktop">
+<ion-content class="content-desktop">
   <div class="content-desktop-margin-bottom">
-    <div *ngIf="!selecao">
+    <div *ngIf="!selecao" pading>
       <ion-segment [(ngModel)]="catalogo">
         <ion-segment-button value="produtos">
           Produtos
@@ -23,17 +24,15 @@
       </ion-segment>
     </div>
     <div [ngSwitch]="catalogo">
-      <ion-card *ngSwitchCase="'marcas'">
-        <ion-card-header>
-          <ion-toolbar>
-            <h2>Marcas</h2>
-            <ion-buttons end>
-              <button ion-button clear icon-only color="primary" (click)="editMarca(null)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-card-header>
+      <div *ngSwitchCase="'marcas'">
+        <ion-toolbar>
+          <ion-title>Marcas</ion-title>
+          <ion-buttons end>
+            <button ion-button clear icon-only color="primary" (click)="editMarca(null)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-searchbar placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarMarca($event)"></ion-searchbar>
         <ion-list>
           <ion-item-sliding *ngFor='let marca of marcas | async'>
@@ -56,18 +55,16 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
-      <ion-card *ngSwitchCase="'produtos'">
-        <ion-card-header  *ngIf="!selecao">
-          <ion-toolbar>
-            <h2>Produtos</h2>
-            <ion-buttons end>
-              <button ion-button clear icon-only color="primary" (click)="editProduto(null)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-card-header>
+      </div>
+      <div *ngSwitchCase="'produtos'">
+        <ion-toolbar *ngIf="!selecao">
+          <ion-title>Produtos</ion-title>
+          <ion-buttons end>
+            <button ion-button clear icon-only color="primary" (click)="editProduto(null)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-toolbar>
           <ion-buttons>
             <ion-searchbar style="float:left!important" placeholder="Pesquisar" [showCancelButton]="shouldShowCancel" (ionInput)="pesquisarProduto($event)"></ion-searchbar>
@@ -79,7 +76,7 @@
 
         <ion-list>
           <ion-item-sliding *ngFor='let produto of produtos | async'>
-            <ion-item (click)="selecionarProduto(produto)"> 
+            <ion-item (click)="selecionarProduto(produto)">
               <ion-thumbnail item-start>
                 <img *ngIf="!produto.pro_img" src="assets/img/appicon.png">
                 <img *ngIf="produto.pro_img" [src]="produto.pro_img">
@@ -99,7 +96,7 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
     </div>
   </div>
 </ion-content>

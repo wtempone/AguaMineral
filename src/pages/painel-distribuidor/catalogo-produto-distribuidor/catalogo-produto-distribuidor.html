@@ -13,20 +13,18 @@
       </ion-segment>
     </div>
     <div [ngSwitch]="configuracao">
-      <ion-card *ngSwitchCase="'catalogo'">
-        <ion-card-header>
-          <ion-toolbar>
-            <h2>Catálogo de Produtos</h2>
-            <ion-buttons end>
-              <button ion-button clear icon-only color="primary" (click)="editDistribuidorProduto(null)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-card-header>
+      <div *ngSwitchCase="'catalogo'">
+        <ion-toolbar>
+          <ion-title>Catálogo de Produtos</ion-title>
+          <ion-buttons end>
+            <button ion-button clear icon-only color="primary" (click)="editDistribuidorProduto(null)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-list>
           <ion-item-sliding *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.distribuidorProdutos'>
-            <ion-item>              
+            <ion-item>
               <ion-thumbnail item-start>
                 <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
               </ion-thumbnail>
@@ -34,7 +32,7 @@
               <p>{{distribuidorProduto.produto?.pro_descricao}}</p>
               <p>Valor: {{distribuidorProduto.dist_preco}}</p>
               <p>Categoria:{{distribuidorProduto.categoria?.cat_nome}}</p>
-            </ion-item>            
+            </ion-item>
             <ion-item-options>
               <button ion-button color="primary" (click)="editDistribuidorProduto(distribuidorProduto)">
                 <ion-icon name="create"></ion-icon>
@@ -47,19 +45,17 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
 
-      <ion-card *ngSwitchCase="'categorias'">
-        <ion-card-header>
-          <ion-toolbar>
-            <h2>Categorias</h2>
-            <ion-buttons end>
-              <button ion-button clear icon-only color="primary" (click)="editDistribuidorCategoria(null)">
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-card-header>
+      <div *ngSwitchCase="'categorias'">
+        <ion-toolbar>
+          <h2>Categorias</h2>
+          <ion-buttons end>
+            <button ion-button clear icon-only color="primary" (click)="editDistribuidorCategoria(null)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-list>
           <ion-item-sliding *ngFor='let distribuidorCategoria of distribuidorCategoriaSrvc.distribuidorCategorias | async'>
             <ion-item>
@@ -77,7 +73,7 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
     </div>
   </div>
 </ion-content>

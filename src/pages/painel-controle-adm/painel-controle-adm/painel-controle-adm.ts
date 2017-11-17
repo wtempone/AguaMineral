@@ -15,6 +15,7 @@ export class PainelControleAdmPage {
   grupoUsuarioPage = 'GrupoUsuarioPage';
   catalogoProdutosPage = 'CatalogoProdutosPage';
   painelControleDistribuidorPage = 'PainelControleDistribuidorPage';
+  formasPagamentoPage = 'FormasPagamentoPage';
   emConstrucaoPage = 'EmConstrucaoPage';
   
   @ViewChild("tab") tab: Tabs;

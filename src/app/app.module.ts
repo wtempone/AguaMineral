@@ -46,6 +46,8 @@ import { PerfilFuncionalidadeAcaoService } from '../providers/database/services/
 import { ProdutoService } from '../providers/database/services/produto';
 import { DistribuidorProdutoService } from '../providers/database/services/distribuidor-produto';
 import { DistribuidorCategoriaService } from '../providers/database/services/distribuidor-categoria';
+import { FormaPagamentoService } from '../providers/database/services/forma-pagamento';
+import { TipoPagamentoService } from '../providers/database/services/tipo-pagamento';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -145,6 +147,8 @@ export function provideSettings(storage: Storage) {
     ProdutoService,
     DistribuidorProdutoService,
     DistribuidorCategoriaService,
+    FormaPagamentoService,
+    TipoPagamentoService,    
   ]
 })
 export class AppModule { }

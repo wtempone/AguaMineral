@@ -1,0 +1,13 @@
+select-photo {
+    .img-photo {
+        img {
+            max-width: 300px ;
+            max-height: 300px;
+        }
+    }
+    
+    .button-label{
+        padding: 10px 12px;
+        cursor: pointer;
+    }
+}

@@ -4,10 +4,10 @@
     </ion-navbar>
   </ion-header>
   
-  <ion-content padding class="content-desktop" >
+  <ion-content class="content-desktop" >
     <div class="content-desktop-margin-bottom" *ngIf="distribuidor">
   
-      <div>
+      <div padding>
         <ion-segment [(ngModel)]="configuracao">
           <ion-segment-button value="funcionarios">
             Equipe
@@ -88,7 +88,7 @@
           <ion-card>
             <ion-card-header>
               <ion-toolbar>
-                <h2>Funcionários</h2>
+                <h2>Parceiros</h2>
               </ion-toolbar>
             </ion-card-header>
             <ion-card-content>

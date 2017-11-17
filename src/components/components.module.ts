@@ -13,6 +13,7 @@ import { SelectProdutoComponent } from './select-produto/select-produto';
 import { EnderecoAutocompleteComponent } from './endereco-autocomplete/endereco-autocomplete';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { CounterInputComponent } from './counter-input/counter-input';
+import { SelectPhotoComponent } from './select-photo/select-photo';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { CounterInputComponent } from './counter-input/counter-input';
     SelectProdutoComponent,
     EnderecoAutocompleteComponent,
     CounterInputComponent,
+    SelectPhotoComponent,
     ],
 	imports: [
         DirectivesModule,
@@ -44,6 +46,7 @@ import { CounterInputComponent } from './counter-input/counter-input';
     SelectProdutoComponent,
     EnderecoAutocompleteComponent,
     CounterInputComponent,
+    SelectPhotoComponent,
     ]
 })
 export class ComponentsModule {}

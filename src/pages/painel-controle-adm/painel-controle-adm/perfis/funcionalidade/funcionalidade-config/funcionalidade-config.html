@@ -1,27 +1,23 @@
 <ion-header class="content-desktop">
 
   <ion-navbar>
-    <ion-title>Configuração da Funcionalidade</ion-title>
+    <h4>{{funcionalidade.fun_nome}} ({{funcionalidade.fun_mnemonico}})</h4>
+    <p>{{funcionalidade.fun_descricao}}</p>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding class="content-desktop">
-  <h4>{{funcionalidade.fun_nome}} ({{funcionalidade.fun_mnemonico}})</h4>
-  <p>{{funcionalidade.fun_descricao}}</p>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-toolbar>
-        <h2>Ações</h2>
-        <ion-buttons end>
-          <button ion-button outline icon-only color="primary" (click)="editAcao(null)">
-            <ion-icon name="add-circle"></ion-icon>
-          </button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-card-header>
+  <div>
+    <ion-toolbar>
+      <ion-title>Ações</ion-title>
+      <ion-buttons end>
+        <button ion-button outline icon-only color="primary" (click)="editAcao(null)">
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
     <ion-list>
       <ion-item-sliding *ngFor='let acao of acaoSrvc.acoes | async'>
         <ion-item>
@@ -40,6 +36,6 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-  </ion-card>
+  </div>
 
 </ion-content>

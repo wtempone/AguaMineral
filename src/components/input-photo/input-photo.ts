@@ -19,7 +19,6 @@ export class InputPhotoComponent {
   }
   changePhoto() {
     this.modal = this.modalCtrl.create('PhotoCropperPage', { format: this.format });
-    //this.modal = this.modalCtrl.create('PhotoResizePage',{format:this.format});
     this.modal.present();
     this.modal.onDidDismiss((img) => {
       this.value = img;

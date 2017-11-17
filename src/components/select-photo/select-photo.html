@@ -1,0 +1,13 @@
+<div text-center class="img-photo">
+    <img *ngIf="value" [src]="value" />
+    <img *ngIf="!value" src="assets/img/img_placeholder.png" />
+</div>
+<div>
+    <p text-center>
+        <label for="file-upload" class="button button-md button-default button-default-md button-label">
+        <span *ngIf="value">{{ 'CHANGE_PHOTO' | translate }}</span>
+        <span *ngIf="!value">{{ 'SELECT_PHOTO' | translate }}</span>                            
+        </label>
+    </p>
+    <input id="file-upload" type="file" (change)="fileChangeListener($event)" style="display:none">
+</div>

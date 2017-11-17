@@ -26,7 +26,7 @@
           Preço unitário:
           <span ion-text color="customColor3"> R$ {{distribuidorProduto.dist_preco}} </span>
         </div>
-        <counter-input margin-top ion-text text-right formControlName="dist_quantidade" [counterRangeMax]="99" [counterRangeMin]="0"></counter-input>
+        <counter-input margin-top ion-text text-right formControlName="dist_quantidade" (change)="changeQuantidade($event)" [counterRangeMax]="99" [counterRangeMin]="0"></counter-input>
       </ion-item>
     </ion-list>
     <ion-list no-lines no-padding>
@@ -42,6 +42,6 @@
 <ion-footer>
   <button ion-button block icon-left color="customColor2" (click)="adicionarProduto()">
     <ion-icon name="checkmark"></ion-icon>
-    Adicionar
+    {{ atualizar ? 'Atualizar' : 'Adicionar' }}
   </button>
 </ion-footer>

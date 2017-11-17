@@ -1,7 +1,7 @@
-<ion-content padding class="content-desktop">
+<ion-content class="content-desktop">
 
     <div class="content-desktop-margin-bottom">
-        <div>
+        <div padding>
             <ion-segment [(ngModel)]="config">
                 <ion-segment-button value="ativas">
                     Ativas
@@ -15,7 +15,7 @@
             </ion-segment>
         </div>
         <div [ngSwitch]="config">
-            <ion-card *ngSwitchCase="'ativas'">
+            <div *ngSwitchCase="'ativas'">
                 <ion-list>
                     <ion-item-sliding *ngFor='let distribuidor of distribuidoresOk'>
                         <ion-item>
@@ -29,8 +29,8 @@
                         </ion-item>
                     </ion-item-sliding>
                 </ion-list>
-            </ion-card>
-            <ion-card *ngSwitchCase="'inativas'">
+            </div>
+            <div *ngSwitchCase="'inativas'">
                 <ion-list>
                     <ion-item-sliding *ngFor='let distribuidor of distribuidoresPendentes'>
                         <ion-item>
@@ -44,11 +44,11 @@
                         </ion-item>
                     </ion-item-sliding>
                 </ion-list>
-            </ion-card>
+            </div>
 
-            <ion-card class="transparent-card" *ngSwitchCase="'mapa'">
+            <div  *ngSwitchCase="'mapa'">
                 <div #map id="map"></div>
-            </ion-card>
+            </div>
         </div>
     </div>
 </ion-content>
