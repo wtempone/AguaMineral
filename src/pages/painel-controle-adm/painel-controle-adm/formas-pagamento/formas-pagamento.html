@@ -1,38 +1,34 @@
 <ion-content padding class="content-desktop">
-  <ion-card>
-    <ion-card-header>
-      <ion-toolbar>
-        <h2>Formas de Pagamento</h2>
-        <ion-buttons end>
-          <button ion-button clear icon-only color="primary" (click)="editFormaPagamento(null)">
-            <ion-icon name="add-circle"></ion-icon>
-          </button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-card-header>
-    <ion-list>
-      <ion-item-sliding *ngFor='let formaPagamento of formaPagamentoSrvc.formasPagamento | async'>
-        <ion-item>
-          <ion-avatar item-start>
-            <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
-          </ion-avatar>
-          <h2>{{formaPagamento.pag_descricao}} ({{formaPagamento.pag_mnemonico}})</h2>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button color="primary" (click)="editFormaPagamento(formaPagamento)">
-            <ion-icon name="create"></ion-icon>
-            Editar
-          </button>
-          <button ion-button color="danger" (click)="excluirFormaPagamento(formaPagamento.$key)">
-            <ion-icon name="trash"></ion-icon>
-            Excluir
-          </button>
-          <button ion-button color="dark" (click)="configurarFormaPagamento(formaPagamento)">
-            <ion-icon name="settings"></ion-icon>
-            Configurar
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
-  </ion-card>
+  <ion-toolbar>
+    <ion-title>Formas de Pagamento</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only color="primary" (click)="editFormaPagamento(null)">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-list>
+    <ion-item-sliding *ngFor='let formaPagamento of formaPagamentoSrvc.formasPagamento | async'>
+      <ion-item>
+        <ion-avatar item-start>
+          <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
+        </ion-avatar>
+        <h2>{{formaPagamento.pag_descricao}} ({{formaPagamento.pag_mnemonico}})</h2>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="primary" (click)="editFormaPagamento(formaPagamento)">
+          <ion-icon name="create"></ion-icon>
+          Editar
+        </button>
+        <button ion-button color="danger" (click)="excluirFormaPagamento(formaPagamento.$key)">
+          <ion-icon name="trash"></ion-icon>
+          Excluir
+        </button>
+        <button ion-button color="dark" (click)="configurarFormaPagamento(formaPagamento)">
+          <ion-icon name="settings"></ion-icon>
+          Configurar
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
