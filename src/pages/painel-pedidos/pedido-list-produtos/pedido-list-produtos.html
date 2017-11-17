@@ -17,41 +17,80 @@
         <ion-segment-button value="catalogo">
           Produtos
         </ion-segment-button>
-        <ion-segment-button value="pedido">
-          Pedido
+        <ion-segment-button value="informacoes">
+          Informações
         </ion-segment-button>
       </ion-segment>
     </div>
     <div [ngSwitch]="configuracao">
       <div *ngSwitchCase="'catalogo'">
-          <ion-list>
-            <ion-item (click)="adicionarAoCarrinho(distribuidorProduto)" *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.distribuidorProdutos'>
-              <ion-thumbnail item-start>
-                <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
-              </ion-thumbnail>
-              <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
-              <p>{{distribuidorProduto.produto?.pro_descricao}}</p>
-              <p ion-text text-right color="customColor3">R$ {{distribuidorProduto.dist_preco}}</p>
-              <!-- <button ion-button icon-left color="primary" (click)="editDistribuidorCategoria(null)">
+        <ion-list>
+          <ion-item (click)="adicionarAoCarrinho(distribuidorProduto)" *ngFor='let distribuidorProduto of distribuidorProdutoSrvc.distribuidorProdutos'>
+            <ion-thumbnail item-start>
+              <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
+            </ion-thumbnail>
+            <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
+            <p>{{distribuidorProduto.produto?.pro_descricao}}</p>
+            <p ion-text text-right color="customColor3">R$ {{distribuidorProduto.dist_preco}}</p>
+            <!-- <button ion-button icon-left color="primary" (click)="editDistribuidorCategoria(null)">
                 <ion-icon name="add-circle"></ion-icon>
                 Adicionar ao Carrinho
               </button> -->
-            </ion-item>
-          </ion-list>
-      </div>
-    </div>
-  </div>
-  <ion-card class='carrinho' no-margin>
-      <ion-list>
-        <ion-item>
-            <h2>1 Item </h2>
-            <p>R$ 99,99 </p>
-            <button ion-button large  icon-rigth item-end>
-                Ver Carrinho 
-                <ion-icon name="cart"></ion-icon>                
-            </button>            
           </ion-item>
-      </ion-list>
-    </ion-card>
-  
+        </ion-list>
+      </div>
+      <div *ngSwitchCase="'informacoes'">
+        <ion-list>
+            <ion-item-group>
+              <ion-item-divider color="light">Resumo</ion-item-divider>
+              <ion-item text-wrap>
+                É preciso entender que, apesar de ser um item básico de compra, ter água mineral em casa é luxo e a maioria das famílias
+                que aderem ao item estão localizadas de acordo com seu poder aquisitivo da classe média baixa em diante.
+                Mas há ainda os consumidores que optam por comprar água mineral em galões para colocar em bebedouros. Por
+                isso, a clientela é mais ampla: empresa, escritórios, edifícios empresariais, comerciantes, restaurantes,
+                entre outros.
+              </ion-item>
+              <ion-item-divider color="light">Resumo</ion-item-divider>
+              <ion-item text-wrap>
+                É preciso entender que, apesar de ser um item básico de compra, ter água mineral em casa é luxo e a maioria das famílias
+                que aderem ao item estão localizadas de acordo com seu poder aquisitivo da classe média baixa em diante.
+                Mas há ainda os consumidores que optam por comprar água mineral em galões para colocar em bebedouros. Por
+                isso, a clientela é mais ampla: empresa, escritórios, edifícios empresariais, comerciantes, restaurantes,
+                entre outros.
+              </ion-item>
+              <ion-item-divider color="light">Resumo</ion-item-divider>
+              <ion-item text-wrap>
+                É preciso entender que, apesar de ser um item básico de compra, ter água mineral em casa é luxo e a maioria das famílias
+                que aderem ao item estão localizadas de acordo com seu poder aquisitivo da classe média baixa em diante.
+                Mas há ainda os consumidores que optam por comprar água mineral em galões para colocar em bebedouros. Por
+                isso, a clientela é mais ampla: empresa, escritórios, edifícios empresariais, comerciantes, restaurantes,
+                entre outros.
+              </ion-item>
+              <ion-item-divider color="light">Resumo</ion-item-divider>
+              <ion-item text-wrap>
+                É preciso entender que, apesar de ser um item básico de compra, ter água mineral em casa é luxo e a maioria das famílias
+                que aderem ao item estão localizadas de acordo com seu poder aquisitivo da classe média baixa em diante.
+                Mas há ainda os consumidores que optam por comprar água mineral em galões para colocar em bebedouros. Por
+                isso, a clientela é mais ampla: empresa, escritórios, edifícios empresariais, comerciantes, restaurantes,
+                entre outros.
+              </ion-item>
+            </ion-item-group>
+        </ion-list>
+      </div>
+
+    </div>
+
+  </div>
 </ion-content>
+<ion-footer *ngIf="carrinho?.produtos">
+  <ion-list no-margin>
+    <ion-item>
+      <h2>{{carrinho.produtos.length}} Item </h2>
+      <p ion-text color='customColor3'>R$ {{carrinho.total}} </p>
+      <button ion-button large icon-right item-end (click)="verCarrinho()">
+        Ver Carrinho
+        <ion-icon name="cart"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-footer>

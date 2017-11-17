@@ -1,3 +1,6 @@
+import { Distribuidor } from './../../../../providers/database/models/distribuidor';
+import { Pedido } from './../../../../providers/database/models/pedido';
+import { UsuarioService } from './../../../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { DistribuidorProduto } from '../../../../providers/database/models/distribuidor-produto';
@@ -11,6 +14,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AdicionarProdutoCarrinhoPage {
   marca: any;
   distribuidorProduto: DistribuidorProduto;
+  distribuidor: Distribuidor;
+  carrinho: Pedido;
   formulario: FormGroup;
   constructor(
     public navCtrl: NavController,
@@ -18,10 +23,19 @@ export class AdicionarProdutoCarrinhoPage {
     //public pedidosSrvc: PedidosService,
     private formBuilder: FormBuilder,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private usuarioSrvc: UsuarioService
   ) {
-    if (this.navParams.data)
-      this.distribuidorProduto = this.navParams.data;
+    if (this.navParams.data.distribuidorProduto) {
+      this.distribuidorProduto = this.navParams.data.distribuidorProduto;
+      this.distribuidor = this.navParams.data.distribuidor;
+      this.carrinho = this.navParams.data.carrinho;
+      if (this.carrinho.produtos) {
+        if (this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key).length > 0) {
+          this.distribuidorProduto = this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key)[0];
+        }
+      }
+    }
     else
       this.distribuidorProduto = <DistribuidorProduto>{
         dist_produto: null,
@@ -78,25 +92,46 @@ export class AdicionarProdutoCarrinhoPage {
     });
   }
 
-  salvarMarca() {
-    /*
-    if (this.formulario.valid) {
-      this.marca.mrc_nome = this.formulario.get('mrc_nome').value;
-      this.marca.mrc_img = this.mrc_img.value;
+  
+  adicionarProduto() {
+    if (!this.carrinho) {
+      this.carrinho = <Pedido>{
+        distribuidor: <Distribuidor>{
+          dist_nome: this.distribuidor.dist_nome,
+          dist_img: this.distribuidor.dist_img,
+          dist_cnpj: this.distribuidor.dist_cnpj,
+          dist_email: this.distribuidor.dist_email,
+          dist_celular: this.distribuidor.dist_celular,
+          dist_endereco: this.distribuidor.dist_endereco,
+          dist_telefone: this.distribuidor.dist_telefone
+        }
+      };
+    }
+    if (!this.carrinho.produtos) {
+      this.carrinho.produtos = [];
+    }
+    this.distribuidorProduto.dist_quantidade = this.formulario.get('dist_quantidade').value;
+    this.distribuidorProduto.dist_total = this.distribuidorProduto.dist_preco * this.distribuidorProduto.dist_quantidade;
 
-      let parsekey: any = this.marca;
-      if (parsekey.$key) {
-        this.marcaSrvc.update(parsekey.$key, this.marca).then(() => {
-          this.mensagemFinal('Marca alterada com sucesso.');
-        })
-      } else {
-        this.marcaSrvc.create(this.marca).then(() => {
-          this.mensagemFinal('Marca criada com sucesso.');
-        })
-      }
+    if (this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.key).length > 0) {
+      this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.key)[0].dist_quantidade = this.distribuidorProduto.dist_quantidade;
+      this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.key)[0].dist_total = this.distribuidorProduto.dist_total;
     } else {
-      this.verificaValidacoesForm(this.formulario);      
-    }*/
+      this.distribuidorProduto.key = this.distribuidorProduto.$key;
+      this.carrinho.produtos.push(this.distribuidorProduto);
+    }
+    this.atualizarCarrinho()
+    this.navCtrl.pop();
   }
+
+  atualizarCarrinho() {
+    this.carrinho.total = 0;
+    this.carrinho.produtos.forEach(x => {
+      this.carrinho.total += x.dist_total;
+    });
+    this.usuarioSrvc.usuarioAtual.usr_carrinho = this.carrinho;
+    this.usuarioSrvc.updateCarrinho(this.carrinho);
+  }
+
 
 }

@@ -1,3 +1,6 @@
+import { Pedido } from './../../../providers/database/models/pedido';
+import { UsuarioService } from './../../../providers/database/services/usuario';
+import { Usuario } from './../../../providers/database/models/usuario';
 import { DistribuidorService } from './../../../providers/database/services/distribuidor';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
@@ -6,6 +9,7 @@ import { DistribuidorProdutoService } from '../../../providers/database/services
 import { DistribuidorProduto } from '../../../providers/database/models/distribuidor-produto';
 import { DistribuidorCategoriaService } from '../../../providers/database/services/distribuidor-categoria';
 import { DistribuidorCategoria } from '../../../providers/database/models/distribuidor-categoria';
+import { FirebaseObjectObservable } from 'angularfire2/database';
 
 @IonicPage()
 @Component({
@@ -15,6 +19,7 @@ import { DistribuidorCategoria } from '../../../providers/database/models/distri
 export class PedidoListProdutosPage {
   distribuidor: Distribuidor;
   configuracao = 'catalogo';
+  carrinho: Pedido;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -23,16 +28,27 @@ export class PedidoListProdutosPage {
     public distribuidorCategoriaSrvc: DistribuidorCategoriaService,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public usuarioSrvc: UsuarioService
     
   ) {
     if (this.navParams.data) {
       this.distribuidor = this.navParams.data;
+      this.usuarioSrvc.getCarrinho().subscribe((carrinho:Pedido) => {
+        this.carrinho = carrinho;
+        }
+      )
       this.refresh();
     }
   }
+  verCarrinho() {
+    this.navCtrl.push('CarrinhoPage', {carrinho: this.carrinho})    
+  }  
   adicionarAoCarrinho(distribuidorProduto) {
-    this.navCtrl.push('AdicionarProdutoCarrinhoPage',distribuidorProduto,{ animate: true, direction: 'switch'})
+    this.navCtrl.push('AdicionarProdutoCarrinhoPage',{
+      distribuidorProduto: distribuidorProduto, 
+      distribuidor: this.distribuidor, 
+      carrinho: this.carrinho },{ animate: true, direction: 'switch'})
   }
   refresh(){
     this.distribuidorProdutoSrvc.getAll(this.distribuidor.$key);

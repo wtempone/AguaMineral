@@ -3,7 +3,7 @@
     <ion-title>{{distribuidorProduto.produto?.pro_nome}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding class="content-desktop content-desktop-margin-bottom">
+<ion-content class="content-desktop content-desktop-margin-bottom">
   <ion-item text-center>
     <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
     <img *ngIf="!distribuidorProduto.produto?.pro_img" src="/assets/img/img_placeholder.png">
@@ -16,12 +16,12 @@
   </ion-item>
 
   <form [formGroup]="formulario" novalidate>
-    <ion-list>
+    <ion-list no-padding>
       <ion-item>
         <ion-label stacked>Observação</ion-label>
         <ion-textarea [class.invalid]="verificaValidTouched('dist_observacao')" formControlName="dist_observacao" type="text" placeholder=""></ion-textarea>
       </ion-item>
-      <ion-item>
+      <ion-item padding-left>
         <div margin-top float-left>
           Preço unitário:
           <span ion-text color="customColor3"> R$ {{distribuidorProduto.dist_preco}} </span>
@@ -40,7 +40,7 @@
   </form>
 </ion-content>
 <ion-footer>
-  <button ion-button block icon-left color="customColor2">
+  <button ion-button block icon-left color="customColor2" (click)="adicionarProduto()">
     <ion-icon name="checkmark"></ion-icon>
     Adicionar
   </button>

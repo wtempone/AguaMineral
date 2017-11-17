@@ -1,3 +1,4 @@
+import { Pedido } from './pedido';
 import { Endereco } from './shared-models';
 import { PerfilAcesso } from './perfil-acesso';
 import { MenuAcesso } from './menu-acesso';
@@ -19,5 +20,6 @@ export class Usuario {
   usr_menus?: MenuAcesso[];
   usr_funcionalidades?: Funcionalidade[];
   usr_distribuidores?: string[];
+  usr_carrinho: Pedido;
   _selecionado: boolean;
 }

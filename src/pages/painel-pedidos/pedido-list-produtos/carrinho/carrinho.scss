@@ -1,0 +1,17 @@
+page-carrinho {
+    .item-carrinho {
+        padding:0 !important;
+        margin: 0 !important;
+        ion-thumbnail {
+            min-height: 3em !important;     
+            min-width: 3.5em !important;
+            max-height: 3em !important;     
+            max-width: 3em !important;
+            img{
+                max-height: 3em !important;     
+                max-width: 3em !important;
+            }         
+        }        
+
+    }  
+}

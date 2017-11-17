@@ -11,6 +11,7 @@ import { FuncionalidadeService } from './funcionalidade';
 import { AcaoService } from './acao';
 import { Funcionalidade } from '../models/funcionalidade';
 import { Acao } from '../models/acao';
+import { Pedido } from '../models/pedido';
 
 @Injectable()
 export class UsuarioService {
@@ -244,10 +245,21 @@ export class UsuarioService {
       });
     })
   }
+
   set(key: string, value: any) {
     const path = `${this.basePath}/${key}`
     return this.db.object(path).set(value);    
   }    
+
+  updateCarrinho(carrinho: Pedido) {
+    const path = `${this.basePath}/${this.usuarioAtual.key}/usr_carrinho`
+    return this.db.object(path).set(carrinho);
+  }
+
+  getCarrinho():FirebaseObjectObservable<Pedido> {
+    const path = `${this.basePath}/${this.usuarioAtual.key}/usr_carrinho`
+    return this.db.object(path);
+  }
 
   update(key: string, value: any) {
     //this.updateMenu(value);
