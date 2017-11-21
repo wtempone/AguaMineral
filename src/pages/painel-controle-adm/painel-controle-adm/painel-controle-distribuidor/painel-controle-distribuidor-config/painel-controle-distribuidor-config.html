@@ -128,7 +128,7 @@
                   <img *ngIf="formaPagamento.pag_tipos[key].tipopag_img" [src]="formaPagamento.pag_tipos[key].tipopag_img">
                 </ion-avatar>
                 <ion-label>{{formaPagamento.pag_tipos[key].tipopag_descricao}}</ion-label>                
-                <ion-checkbox [(ngModel)]="formaPagamento.pag_tipos[key]._selecionado" (ngModelChange)="changeTipoPagamento($event, iTipo, iForma)" ></ion-checkbox>
+                <ion-checkbox [(ngModel)]="formaPagamento.pag_tipos[key]._selecionado" (ngModelChange)="changeTipoPagamento($event, iTipo, iForma, key )" ></ion-checkbox>
               </ion-item>
             </ion-list>
           </div>

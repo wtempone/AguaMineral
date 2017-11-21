@@ -82,10 +82,12 @@ export class PainelControleDistribuidorConfigPage {
           formaPagamentoBase._selecionada = this.distribuidor.dist_formasPagamento.filter(x => x.key == formaPagamentoBase.$key).length > 0;
           if (formaPagamentoBase._selecionada) {
             if (formaPagamentoBase.pag_tipos) {
-              let tiposPagamento = this.distribuidor.dist_formasPagamento.filter(x => x.$key == formaPagamentoBase.$key)[0].pag_tipos;
-              formaPagamentoBase.pag_tipos.forEach((tipoPagamentoBase: TipoPagamento) => {
-                tipoPagamentoBase._selecionado == tiposPagamento.filter(x => x == tipoPagamentoBase.$key).length > 0;
-              })
+              if (this.distribuidor.dist_formasPagamento.filter(x => x.$key == formaPagamentoBase.$key)[0].pag_tipos) {
+                let tiposPagamento = this.distribuidor.dist_formasPagamento.filter(x => x.$key == formaPagamentoBase.$key)[0].pag_tipos;
+                formaPagamentoBase.pag_tipos.forEach((tipoPagamentoBase: TipoPagamento) => {
+                  tipoPagamentoBase._selecionado == tiposPagamento.filter(x => x == tipoPagamentoBase.$key).length > 0;
+                })
+              }
             }
           }
         } else {
@@ -106,40 +108,40 @@ export class PainelControleDistribuidorConfigPage {
       this.distribuidor.dist_formasPagamento = [];
     }
     if (ev == true) {
-      if (this.distribuidor.dist_formasPagamento.filter(x => x.key == this.formasPagamento[index].key).length == 0) {                
+      if (this.distribuidor.dist_formasPagamento.filter(x => x.key == this.formasPagamento[index].key).length == 0) {
         this.distribuidor.dist_formasPagamento.push(<DistribuidorFormaPagamento>{
-          key: this.formasPagamento[index].$key          
+          key: this.formasPagamento[index].$key
         })
       } else {
       }
     } else {
-      if (this.distribuidor.dist_formasPagamento.filter(x => x.key == this.formasPagamento[index].key).length > 0) {                
-        let ind = this.distribuidor.dist_formasPagamento.findIndex(x => x.key == this.formasPagamento[index].$key);
+      if (this.distribuidor.dist_formasPagamento.filter(x => x.key == this.formasPagamento[index].key).length > 0) {
+        let ind = this.distribuidor.dist_formasPagamento.findIndex(x => x.key == this.formasPagamento[index]);
         this.distribuidor.dist_formasPagamento.splice(ind);
       }
     }
-  }  
+  }
 
-  changeTipoPagamento(ev, index, iForma) {
-    if (!iForma) return;
+  changeTipoPagamento(ev, index, iForma, keyTipoPagamento) {
+    if (!keyTipoPagamento) return;
 
     let indexForma = this.distribuidor.dist_formasPagamento.findIndex(x => x.key == this.formasPagamento[iForma].$key);
 
     if (indexForma < 0) {
       this.changeFormaPagamento(true, iForma);
-      indexForma = this.distribuidor.dist_formasPagamento.findIndex(x => x.key == this.formasPagamento[iForma].$key);      
+      indexForma = this.distribuidor.dist_formasPagamento.findIndex(x => x.key == this.formasPagamento[iForma].$key);
     }
 
     if (!this.distribuidor.dist_formasPagamento[indexForma].pag_tipos) {
       this.distribuidor.dist_formasPagamento[indexForma].pag_tipos = [];
     }
     if (ev == true) {
-      if (this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.filter(x => x == this.formasPagamento[indexForma].pag_tipos[index]).length == 0) {                
-        this.distribuidor.dist_formasPagamento.push((<any>Object).key(this.formasPagamento[indexForma].pag_tipos[index].$key))
+      if (this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.filter(x => x == this.formasPagamento[indexForma].pag_tipos[index]).length == 0) {
+        this.distribuidor.dist_formasPagamento.push(keyTipoPagamento)
       }
     } else {
-      if (this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.filter(x => x == this.formasPagamento[indexForma].pag_tipos[index]).length > 0) {                
-        let ind = this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.findIndex(x => x == this.formasPagamento[indexForma].pag_tipos[index]);
+      if (this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.filter(x => x == this.formasPagamento[indexForma].pag_tipos[index]).length > 0) {
+        let ind = this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.findIndex(x => x == keyTipoPagamento);
         this.distribuidor.dist_formasPagamento[indexForma].pag_tipos.splice(ind);
       }
     }
