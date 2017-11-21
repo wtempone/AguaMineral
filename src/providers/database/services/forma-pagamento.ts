@@ -7,7 +7,7 @@ import { FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase }
 
 @Injectable()
 export class FormaPagamentoService {
-  public basePath: string = '/forma_pagamento';
+  public basePath: string = '/formas_pagamento';
   public formasPagamento: FirebaseListObservable<FormaPagamento[]> = null; //  list of objects
   public formaPagamento: FirebaseObjectObservable<FormaPagamento> = null; //   single object
 

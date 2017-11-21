@@ -5,6 +5,6 @@ export interface FormaPagamento {
     pag_mnemonico: string;
     pag_descricao: string
     pag_img: string
-    pag_tipos: TipoPagamento;
+    pag_tipos: TipoPagamento[];
     _selecionada: boolean;    
 }

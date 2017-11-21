@@ -15,13 +15,13 @@ export class TipoPagamentoService {
   ) {
   }
   getAll(key: string) {
-    this.basePath = `/forma_pagamentos/${key}/pag_tipos`;
+    this.basePath = `/formas_pagamento/${key}/pag_tipos`;
     this.tiposPagamento = this.db.list(this.basePath);    
   }
 
   get(keyFormaPagamento, key:string): Promise<TipoPagamento> {
     return new Promise(resolve => {
-      const path = `/forma_pagamentos/${keyFormaPagamento}/pag_tipos/${key}`
+      const path = `/formas_pagamento/${keyFormaPagamento}/pag_tipos/${key}`
       this.formaPagamentoAtualKey = keyFormaPagamento;
       this.db.object(path).take(1).subscribe((tipoPagamento: TipoPagamento) => {
         resolve(tipoPagamento);

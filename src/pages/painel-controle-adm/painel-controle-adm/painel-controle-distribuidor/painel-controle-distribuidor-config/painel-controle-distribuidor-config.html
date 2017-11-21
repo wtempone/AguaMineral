@@ -1,16 +1,19 @@
 <ion-header class="content-desktop">
   <ion-navbar>
-    <ion-title *ngIf="distribuidor" >{{distribuidor.dist_nome}}</ion-title>
+    <ion-title *ngIf="distribuidor">{{distribuidor.dist_nome}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="content-desktop">
-  <div class="content-desktop-margin-bottom"  *ngIf="distribuidor">
+  <div class="content-desktop-margin-bottom" *ngIf="distribuidor">
 
     <div>
       <ion-segment [(ngModel)]="configuracao">
         <ion-segment-button value="geral">
           Geral
+        </ion-segment-button>
+        <ion-segment-button value="formasPagamento">
+          Formas de Pagamento
         </ion-segment-button>
         <ion-segment-button value="funcionarios">
           Funcionários
@@ -52,14 +55,15 @@
               <ion-list no-lines>
                 <ion-item>
                   <ion-label stacked>Endereço:</ion-label>
-                  <ion-textarea value="{{distribuidor.dist_endereco.rua + ', ' + distribuidor.dist_endereco.complemento + ', ' + distribuidor.dist_endereco.numero + ', ' + distribuidor.dist_endereco.bairro + ', ' + distribuidor.dist_endereco.cidade + ', ' + distribuidor.dist_endereco.estado + ' - ' + distribuidor.dist_endereco.cep}}" disabled></ion-textarea>
+                  <ion-textarea value="{{distribuidor.dist_endereco.rua + ', ' + distribuidor.dist_endereco.complemento + ', ' + distribuidor.dist_endereco.numero + ', ' + distribuidor.dist_endereco.bairro + ', ' + distribuidor.dist_endereco.cidade + ', ' + distribuidor.dist_endereco.estado + ' - ' + distribuidor.dist_endereco.cep}}"
+                    disabled></ion-textarea>
                 </ion-item>
               </ion-list>
             </ion-col>
             <ion-col>
               <button (click)="ativar()" ion-button block color="{{distribuidor.dist_ativo ? 'danger' : 'secondary'}}">{{distribuidor.dist_ativo ? 'Inativar Distribuidora' : 'Ativar distribuidora'}}</button>
               <button (click)="alterarDados(distribuidor)" ion-button block>Alterar Dados</button>
-            </ion-col>                
+            </ion-col>
           </ion-row>
         </ion-grid>
       </div>
@@ -104,6 +108,31 @@
           </ion-card-content>
         </ion-card>
 
+      </div>
+      <div *ngSwitchCase="'formasPagamento'">
+        <ion-list>
+          <ion-list-header>
+            Formas de Pagamento
+          </ion-list-header>
+          <div *ngFor="let formaPagamento of formasPagamento; let iForma = index">
+            <ion-item>
+              <ion-avatar item-end>
+                <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
+              </ion-avatar>
+              <ion-label>{{formaPagamento.pag_descricao}}</ion-label>
+              <ion-checkbox [(ngModel)]="formaPagamento._selecionada" (ngModelChange)="changeFormaPagamento($event, iForma)"></ion-checkbox>
+            </ion-item>
+            <ion-list *ngIf='formaPagamento.pag_tipos' inset>
+              <ion-item *ngFor="let key of formaPagamento.keysTipos; let iTipo = index">
+                <ion-avatar item-end>
+                  <img *ngIf="formaPagamento.pag_tipos[key].tipopag_img" [src]="formaPagamento.pag_tipos[key].tipopag_img">
+                </ion-avatar>
+                <ion-label>{{formaPagamento.pag_tipos[key].tipopag_descricao}}</ion-label>                
+                <ion-checkbox [(ngModel)]="formaPagamento.pag_tipos[key]._selecionado" (ngModelChange)="changeTipoPagamento($event, iTipo, iForma)" ></ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </div>
+        </ion-list>
       </div>
     </div>
   </div>

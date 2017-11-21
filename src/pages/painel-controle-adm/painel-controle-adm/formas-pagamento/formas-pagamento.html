@@ -13,7 +13,7 @@
         <ion-avatar item-start>
           <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
         </ion-avatar>
-        <h2>{{formaPagamento.pag_descricao}} ({{formaPagamento.pag_mnemonico}})</h2>
+        <h2>{{formaPagamento.pag_descricao}}</h2>
       </ion-item>
       <ion-item-options>
         <button ion-button color="primary" (click)="editFormaPagamento(formaPagamento)">
