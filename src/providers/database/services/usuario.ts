@@ -261,6 +261,11 @@ export class UsuarioService {
     return this.db.object(path);
   }
 
+  removeCarrinho() {
+    const path = `${this.basePath}/${this.usuarioAtual.key}/usr_carrinho`
+    return this.db.object(path).remove();
+  }
+
   update(key: string, value: any) {
     //this.updateMenu(value);
     return new Promise(resolve => {

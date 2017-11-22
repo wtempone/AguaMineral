@@ -4,6 +4,7 @@ import { DistribuidorFormaPagamento } from './distribuidor-forma-pagamento';
 
 export interface Distribuidor {
   $key: string;
+  key: string;
   dist_nome: string;
   dist_cnpj: string;
   dist_telefone: string;
@@ -18,5 +19,6 @@ export interface Distribuidor {
   dist_endereco: Endereco;
   dist_perfis: any[]; 
   dist_funcionarios: any[]; 
-  dist_formasPagamento: DistribuidorFormaPagamento[];
+  dist_formas_pagamento: DistribuidorFormaPagamento[];
+  dist_taxa_entrega?: number;
 }

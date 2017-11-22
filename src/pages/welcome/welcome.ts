@@ -47,6 +47,8 @@ export class WelcomePage {
     this.usuarioSrvc.usuarioAtual.usr_endereco.push(endereco);
     const path = `${this.usuarioSrvc.basePath}/${this.usuarioSrvc.usuarioAtual.key}/usr_endereco`;
     this.usuarioSrvc.db.object(path).set(this.usuarioSrvc.usuarioAtual.usr_endereco);
+    this.storage.set("_UsuarioAtual",this.usuarioSrvc.usuarioAtual);
+    
   }
 
   signupDistribuidora() {

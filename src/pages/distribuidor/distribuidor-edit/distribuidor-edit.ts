@@ -45,14 +45,16 @@ export class DistribuidorEditPage {
       dist_cnpj: [null, Validators.compose([Validators.required, Validators.pattern(this.masks.cnpj.pattern)])],
       dist_telefone: [null],
       dist_celular: [null],
-      dist_email: [null, Validators.compose([Validators.required, Validators.email])]
+      dist_email: [null, Validators.compose([Validators.required, Validators.email])],
+      dist_taxa_entrega: [null],
     });
 
     this.formulario.patchValue({
       dist_nome: this.distribuidor.dist_nome,
       dist_cnpj: this.distribuidor.dist_cnpj,
       dist_telefone: this.distribuidor.dist_telefone,
-      dist_email: this.distribuidor.dist_email
+      dist_email: this.distribuidor.dist_email,
+      dist_taxa_entrega: this.distribuidor.dist_taxa_entrega
     });
   }
 
@@ -85,6 +87,7 @@ export class DistribuidorEditPage {
           this.distribuidor.dist_telefone = this.formulario.get('dist_telefone').value;
           this.distribuidor.dist_celular = this.formulario.get('dist_celular').value;
           this.distribuidor.dist_email = this.formulario.get('dist_email').value;
+          this.distribuidor.dist_taxa_entrega = this.formulario.get('dist_taxa_entrega').value;
           this.distribuidor.dist_img = this.dist_img.value;
           this.distribuidor.dist_data = new Date(Date.now());
           this.distribuidor.dist_online = false;

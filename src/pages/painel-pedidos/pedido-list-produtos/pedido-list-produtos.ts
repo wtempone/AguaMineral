@@ -19,9 +19,8 @@ import { FirebaseObjectObservable } from 'angularfire2/database';
 export class PedidoListProdutosPage {
   distribuidor: Distribuidor;
   configuracao = 'catalogo';
-  carrinho: Pedido;
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public distribuidorSrvc: DistribuidorService,
     public distribuidorProdutoSrvc: DistribuidorProdutoService,
@@ -30,33 +29,30 @@ export class PedidoListProdutosPage {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public usuarioSrvc: UsuarioService
-    
+
   ) {
     if (this.navParams.data) {
       this.distribuidor = this.navParams.data;
-      this.usuarioSrvc.getCarrinho().subscribe((carrinho:Pedido) => {
-        this.carrinho = carrinho;
-        }
-      )
       this.refresh();
     }
   }
   verCarrinho() {
-    this.navCtrl.push('CarrinhoPage', {carrinho: this.carrinho})    
-  }  
-  adicionarAoCarrinho(distribuidorProduto) {
-    this.navCtrl.push('AdicionarProdutoCarrinhoPage',{
-      distribuidorProduto: distribuidorProduto, 
-      distribuidor: this.distribuidor, 
-      carrinho: this.carrinho },{ animate: true, direction: 'switch'})
+    this.navCtrl.push('CarrinhoPage')
   }
-  refresh(){
+  adicionarAoCarrinho(distribuidorProduto) {
+    this.navCtrl.push('AdicionarProdutoCarrinhoPage', {
+      distribuidorProduto: distribuidorProduto,
+      distribuidor: this.distribuidor,
+      carrinho: this.usuarioSrvc.usuarioAtual.usr_carrinho
+    }, { animate: true, direction: 'switch' })
+  }
+  refresh() {
     this.distribuidorProdutoSrvc.getAll(this.distribuidor.$key);
     this.distribuidorCategoriaSrvc.getAll(this.distribuidor.$key);
   }
 
   editDistribuidorProduto(distribuidorProduto?: DistribuidorProduto) {
-    let modal = this.modalCtrl.create('DistribuidorProdutoEditPage', { distribuidorProduto:distribuidorProduto, distribuidorCategorias: this.distribuidorCategoriaSrvc.distribuidorCategorias });
+    let modal = this.modalCtrl.create('DistribuidorProdutoEditPage', { distribuidorProduto: distribuidorProduto, distribuidorCategorias: this.distribuidorCategoriaSrvc.distribuidorCategorias });
     modal.present({
       ev: event
     });
@@ -89,9 +85,9 @@ export class PedidoListProdutosPage {
     confirm.present();
   }
 
-  
+
   editDistribuidorCategoria(categoria?: DistribuidorCategoria) {
-    let modal = this.modalCtrl.create('CategoriaEditPage', { categoria : categoria });
+    let modal = this.modalCtrl.create('CategoriaEditPage', { categoria: categoria });
     modal.present({
       ev: event
     });

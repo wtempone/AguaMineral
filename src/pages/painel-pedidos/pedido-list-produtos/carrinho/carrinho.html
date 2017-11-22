@@ -1,18 +1,23 @@
-<ion-content class="content-desktop">
+<ion-content class="content-desktop" *ngIf='usuarioSrvc.usuarioAtual.usr_carrinho'>
   <ion-navbar icon-only>
     <ion-item no-margin no-lines>
       <ion-thumbnail item-start>
-        <img *ngIf="!carrinho" src="assets/img/appicon.png">
-        <img *ngIf="carrinho" [src]="carrinho.distribuidor.dist_img">
+        <img *ngIf="!usuarioSrvc.usuarioAtual.usr_carrinho" src="assets/img/appicon.png">
+        <img *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho" [src]="usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_img">
       </ion-thumbnail>
-      <h2> {{ carrinho.distribuidor.dist_nome }} </h2>
-      <p> {{ carrinho.distribuidor.dist_endereco.bairro }}</p>
-      <!-- <p *ngIf='!carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
-      <p *ngIf='carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
+      <h2> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_nome }} </h2>
+      <p> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_endereco.bairro }}</p>
+      <button item-end ion-button outline icon-right color="danger" (click)="limparCarrinho()">
+        Limpar Carrinho
+        <ion-icon name="trash"></ion-icon>
+      </button>
+
+      <!-- <p *ngIf='!usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
+      <p *ngIf='usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
     </ion-item>
   </ion-navbar>
   <ion-list no-padding>
-    <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of carrinho.produtos; let idx = index'>
+    <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of usuarioSrvc.usuarioAtual.usr_carrinho.produtos; let idx = index'>
       <ion-thumbnail item-start>
         <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
       </ion-thumbnail>
@@ -28,7 +33,7 @@
         <p>
           <counter-input margin-top ion-text text-right (ngModelChange)="changeQuantidade($event, idx)" [(ngModel)]="distribuidorProduto.dist_quantidade"
             [counterRangeMax]="99" [counterRangeMin]="0"></counter-input>
-            
+
         </p>
         <p ion-text color="customColor3">R$ {{distribuidorProduto.dist_total}}</p>
       </div>
@@ -45,18 +50,18 @@
     </button>
   </div>
 </ion-content>
-<ion-footer *ngIf="carrinho?.produtos" padding>
+<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos" padding>
   <ion-item no-pading>
     <p>
       Entrega:
-      <span float-right ion-text color="customColor2"> R$ 0.00 </span>
+      <span float-right ion-text color="customColor2"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_taxa_entrega}} </span>
     </p>
     <p>
       <strong>Total: </strong>
-      <span float-right ion-text color="customColor3"> R$ {{carrinho.total}} </span>
+      <span float-right ion-text color="customColor3"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </span>
     </p>
   </ion-item>
-  <button ion-button block icon-right>
+  <button ion-button block icon-right (click)="escolherFormaPagamento()">
     Escoher forma de pagamento
     <ion-icon name="cash"></ion-icon>
   </button>

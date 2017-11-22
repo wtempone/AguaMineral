@@ -11,16 +11,12 @@ import { FirebaseObjectObservable } from 'angularfire2/database';
   templateUrl: 'carrinho.html',
 })
 export class CarrinhoPage {
-  carrinho: Pedido;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public usuarioSrvc: UsuarioService,
     private alertCtrl: AlertController
   ) {
-    if (this.navParams.data.carrinho) {
-      this.carrinho = this.navParams.data.carrinho;
-    }
   }
   adicionarMaisProdutos() {
     this.navCtrl.pop();
@@ -35,15 +31,15 @@ export class CarrinhoPage {
           {
             text: 'Não',
             handler: () => {
-              this.carrinho.produtos[index].dist_quantidade = 1
-              this.carrinho.produtos[index].dist_total = this.carrinho.produtos[index].dist_preco;
+              this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_quantidade = 1
+              this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_total = this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_preco;
               this.atualizarCarrinho();
             }            
           },
           {
             text: 'Sim',
             handler: () => {
-              this.carrinho.produtos.splice(index, 1);
+              this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos.splice(index, 1);
               this.atualizarCarrinho();
             }
           }
@@ -51,19 +47,49 @@ export class CarrinhoPage {
       });
       confirm.present();
     } else {
-      this.carrinho.produtos[index].dist_total = ev * this.carrinho.produtos[index].dist_preco;
+      this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_quantidade = ev;
+      this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_total = ev * this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_preco;
       this.atualizarCarrinho();
     }
   }
 
-  atualizarCarrinho() {
-    this.carrinho.total = 0;    
-    this.carrinho.produtos.forEach(x => {
-      this.carrinho.total += x.dist_total;
+  limparCarrinho() {
+    let confirm = this.alertCtrl.create({
+      title: 'Confirma limpeza do carrinho?',
+      message: 'Todos os produtos serão retirados do carrainho. Deseja continuar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Limpar',
+          handler: () => {
+            this.excluirCarrinho();
+          }
+        }
+      ]
     });
-    this.usuarioSrvc.usuarioAtual.usr_carrinho = this.carrinho;
-    this.usuarioSrvc.updateCarrinho(this.carrinho);
+    confirm.present();
   }
 
+  excluirCarrinho() {
+    this.usuarioSrvc.usuarioAtual.usr_carrinho = null;
+    this.usuarioSrvc.removeCarrinho();
+    this.navCtrl.pop();
+  }
+
+  atualizarCarrinho() {
+    this.usuarioSrvc.usuarioAtual.usr_carrinho.total = 0;    
+    this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos.forEach(x => {
+      this.usuarioSrvc.usuarioAtual.usr_carrinho.total += x.dist_total;
+    });
+    this.usuarioSrvc.usuarioAtual.usr_carrinho.total += Number(this.usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_taxa_entrega);
+
+    this.usuarioSrvc.updateCarrinho(this.usuarioSrvc.usuarioAtual.usr_carrinho);
+  }
+
+  escolherFormaPagamento() {
+    this.navCtrl.push('PedidoFormaPagamentoPage')
+  }
 
 }

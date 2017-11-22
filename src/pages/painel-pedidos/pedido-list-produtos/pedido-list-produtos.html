@@ -82,11 +82,11 @@
 
   </div>
 </ion-content>
-<ion-footer *ngIf="carrinho?.produtos">
+<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos">
   <ion-list no-margin>
     <ion-item>
-      <h2>{{carrinho.produtos.length}} Item </h2>
-      <p ion-text color='customColor3'>R$ {{carrinho.total}} </p>
+      <h2>{{usuarioSrvc.usuarioAtual.usr_carrinho.produtos.length}} Item </h2>
+      <p ion-text color='customColor3'>R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </p>
       <button ion-button large icon-right item-end (click)="verCarrinho()">
         Ver Carrinho
         <ion-icon name="cart"></ion-icon>

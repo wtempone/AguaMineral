@@ -8,6 +8,7 @@ export interface Endereco {
   estado: string;
   latitude: number;
   longitude: number;
+  padrao: boolean;
 }
 
 

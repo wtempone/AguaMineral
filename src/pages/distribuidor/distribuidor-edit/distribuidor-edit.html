@@ -68,6 +68,15 @@
           <p *ngIf="formulario.get('dist_email').hasError('email')" class="error-message">{{ 'DIST_EMAIL_MESSAGE_INVALID' | translate }}</p>
         </ion-item>
 
+        <ion-item>
+          <ion-label stacked>Taxa de Entrega</ion-label>
+          <ion-input [class.invalid]="verificaValidTouched('dist_taxa_entrega')" type="number" formControlName="dist_taxa_entrega" placeholder="Informe a taxa de entrega"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="verificaValidTouched('dist_taxa_entrega')">
+          <p *ngIf="formulario.get('dist_taxa_entrega').hasError('required')" class="error-message">Taxa de entrega </p>
+        </ion-item>
+        
         <endereco (selectEndereco)="selectEndereco($event)" [noButtonSet]="true" [endereco]="distribuidor.dist_endereco"></endereco>
         <input-photo [value]="distribuidor.dist_img"></input-photo>
         <ion-item *ngIf="!dist_img">

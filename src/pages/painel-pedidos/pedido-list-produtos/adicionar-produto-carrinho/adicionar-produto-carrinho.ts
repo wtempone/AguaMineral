@@ -30,14 +30,20 @@ export class AdicionarProdutoCarrinhoPage {
     if (this.navParams.data.distribuidorProduto) {
       this.distribuidorProduto = this.navParams.data.distribuidorProduto;
       this.distribuidor = this.navParams.data.distribuidor;
-      this.carrinho = this.navParams.data.carrinho;
-      if (this.carrinho.produtos) {
-        if (this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key).length > 0) {
-          this.atualizar = true;
-          this.distribuidorProduto = this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key)[0];
+      if (this.navParams.data.carrinho) {
+        this.carrinho = this.navParams.data.carrinho;
+        if (this.carrinho.produtos) {
+          if (this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key).length > 0) {
+            this.atualizar = true;
+            this.distribuidorProduto = this.carrinho.produtos.filter(x => x.key == this.distribuidorProduto.$key)[0];
+          } else {
+            this.distribuidorProduto.dist_quantidade = 1;
+          }
         } else {
           this.distribuidorProduto.dist_quantidade = 1;
         }
+      } else {
+        this.distribuidorProduto.dist_quantidade = 1;        
       }
     }
     else
@@ -130,18 +136,19 @@ export class AdicionarProdutoCarrinhoPage {
     });
   }
 
-
   adicionarProduto() {
     if (!this.carrinho) {
       this.carrinho = <Pedido>{
         distribuidor: <Distribuidor>{
+          key: this.distribuidor.$key,
           dist_nome: this.distribuidor.dist_nome,
           dist_img: this.distribuidor.dist_img,
           dist_cnpj: this.distribuidor.dist_cnpj,
           dist_email: this.distribuidor.dist_email,
-          dist_celular: this.distribuidor.dist_celular,
+          dist_celular: this.distribuidor.dist_celular ? this.distribuidor.dist_celular : 0,
           dist_endereco: this.distribuidor.dist_endereco,
-          dist_telefone: this.distribuidor.dist_telefone
+          dist_telefone: this.distribuidor.dist_telefone,
+          dist_taxa_entrega: this.distribuidor.dist_taxa_entrega,
         }
       };
     }
@@ -167,6 +174,7 @@ export class AdicionarProdutoCarrinhoPage {
     this.carrinho.produtos.forEach(x => {
       this.carrinho.total += x.dist_total;
     });
+    this.carrinho.total += Number(this.carrinho.distribuidor.dist_taxa_entrega);
     this.usuarioSrvc.usuarioAtual.usr_carrinho = this.carrinho;
     this.usuarioSrvc.updateCarrinho(this.carrinho);
   }
