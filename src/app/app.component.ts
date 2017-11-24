@@ -20,6 +20,7 @@ import { UsuarioService } from '../providers/database/services/usuario';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { MenuAcesso } from '../providers/database/models/menu-acesso';
+import { Storage } from '@ionic/storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -47,21 +48,25 @@ export class MyApp {
     public authServiceProvider: AuthServiceProvider,
     public menuCtrl: MenuController,
     public popoverCtrl: PopoverController,
-    public googleApis: GoogleApis
+    public googleApis: GoogleApis,
+    public storage: Storage
   ) {
     this.initTranslate();
     this.splitPane = !this.platform.is('ios') && !this.platform.is('android');
-
-    this.authServiceProvider
-    if (this.authServiceProvider.afAuth.auth.currentUser) {
-      this.usuarioSrvc.loadUsuarioAtualByEmail(this.authServiceProvider.afAuth.auth.currentUser.email);
-      this.usuarioSrvc
-    }
   }
   ngOnInit() {
     if(this.splitPane){
-      this.menuCtrl.swipeEnable(false);
+      this.menuCtrl.swipeEnable(false);      
     }    
+    // Efetuar tratamento para pegar localizacao atual
+    this.storage.get("_UsuarioAtual").then((usuario: Usuario) => {
+      if (usuario) {
+        this.usuarioSrvc.usuarioAtual = usuario;
+        if (this.usuarioSrvc.usuarioAtual.usr_endereco)
+          this.nav.setRoot('PainelPedidosPage');          
+      }
+    });
+
   }
 
   reloadMenu() {
@@ -97,7 +102,13 @@ export class MyApp {
   }
 
   signup() {
-    this.modalCtrl.create('SignupPage').present();
+    let modal = this.modalCtrl.create('SignupPage');
+    modal.onDidDismiss(() => {
+      if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
+        this.nav.setRoot('PainelPedidosPage');
+      }
+    })
+    modal.present();
   }
 
   openPage(menu: MenuAcesso) {
@@ -105,7 +116,13 @@ export class MyApp {
   }
 
   login() {
-    this.modalCtrl.create('LoginPage').present();
+    let modal = this.modalCtrl.create('LoginPage');
+    modal.onDidDismiss(() => {
+      if (this.usuarioSrvc.usuarioAtual)
+        if (this.usuarioSrvc.usuarioAtual.usr_endereco.length > 0)
+          this.nav.setRoot('PainelPedidosPage');
+    })
+    modal.present()
   }
 
   userOptions(event) {
@@ -129,8 +146,13 @@ export class MyApp {
   signupDistribuidora() {
     if (this.usuarioSrvc.usuarioAtual) {
       this.nav.setRoot('DistribuidorEditPage')
-    } else {
-      this.modalCtrl.create('LoginPage', { message: "NOT_AUTHENTICATED" }).present();
+    } else {      
+      let modal = this.modalCtrl.create('LoginPage', { message: "NOT_AUTHENTICATED" });
+      modal.onDidDismiss(() => {
+        if (this.usuarioSrvc.usuarioAtual)
+          this.nav.setRoot('DistribuidorEditPage');
+      })
+      modal.present();
     }
   }
   show() {

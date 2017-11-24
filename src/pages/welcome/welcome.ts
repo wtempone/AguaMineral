@@ -33,7 +33,7 @@ export class WelcomePage {
     console.log(this.usuarioSrvc.usuarioAtual);
 
     this.updateEndereco(endereco);
-    this.navCtrl.push('DistribuidorListaPage')
+    this.navCtrl.push('PainelPedidosPage')
   }
 
   updateEndereco(endereco: Endereco) {
@@ -51,9 +51,15 @@ export class WelcomePage {
     
   }
 
+  ngOnInit() {
+    if (this.usuarioSrvc.usuarioAtual) 
+      if (this.usuarioSrvc.usuarioAtual.usr_endereco)
+        this.navCtrl.setRoot('PainelPedidosPage') 
+  }
+
   signupDistribuidora() {
     if (this.usuarioSrvc.usuarioAtual) {
-      this.navCtrl.push('DistribuidorEditPage')
+      this.navCtrl.setRoot  ('PainelPedidosPage')
     } else {
       this.modalCtrl.create('LoginPage', { message: "NOT_AUTHENTICATED" }).present();
     }

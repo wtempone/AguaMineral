@@ -4,6 +4,7 @@ import { NavController, AlertController, NavParams, LoadingController, ToastCont
 import { FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthServiceProvider } from '../../../providers/auth-service';
+import { ViewController } from 'ionic-angular/navigation/view-controller';
 /*
   Generated class for the Login page.
 
@@ -32,7 +33,9 @@ export class SignupPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private translate: TranslateService,
-    public usuarioSrvc: UsuarioService) {
+    public usuarioSrvc: UsuarioService,
+    public viewCtrl: ViewController
+  ) {
 
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
@@ -64,13 +67,7 @@ export class SignupPage {
       console.log(this.signupForm.value);
     } else {
       this.authService.signInWithEmail(this.signupForm.value.email, this.signupForm.value.password).then(authService => {
-        this.navCtrl.pop().then(() => this.loading.dismiss().then(() => {
-          if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
-            this.navCtrl.setRoot('DistribuidorListaPage');
-            
-          }
-        })
-        );
+        this.viewCtrl.dismiss().then(() => this.loading.dismiss());
       }, error => {
         this.loading.dismiss().then(() => {
           var messageErrorTranslated: string;

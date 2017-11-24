@@ -5,4 +5,16 @@ page-pedido-forma-pagamento {
         height: auto;
         object-fit: contain;                    
     }
+
+    ion-list-header {
+        background-color: #eeeeee !important;
+        border-top: 1px solid #dedede !important;
+        border-bottom: 1px solid #dedede !important;
+    }
+    ion-footer {
+        background-color: #ffffff !important;
+    }
+    .content-carrinho-margin-bottom {
+        margin-bottom: 40px !important;
+    }
 }

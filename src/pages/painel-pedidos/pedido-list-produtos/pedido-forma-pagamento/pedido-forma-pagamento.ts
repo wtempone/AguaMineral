@@ -75,5 +75,16 @@ export class PedidoFormaPagamentoPage {
     })
   }
 
+  modificarPedido() {
+    this.navCtrl.pop();
+  }
+
+  alterarEndereco() {
+
+  }
+
+  enviarPedido() {
+    
+  }
 
 }

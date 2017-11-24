@@ -7,11 +7,10 @@
       </ion-thumbnail>
       <h2> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_nome }} </h2>
       <p> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_endereco.bairro }}</p>
-      <button item-end ion-button outline icon-right color="danger" (click)="limparCarrinho()">
-        Limpar Carrinho
-        <ion-icon name="trash"></ion-icon>
-      </button>
-
+      <p text-right>
+        <span *ngIf=' usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text }} - {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_duracao_text
+          }}</span>
+      </p>
       <!-- <p *ngIf='!usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
       <p *ngIf='usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
     </ion-item>
@@ -33,7 +32,6 @@
         <p>
           <counter-input margin-top ion-text text-right (ngModelChange)="changeQuantidade($event, idx)" [(ngModel)]="distribuidorProduto.dist_quantidade"
             [counterRangeMax]="99" [counterRangeMin]="0"></counter-input>
-
         </p>
         <p ion-text color="customColor3">R$ {{distribuidorProduto.dist_total}}</p>
       </div>
@@ -50,7 +48,7 @@
     </button>
   </div>
 </ion-content>
-<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos" padding>
+<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos" no-padding>
   <ion-item no-pading>
     <p>
       Entrega:
@@ -61,8 +59,10 @@
       <span float-right ion-text color="customColor3"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </span>
     </p>
   </ion-item>
-  <button ion-button block icon-right (click)="escolherFormaPagamento()">
-    Escoher forma de pagamento
-    <ion-icon name="cash"></ion-icon>
-  </button>
+  <div margin>
+    <button ion-button block icon-right (click)="escolherFormaPagamento()">
+      Escoher forma de pagamento
+      <ion-icon name="cash"></ion-icon>
+    </button>
+  </div>
 </ion-footer>

@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
 import { AuthServiceProvider } from '../../../providers/auth-service';
+import { ViewController } from 'ionic-angular/navigation/view-controller';
 
 @IonicPage()
 @Component({
@@ -31,6 +32,7 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private translate: TranslateService,
     public usuarioSrvc: UsuarioService,
+    public viewCtrl: ViewController
   ) {
     console.log(this.navParams.data.message);
     let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
@@ -55,13 +57,8 @@ export class LoginPage {
       dismissOnPageChange: true,
     });
     this.loading.present(); this.authService.signInWithFacebook().then(() => {
-      this.navCtrl.pop().then(() => {
-        this.loading.dismiss().then(() => {
-          console.log(this.usuarioSrvc.usuarioAtual);
-          if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
-            this.navCtrl.setRoot('DistribuidorListaPage');
-          }
-        });
+      this.viewCtrl.dismiss().then(() => {
+        this.loading.dismiss();
       });
     });
 
@@ -73,12 +70,8 @@ export class LoginPage {
       console.log(this.loginForm.value);
     } else {
       this.authService.signInWithEmail(this.loginForm.value.email, this.loginForm.value.password).then(authService => {
-        this.navCtrl.pop().then(() => {
-          this.loading.dismiss().then(() => {
-            if (this.usuarioSrvc.usuarioAtual.usr_endereco) {
-              this.navCtrl.setRoot('DistribuidorListaPage');
-            }
-          });
+        this.viewCtrl.dismiss().then(() => {
+          this.loading.dismiss();
         })
       }, error => {
         this.loading.dismiss().then(() => {
