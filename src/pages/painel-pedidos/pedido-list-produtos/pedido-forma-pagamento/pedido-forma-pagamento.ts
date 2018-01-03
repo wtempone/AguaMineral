@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Pedido } from '../../../../providers/database/models/pedido';
+import { Pedido, PedidoHistorico } from '../../../../providers/database/models/pedido';
 import { UsuarioService } from '../../../../providers/database/services/usuario';
 import { DistribuidorService } from '../../../../providers/database/services/distribuidor';
 import { Distribuidor } from '../../../../providers/database/models/distribuidor';
@@ -10,6 +10,10 @@ import { FormaPagamentoService } from '../../../../providers/database/services/f
 import { TipoPagamentoService } from '../../../../providers/database/services/tipo-pagamento';
 import { TipoPagamento } from '../../../../providers/database/models/tipo-pagamento';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
+import { PedidoService } from '../../../../providers/database/services/pedido';
+import { Usuario } from '../../../../providers/database/models/usuario';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -19,6 +23,8 @@ import { AlertController } from 'ionic-angular/components/alert/alert-controller
 export class PedidoFormaPagamentoPage {
   carrinho: Pedido;
   formasPagamento: FormaPagamento[];
+  formaPagamentoStr: string;
+  pedido: Pedido;
 
   constructor(
     public navCtrl: NavController, 
@@ -28,6 +34,8 @@ export class PedidoFormaPagamentoPage {
     public formaPagamentoSrvc: FormaPagamentoService,
     public tipoPagamentoSrvc: TipoPagamentoService,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    public pedidoSrvc: PedidoService
   ) {
     let enderecosPadrao =  this.usuarioSrvc.usuarioAtual.usr_endereco.filter(x => x.padrao == true);
     if (enderecosPadrao.length > 0 ){
@@ -51,25 +59,14 @@ export class PedidoFormaPagamentoPage {
       this.formasPagamento = [];      
       formasPagamento.map((distFormaPagamento: DistribuidorFormaPagamento) => {
         this.formaPagamentoSrvc.get(distFormaPagamento.key).then((formaPagamento:FormaPagamento) => {
-          this.formasPagamento.push( <FormaPagamento> {
-            pag_mnemonico: formaPagamento.pag_mnemonico,
-            pag_descricao: formaPagamento.pag_descricao,
-            pag_img: formaPagamento.pag_img,
-            pag_tipos: [],
-            _selecionada: false
-          })
-          if (distFormaPagamento.pag_tipos) {
-            distFormaPagamento.pag_tipos.forEach(TipoPagKey => {
-              this.tipoPagamentoSrvc.get(distFormaPagamento.key, TipoPagKey).then((TipoPag: TipoPagamento) => {
-                this.formasPagamento[this.formasPagamento.length -1].pag_tipos.push(<TipoPagamento> {
-                  tipopag_mnemonico: TipoPag.tipopag_mnemonico,
-                  tipopag_descricao: TipoPag.tipopag_descricao,
-                  tipopag_img: TipoPag.tipopag_img,
-                  _selecionado: false
-                });
-              })
+          if (formaPagamento.pag_mnemonico) {
+            this.formasPagamento.push( <FormaPagamento> {
+              pag_mnemonico: formaPagamento.pag_mnemonico,
+              pag_descricao: formaPagamento.pag_descricao,
+              pag_img: formaPagamento.pag_img,
+              _selecionada: false
             })
-          }
+            }
         })
       })
     })
@@ -79,12 +76,109 @@ export class PedidoFormaPagamentoPage {
     this.navCtrl.pop();
   }
 
+  
+  changeFormaPagamento($event, iForma) {
+    if (iForma == null) return;
+    this.usuarioSrvc.usuarioAtual.usr_carrinho.formaPagamento = this.formasPagamento[iForma];
+    if (this.formasPagamento[iForma].pag_mnemonico.toUpperCase() == 'DINHEIRO') {
+      let confirm = this.alertCtrl.create({
+        title: 'Dinheiro',
+        message: 'Precisa de troco para seu pedido?',
+        buttons: [
+          {
+            text: 'Não',
+          },
+          {
+            text: 'Sim',
+            handler: () => {
+              this.obtemValorTroco();
+              this.usuarioSrvc.updateCarrinho(this.usuarioSrvc.usuarioAtual.usr_carrinho);    
+            }
+          }
+        ]
+      });
+      confirm.present();
+    } else {
+      this.usuarioSrvc.updateCarrinho(this.usuarioSrvc.usuarioAtual.usr_carrinho);          
+    }
+
+  }
+
+  obtemValorTroco() {
+    let alert = this.alertCtrl.create({
+      title: 'Troco para quanto?',
+      message: `Seu pedito deu R$ ${this.usuarioSrvc.usuarioAtual.usr_carrinho.total}.
+                Digite o valor que pagará em dinheiro para que o entregador leve seu troco.`,
+      inputs: [
+        {
+          name: 'troco',
+          placeholder: 'R$ 0,00',
+          type: 'number'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Confirmar',
+          handler: data => {
+            if (data.troco) {
+              if (data.troco < this.usuarioSrvc.usuarioAtual.usr_carrinho.total) {
+                this.showToastMessage('O valor para troco não pode ser menor que o valor do pedito.')         
+                return false;                
+              } else {
+                this.usuarioSrvc.usuarioAtual.usr_carrinho.troco = data.troco;          
+              }
+            } else {
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   alterarEndereco() {
 
   }
 
   enviarPedido() {
-    
+    if (!this.usuarioSrvc.usuarioAtual.usr_carrinho.formaPagamento) {
+      this.showToastMessage('Selecione uma forma de pagamento.')               
+      return;
+    }
+    if (!this.usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega) {
+      this.showToastMessage('Informe um endereço de entrega.')
+      return;      
+    }
+    this.gerarPedido().then((pedido:Pedido) => {
+      this.navCtrl.setRoot('PedidoAcompanhamentoPage', pedido)
+    });
   }
 
+  gerarPedido() {
+    this.pedido = this.usuarioSrvc.usuarioAtual.usr_carrinho;
+    let usuario = new Usuario();
+    if (this.usuarioSrvc.usuarioAtual.key) usuario.key =  this.usuarioSrvc.usuarioAtual.key;
+    if (this.usuarioSrvc.usuarioAtual.usr_fb_id) usuario.usr_fb_id =  this.usuarioSrvc.usuarioAtual.usr_fb_id;
+    if (this.usuarioSrvc.usuarioAtual.usr_fb_foto) usuario.usr_fb_foto =  this.usuarioSrvc.usuarioAtual.usr_fb_foto;
+    if (this.usuarioSrvc.usuarioAtual.usr_nome) usuario.usr_nome = this.usuarioSrvc.usuarioAtual.usr_nome;
+    if (this.usuarioSrvc.usuarioAtual.usr_email) usuario.usr_email =  this.usuarioSrvc.usuarioAtual.usr_email;
+    this.pedido.usuario = usuario;
+    this.pedido.historico = [];
+    let currentDate = firebase.database.ServerValue.TIMESTAMP;
+    this.pedido.historico.push(<PedidoHistorico>{
+      status: 'Realizado',
+      data: currentDate
+    })    
+    return this.pedidoSrvc.create(this.pedido);
+  }
+
+  showToastMessage(message: string){
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present()
+  }
 }

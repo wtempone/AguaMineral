@@ -48,6 +48,7 @@ import { DistribuidorProdutoService } from '../providers/database/services/distr
 import { DistribuidorCategoriaService } from '../providers/database/services/distribuidor-categoria';
 import { FormaPagamentoService } from '../providers/database/services/forma-pagamento';
 import { TipoPagamentoService } from '../providers/database/services/tipo-pagamento';
+import { PedidoService } from '../providers/database/services/pedido';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -149,6 +150,7 @@ export function provideSettings(storage: Storage) {
     DistribuidorCategoriaService,
     FormaPagamentoService,
     TipoPagamentoService,    
+    PedidoService,    
   ]
 })
 export class AppModule { }

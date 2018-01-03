@@ -14,6 +14,7 @@ import { EnderecoAutocompleteComponent } from './endereco-autocomplete/endereco-
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { CounterInputComponent } from './counter-input/counter-input';
 import { SelectPhotoComponent } from './select-photo/select-photo';
+import { TimelineComponent } from './timeline/timeline';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { SelectPhotoComponent } from './select-photo/select-photo';
     EnderecoAutocompleteComponent,
     CounterInputComponent,
     SelectPhotoComponent,
+    TimelineComponent,
     ],
 	imports: [
         DirectivesModule,
@@ -47,6 +49,7 @@ import { SelectPhotoComponent } from './select-photo/select-photo';
     EnderecoAutocompleteComponent,
     CounterInputComponent,
     SelectPhotoComponent,
+    TimelineComponent,
     ]
 })
 export class ComponentsModule {}

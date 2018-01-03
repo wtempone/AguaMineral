@@ -13,7 +13,7 @@
       </ion-item>
     </ion-navbar>
 
-    <ion-list no-padding>
+    <ion-list no-padding no-margin radio-group [(ngModel)]="formaPagamentoStr" class="list-padding-bottom">
       <ion-list-header>
         Forma de Pagamento
       </ion-list-header>
@@ -23,25 +23,16 @@
             <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
           </ion-avatar>
           <ion-label>{{formaPagamento.pag_descricao}}</ion-label>
-          <ion-checkbox [(ngModel)]="formaPagamento._selecionada" (ngModelChange)="changeFormaPagamento($event, iForma)"></ion-checkbox>
+          <ion-radio value="{{formaPagamento.pag_descricao}}" (ionSelect)="changeFormaPagamento(formaPagamento.pag_descricao, iForma)"></ion-radio>          
         </ion-item>
-        <ion-list no-padding *ngIf='formaPagamento.pag_tipos' inset>
-          <ion-item *ngFor="let key of formaPagamento.pag_tipos; let iTipo = index">
-            <ion-avatar item-end>
-              <img *ngIf="formaPagamento.pag_tipos[iTipo].tipopag_img" [src]="formaPagamento.pag_tipos[iTipo].tipopag_img">
-            </ion-avatar>
-            <ion-label>{{formaPagamento.pag_tipos[iTipo].tipopag_descricao}}</ion-label>
-            <ion-checkbox [(ngModel)]="formaPagamento.pag_tipos[iTipo]._selecionado" (ngModelChange)="changeTipoPagamento($event, iTipo, iForma)"></ion-checkbox>
-          </ion-item>
-        </ion-list>
       </div>
     </ion-list>
 
-    <ion-list no-padding>
+    <ion-list no-padding no-margin class="list-padding-bottom">
       <ion-list-header>
         Endereço de Entrega
       </ion-list-header>
-      <ion-item no-margin *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega">
+      <ion-item *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega">
         <p text-wrap>
           {{usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.rua + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.complemento
           + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.numero + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.bairro
@@ -56,7 +47,7 @@
     </ion-list>
 
 
-    <ion-list no-padding>
+    <ion-list no-padding no-margin class="list-padding-bottom">
       <ion-list-header>
         Lista de Produtos do Pedido
       </ion-list-header>
@@ -83,7 +74,7 @@
     </div>
   </div>
 </ion-content>
-<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos" no-padding>
+<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos">
   <ion-item no-pading>
     <p>
       Entrega:
@@ -92,6 +83,9 @@
     <p>
       <strong>Total: </strong>
       <span float-right ion-text color="customColor3"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </span>
+    </p>
+    <p text-center *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho.troco">
+      <span text-center ion-text > Troco para R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.troco}} </span>
     </p>
   </ion-item>
   <div class="button-container" margin>

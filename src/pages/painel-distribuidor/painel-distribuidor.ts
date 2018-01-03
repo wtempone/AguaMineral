@@ -16,6 +16,7 @@ export class PainelDistribuidorPage {
   distribuidor: Distribuidor;
   keyDistribuidor: any;
 
+  pedidosDistribuidorPage = 'PedidosDistribuidorPage';
   catalogoProdutoDistribuidorPage = 'CatalogoProdutoDistribuidorPage';
   painelDistribuidorConfigPage = 'PainelDistribuidorConfigPage';
   @ViewChild("tab") tab: Tabs;

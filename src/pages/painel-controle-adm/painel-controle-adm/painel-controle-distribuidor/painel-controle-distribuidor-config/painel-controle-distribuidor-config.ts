@@ -50,55 +50,60 @@ export class PainelControleDistribuidorConfigPage {
     this.distribuidorSrvc.update(this.distribuidor.$key, this.distribuidor)
   }
   refresh() {
-    this.perfisDistribuidor = [];
-    this.funcionarios = [];
-    (<any>Object).keys(this.distribuidor.dist_funcionarios).map(keyUsuario => {
-      this.usuarioSrvc.get(keyUsuario).take(1).subscribe((usuario: Usuario) => {
-        this.funcionarios.push(usuario);
-      })
-    })
-
-    this.usuarioSrvc.usuarios.take(1).subscribe((usuarios: Usuario[]) => {
-      (<any>Object).keys(this.distribuidor.dist_perfis).map(keyPerfil => {
-        this.perfilAcessoSrvc.getByKey(keyPerfil).take(1).subscribe((perfil: PerfilAcesso) => {
-          let perfisDistribuidor: any = perfil;
-          perfisDistribuidor.per_usuarios = usuarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key, value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length > 0)
-          this.perfisDistribuidor.push(perfisDistribuidor);
+    this.distribuidorSrvc.get(this.distribuidor.$key).take(1).subscribe((distribuidor: Distribuidor) => {
+      this.distribuidor = distribuidor;
+      this.perfisDistribuidor = [];
+      this.funcionarios = [];
+      (<any>Object).keys(this.distribuidor.dist_funcionarios).map(keyUsuario => {
+        this.usuarioSrvc.get(keyUsuario).take(1).subscribe((usuario: Usuario) => {
+          if (usuario.usr_nome) this.funcionarios.push(usuario);
         })
       })
-    })
 
-    this.formasPagamento = [];
-    this.formaPagamentoSrvc.formasPagamento.take(1).subscribe((formasPagamento: FormaPagamento[]) => {
-      formasPagamento.forEach((formaPagamentoBase: FormaPagamento) => {
-        let keysTipos = [];
-        if (formaPagamentoBase.pag_tipos) {
-          (<any>Object).keys(formaPagamentoBase.pag_tipos).forEach(key => {
-            keysTipos.push(key);
+      this.usuarioSrvc.usuarios.take(1).subscribe((usuarios: Usuario[]) => {
+        usuarios = usuarios.filter(x => x.usr_perfis != null);
+        (<any>Object).keys(this.distribuidor.dist_perfis).map(keyPerfil => {
+          this.perfilAcessoSrvc.getByKey(keyPerfil).take(1).subscribe((perfil: PerfilAcesso) => {
+            let perfisDistribuidor: any = perfil;
+
+            perfisDistribuidor.per_usuarios = usuarios.filter(x => (<any>Object).entries(x.usr_perfis).filter(([key, value]) => key == perfil.$key && (value.per_distribuidora == true && value.per_keyDistribuidora == this.distribuidor.$key)).length > 0)
+            this.perfisDistribuidor.push(perfisDistribuidor);
           })
-        }
+        })
+      })
 
-        if (this.distribuidor.dist_formas_pagamento) {
-          formaPagamentoBase._selecionada = this.distribuidor.dist_formas_pagamento.filter(x => x.key == formaPagamentoBase.$key).length > 0;
-          if (formaPagamentoBase._selecionada) {
-            if (formaPagamentoBase.pag_tipos) {
+      this.formasPagamento = [];
+      this.formaPagamentoSrvc.formasPagamento.take(1).subscribe((formasPagamento: FormaPagamento[]) => {
+        formasPagamento.forEach((formaPagamentoBase: FormaPagamento) => {
+          let keysTipos = [];
+          if (formaPagamentoBase.pag_tipos) {
+            (<any>Object).keys(formaPagamentoBase.pag_tipos).forEach(key => {
+              keysTipos.push(key);
+            })
+          }
 
-              if (this.distribuidor.dist_formas_pagamento.filter(x => x.key == formaPagamentoBase.$key)[0].pag_tipos) {
-                let tiposPagamento = this.distribuidor.dist_formas_pagamento.filter(x => x.key == formaPagamentoBase.$key)[0].pag_tipos;
-                (<any>Object).entries(formaPagamentoBase.pag_tipos).forEach(([key,tipoPagamentoBase]) => {
-                  tipoPagamentoBase._selecionado = tiposPagamento.filter(x => x == key).length > 0;
-                })
+          if (this.distribuidor.dist_formas_pagamento) {
+            formaPagamentoBase._selecionada = this.distribuidor.dist_formas_pagamento.filter(x => x.key == formaPagamentoBase.$key).length > 0;
+            if (formaPagamentoBase._selecionada) {
+              if (formaPagamentoBase.pag_tipos) {
+
+                if (this.distribuidor.dist_formas_pagamento.filter(x => x.key == formaPagamentoBase.$key)[0].pag_tipos) {
+                  let tiposPagamento = this.distribuidor.dist_formas_pagamento.filter(x => x.key == formaPagamentoBase.$key)[0].pag_tipos;
+                  (<any>Object).entries(formaPagamentoBase.pag_tipos).forEach(([key, tipoPagamentoBase]) => {
+                    tipoPagamentoBase._selecionado = tiposPagamento.filter(x => x == key).length > 0;
+                  })
+                }
               }
             }
+          } else {
+            formaPagamentoBase._selecionada = false;
           }
-        } else {
-          formaPagamentoBase._selecionada = false;
-        }
-        let formaPagamento: any = formaPagamentoBase;
-        formaPagamento.keysTipos = keysTipos;
-        this.formasPagamento.push(formaPagamentoBase)
+          let formaPagamento: any = formaPagamentoBase;
+          formaPagamento.keysTipos = keysTipos;
+          this.formasPagamento.push(formaPagamentoBase)
+        })
+        console.log('formasPagamento => ', this.formasPagamento);
       })
-      console.log('formasPagamento => ', this.formasPagamento);
     })
   }
 
@@ -118,11 +123,11 @@ export class PainelControleDistribuidorConfigPage {
     } else {
       if (this.distribuidor.dist_formas_pagamento.filter(x => x.key == this.formasPagamento[index].key).length > 0) {
         let ind = this.distribuidor.dist_formas_pagamento.findIndex(x => x.key == this.formasPagamento[index]);
-        this.distribuidor.dist_formas_pagamento.splice(ind,1);
+        this.distribuidor.dist_formas_pagamento.splice(ind, 1);
       }
     }
 
-    this.distribuidorSrvc.update(this.distribuidor.$key, this.distribuidor);   
+    this.distribuidorSrvc.update(this.distribuidor.$key, this.distribuidor);
   }
 
   changeTipoPagamento(ev, index, iForma, keyTipoPagamento) {
@@ -145,7 +150,7 @@ export class PainelControleDistribuidorConfigPage {
     } else {
       if (this.distribuidor.dist_formas_pagamento[indexForma].pag_tipos.filter(x => x == keyTipoPagamento).length > 0) {
         let ind = this.distribuidor.dist_formas_pagamento[indexForma].pag_tipos.findIndex(x => x == keyTipoPagamento);
-        this.distribuidor.dist_formas_pagamento[indexForma].pag_tipos.splice(ind,1);
+        this.distribuidor.dist_formas_pagamento[indexForma].pag_tipos.splice(ind, 1);
       }
     }
 
@@ -202,5 +207,33 @@ export class PainelControleDistribuidorConfigPage {
       })
     }
   }
+
+  adicionarFuncionario() {
+    let usuariosLista: Usuario[] = [];
+    this.usuarioSrvc.usuarios.subscribe((usuarios: Usuario[]) => {
+      usuariosLista = usuarios.filter(x => this.funcionarios.filter(y => y.key == x.key).length == 0);
+      if (usuariosLista.length == 0) {
+        let toast = this.toastCtrl.create({
+          message: 'Não há usuários para adicionar.',
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present()
+      } else {
+        let modal = this.modalCtrl.create('SelectUsuarioPage', { usuarios: usuariosLista });
+        modal.present();
+        modal.onDidDismiss(data => {
+          if (data)
+            if (data.usuariosSelecionados) {
+              data.usuariosSelecionados.forEach((usuario: Usuario) => {
+                this.distribuidorSrvc.addFuncionario(this.distribuidor.$key, usuario.$key);
+                this.refresh();
+              });
+            }
+        })
+      }
+    })
+  }
+
 
 }
