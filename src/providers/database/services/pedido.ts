@@ -11,6 +11,7 @@ export class PedidoService {
   public basePath: string = '/pedidos';
   public pedidos: FirebaseListObservable<Pedido[]> = null; //  list of objects
   public pedido: FirebaseObjectObservable<Pedido> = null; //   single object
+  
   constructor(
     private db: AngularFireDatabase,
     private usuarioSrvc: UsuarioService,

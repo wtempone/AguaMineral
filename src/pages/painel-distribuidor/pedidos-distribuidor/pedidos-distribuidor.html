@@ -8,13 +8,19 @@
   <div class="content-desktop-margin-bottom" *ngIf="distribuidor">
 
     <ion-list>
-      <ion-item *ngFor='let pedido of pedidos'>
+      <ion-item *ngFor='let pedido of pedidos'  (click)="evoluirPedido(pedido)">
         <ion-avatar item-start>
           <img *ngIf="pedido.usuario.usr_fb_foto" [src]="pedido.usuario.usr_fb_foto.data.url">
         </ion-avatar>
         <h2>{{pedido.usuario.usr_nome}}</h2>
-        <p>{{pedido.total}}</p>
-        <p>{{pedido.formaPagamento.pag_descricao}}</p>
+        <p text-no-wrap>
+          {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
+          pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado + '
+          - ' + pedido.enderecoEntrega.cep}}
+        </p>
+        <p text-right>Total do pedido: <span  ion-text color='customColor3'>R${{pedido.total}}</span></p>
+        <p text-right ion-text color='customColor1'>{{pedido.formaPagamento.pag_descricao}}</p>
+        <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>
       </ion-item>
     </ion-list>
   </div>

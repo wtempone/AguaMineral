@@ -21,6 +21,8 @@ import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { MenuAcesso } from '../providers/database/models/menu-acesso';
 import { Storage } from '@ionic/storage';
+import { PedidoService } from '../providers/database/services/pedido';
+import { Pedido } from '../providers/database/models/pedido';
 
 @Component({
   templateUrl: 'app.html'
@@ -33,7 +35,7 @@ export class MyApp {
   menus: MenuAcesso[] = []
   exibeMenu = true;
   rootPage = FirstRunPage;
-
+  meusPedidos: Pedido[];
   constructor(private translate: TranslateService,
     private platform: Platform,
     settings: Settings,
@@ -49,7 +51,8 @@ export class MyApp {
     public menuCtrl: MenuController,
     public popoverCtrl: PopoverController,
     public googleApis: GoogleApis,
-    public storage: Storage
+    public storage: Storage,
+    public pedidoSrvc: PedidoService
   ) {
     this.initTranslate();
     this.splitPane = !this.platform.is('ios') && !this.platform.is('android');
@@ -62,6 +65,10 @@ export class MyApp {
     this.storage.get("_UsuarioAtual").then((usuario: Usuario) => {
       if (usuario) {
         this.usuarioSrvc.usuarioAtual = usuario;
+        this.pedidoSrvc.pedidos.subscribe((pedidos: Pedido[])=> {
+          this.meusPedidos = pedidos.filter(x => x.usuario.key == this.usuarioSrvc.usuarioAtual.key);
+
+        })
         if (this.usuarioSrvc.usuarioAtual.usr_endereco)
           this.nav.setRoot('PainelPedidosPage');          
       }
@@ -126,16 +133,18 @@ export class MyApp {
   }
 
   userOptions(event) {
-    let popover = this.popoverCtrl.create('MenuUsuarioPage');
+    let popover = this.popoverCtrl.create('MenuUsuarioPage',{numeroPedidos: this.meusPedidos.length});
     popover.present({
       ev: event,
     });
     popover.onDidDismiss(data => {
       if (data)
         if (data.option) {
+          if (data.option == "meusPedidos")
+            this.nav.setRoot('MeusPedidosPage')            
           if (data.option == "editarPerfil")
-            alert("Funcao não implementada!");
-          if (data.option == "sair") {
+          alert("Funcao não implementada!");
+      if (data.option == "sair") {
             this.authServiceProvider.signOut();
             this.nav.setRoot('WelcomePage')            
           }

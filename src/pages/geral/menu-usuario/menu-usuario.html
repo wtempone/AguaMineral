@@ -1,12 +1,17 @@
 <ion-content no-padding>
-  <ion-list>
+  <ion-list no-padding no-margin>
+    <button ion-item icon-left (click)="meusPedidos()">
+      <ion-icon name="contact"></ion-icon>
+      Meus Pedidos 
+      <ion-badge item-end color="customColor2" *ngIf="navParams.data.numeroPedidos">{{navParams.data.numeroPedidos}}</ion-badge>
+    </button>
     <button ion-item icon-left (click)="editarPerfil()">
       <ion-icon name="contact"></ion-icon>
       Meu perfil
     </button>
     <button ion-item icon-left (click)="sair()">
-        <ion-icon name="exit"></ion-icon>
-        Sair
+      <ion-icon name="exit"></ion-icon>
+      Sair
     </button>
   </ion-list>
 </ion-content>

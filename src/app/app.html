@@ -24,9 +24,9 @@
 </ion-split-pane>
 <ion-header>
     <ion-navbar class="main-toolbar" color="customColor1">
-        <ion-buttons >
+        <ion-buttons>
             <button ion-button icon-only (click)="showMenu()">
-                <ion-icon class="title-app" name="menu" ></ion-icon>
+                <ion-icon class="title-app" name="menu"></ion-icon>
             </button>
             <button ion-button icon-only>
                 <img class="image-profile" src="assets/img/appicon.png" />
@@ -35,7 +35,7 @@
                 <span class="title-app" showWhen="landscape">{{ 'APP_NAME' | translate }}</span>
             </button>
         </ion-buttons>
-        
+
         <ion-buttons end *ngIf="!usuarioSrvc.usuarioAtual">
             <button ion-button icon-only icon-left (click)="signup()">
                 <ion-icon name="person-add"></ion-icon>
@@ -54,6 +54,9 @@
                 />
                 <img *ngIf="!usuarioSrvc.usuarioAtual.usr_fb_foto" (click)="show()" class="image-profile" src="assets/img/user-placeholder-1.jpg"
                 />
+                <div *ngIf="meusPedidos">
+                    <ion-badge class="badge-pedidos" color="customColor2" *ngIf="meusPedidos.length > 0">{{meusPedidos.length}}</ion-badge>
+                </div>
             </button>
             <button ion-button icon-only (click)="userOptions($event)">
                 <ion-icon name="more"></ion-icon>

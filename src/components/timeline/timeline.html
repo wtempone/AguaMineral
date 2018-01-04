@@ -1,4 +1,11 @@
-<!-- Generated template for the TimelineComponent component -->
-<div>
-  {{text}}
+<div class="timeline">
+  <timeline-item>
+      <timeline-time [time]="itemPrevision"></timeline-time>
+      <ion-icon class="" name="timer"></ion-icon>
+      <ion-card no-border>
+          
+      </ion-card>      
+  </timeline-item>
+  <ng-content></ng-content>
+  
 </div>

@@ -16,7 +16,11 @@ export class MenuUsuarioPage {
     public authService: AuthServiceProvider,
     public viewCtrl: ViewController
   ) {
-    
+
+  }
+
+  meusPedidos() {
+    this.viewCtrl.dismiss({ option: "meusPedidos" });
   }
 
   editarPerfil(fieldOrder) {

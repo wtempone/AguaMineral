@@ -43,7 +43,7 @@ export class AdicionarProdutoCarrinhoPage {
           this.distribuidorProduto.dist_quantidade = 1;
         }
       } else {
-        this.distribuidorProduto.dist_quantidade = 1;        
+        this.distribuidorProduto.dist_quantidade = 1;
       }
     }
     else
@@ -139,6 +139,10 @@ export class AdicionarProdutoCarrinhoPage {
   adicionarProduto() {
     if (!this.carrinho) {
       this.carrinho = <Pedido>{
+        duracao_value: (<any>this.distribuidor).dist_duracao_value,
+        distancia_value: (<any>this.distribuidor).dist_distancia_value,
+        duracao_text: (<any>this.distribuidor).dist_duracao_text,
+        distancia_text: (<any>this.distribuidor).dist_distancia_text,
         distribuidor: <Distribuidor>{
           key: this.distribuidor.$key,
           dist_nome: this.distribuidor.dist_nome,

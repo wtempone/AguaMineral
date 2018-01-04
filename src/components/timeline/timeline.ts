@@ -1,22 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-/**
- * Generated class for the TimelineComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 @Component({
   selector: 'timeline',
   templateUrl: 'timeline.html'
 })
 export class TimelineComponent {
+  @Input('prevision') prevision: string;
+  itemPrevision;  
+  constructor() {}
+  ngOnInit() {
+    this.itemPrevision = {
+      title: this.prevision,
+      subtitle: 'Previsão de Entrega'
+    }
 
-  text: string;
-
-  constructor() {
-    console.log('Hello TimelineComponent Component');
-    this.text = 'Hello World';
   }
+}
 
+@Component({
+  selector: 'timeline-item',
+  template: '<ng-content></ng-content>'
+})
+export class TimelineItemComponent{
+  constructor() { }
+}
+
+@Component({
+  selector:'timeline-time',
+  template: '<span>{{time.title}}</span> <span>{{time.subtitle}}</span>'
+})
+export class TimelineTimeComponent{
+  @Input('time') time: { title?: string, subtitle?: string} = {};
+  constructor() { }
 }

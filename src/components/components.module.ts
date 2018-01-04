@@ -14,8 +14,19 @@ import { EnderecoAutocompleteComponent } from './endereco-autocomplete/endereco-
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { CounterInputComponent } from './counter-input/counter-input';
 import { SelectPhotoComponent } from './select-photo/select-photo';
-import { TimelineComponent } from './timeline/timeline';
-
+import { TimelineComponentModule } from './timeline/timeline.module';
+import { Timer } from './countdown-timer/timer';
+import { TimerProgress } from './timer-progress/timer-progress';
+import { ExpandableHeader } from './expandable-header/expandable-header';
+import { FlashCardComponent } from './flash-card/flash-card';
+import { AccordionListComponent } from './accordion-list/accordion-list';
+export const components = [
+    Timer,
+    TimerProgress,
+    ExpandableHeader,
+    FlashCardComponent,
+    AccordionListComponent,
+  ];
 
 @NgModule({
 	declarations: [EnderecoComponent,
@@ -28,8 +39,8 @@ import { TimelineComponent } from './timeline/timeline';
     EnderecoAutocompleteComponent,
     CounterInputComponent,
     SelectPhotoComponent,
-    TimelineComponent,
-    ],
+    components
+ ],
 	imports: [
         DirectivesModule,
         CommonModule,
@@ -49,7 +60,6 @@ import { TimelineComponent } from './timeline/timeline';
     EnderecoAutocompleteComponent,
     CounterInputComponent,
     SelectPhotoComponent,
-    TimelineComponent,
-    ]
+    components, TimelineComponentModule]
 })
 export class ComponentsModule {}

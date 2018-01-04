@@ -1,0 +1,65 @@
+<ion-content class="content-desktop" *ngIf='pedido'>
+    <ion-toolbar color="primary">
+      <ion-title>Detalhes do pedido</ion-title>
+    </ion-toolbar>
+  
+    <ion-navbar icon-only>
+      <ion-item no-margin no-lines>
+        <ion-thumbnail item-start>
+          <img *ngIf="!pedido" src="assets/img/appicon.png">
+          <img *ngIf="pedido" [src]="pedido.distribuidor.dist_img">
+        </ion-thumbnail>
+        <h2> {{ pedido.distribuidor.dist_nome }} </h2>
+        <p> {{ pedido.distribuidor.dist_endereco.bairro }}</p>
+        <p text-right>
+          <span *ngIf=' pedido.distribuidor.dist_distancia_text'> {{ pedido.distribuidor.dist_distancia_text }} - {{ pedido.distribuidor.dist_duracao_text }}
+          </span>
+        </p>
+      </ion-item>
+    </ion-navbar>
+  
+  <ion-list no-padding>
+    <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of pedido.produtos; let idx = index'>
+      <ion-thumbnail item-start>
+        <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
+      </ion-thumbnail>
+      <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
+      <p>
+        {{distribuidorProduto.produto?.pro_descricao}}
+      </p>
+      <p>
+        {{distribuidorProduto.dist_quantidade}}x
+        <span ion-text color="customColor3">R$ {{distribuidorProduto.dist_preco}}</span>
+      </p>
+      <div item-end text-center>
+        <p ion-text color="customColor3">R$ {{distribuidorProduto.dist_total}}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-item no-pading>
+    <p>
+      <strong>Endereço de Entrega</strong>
+    </p>
+    <p text-wrap>
+      {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
+      pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado + ' - '
+      + pedido.enderecoEntrega.cep}}
+    </p>
+    <br>
+    <p>
+      Entrega:
+      <span float-right ion-text color="customColor2"> R$ {{pedido.distribuidor.dist_taxa_entrega}} </span>
+    </p>
+    <p>
+      <strong>Total: </strong>
+      <span float-right ion-text color="customColor3"> R$ {{pedido.total}} </span>
+    </p>
+    <p text-center *ngIf="pedido.formaPagamento">
+      <span text-center ion-text color="customColor1">{{pedido.formaPagamento.pag_descricao}} </span>
+      <span text-center ion-text text-center *ngIf="pedido.troco"> (Troco para R$ {{pedido.troco}}) </span>
+    </p>
+  </ion-item>
+
+</ion-content>

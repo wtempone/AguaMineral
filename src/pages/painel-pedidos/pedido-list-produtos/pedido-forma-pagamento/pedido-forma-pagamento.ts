@@ -157,6 +157,7 @@ export class PedidoFormaPagamentoPage {
 
   gerarPedido() {
     this.pedido = this.usuarioSrvc.usuarioAtual.usr_carrinho;
+    this.pedido.status = 0;
     let usuario = new Usuario();
     if (this.usuarioSrvc.usuarioAtual.key) usuario.key =  this.usuarioSrvc.usuarioAtual.key;
     if (this.usuarioSrvc.usuarioAtual.usr_fb_id) usuario.usr_fb_id =  this.usuarioSrvc.usuarioAtual.usr_fb_id;
@@ -167,7 +168,7 @@ export class PedidoFormaPagamentoPage {
     this.pedido.historico = [];
     let currentDate = firebase.database.ServerValue.TIMESTAMP;
     this.pedido.historico.push(<PedidoHistorico>{
-      status: 'Realizado',
+      status: 0,
       data: currentDate
     })    
     return this.pedidoSrvc.create(this.pedido);

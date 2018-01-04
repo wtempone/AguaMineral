@@ -24,7 +24,8 @@ export class PedidosDistribuidorPage {
         this.pedidos = pedidos.filter(x => x.distribuidor.key == this.distribuidor.$key)
       })
     }
-
   }
-
+  evoluirPedido(pedido) {
+    this.navCtrl.push('PedidosDitstribuidorEvoluirPage',pedido);
+  }
 }

@@ -1,3 +1,129 @@
 timeline {
+  .timeline {
+    margin: 30px 0 0 0;
+    padding: 0;
+    position: relative;
+
+
+    timeline-item {
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 10px;
+        background: #afdcf8;
+        //left: 20%;
+        margin-left: 20px;
+      }
+
+      
+      position: relative;
+      display: inline-block;
+
+      timeline-time {
+        display: block;
+        width: 20%;
+        padding-right: 50px;
+        position: absolute;
+        span {
+          display: block;
+          text-align: right;
+          font-size: 1.8em;
+          color: #3594cb;
+            &:last-child {
+            font-size: 1.2em;
+            color: #888;
+          }
+        }
+      }
+      /* Right content */
+      ion-card {
+        margin-left: 25% !important;
+        width: 75% !important;
+        position: relative;
+        border: none;
+        box-shadow: white 0px 0px 0px;
+      }
+      ion-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 2.5em;
+        position: absolute;
+        color: #fff;
+        background: #46a4da;
+        border-radius: 50%;
+        box-shadow: none;
+        text-align: center;
+        left: 20%;
+        top: 0;
+        margin: 0 0 0 -25px;
+        line-height: 40px;
+        &:after {
+            left: 46px;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-left-color: #afdcf8;
+            border-width: 0px;
+            top: 10px;
+          }
+      }
+        &:last-child{
+          width: 100%;
+          &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            background: white;
+            //left: 20%;
+            margin-left: 20px;
+          }
+              
+          ion-icon{
+            box-shadow: 0 0 0 8px #afdcf8;
+            &:after{
+              border-width:10px;
+            }
+          }
+        }
+    }
+    @media screen and (max-width: map-get($grid-breakpoints,'lg')){
+      timeline-item{
+        timeline-time{
+          font-size: 0.7em;
+        }
+      }
+    }
+    @media screen and (max-width: map-get($grid-breakpoints,'md')){
+      &:before{
+        left: 30px;
+      }
+      timeline-item{
+        ion-card{
+          margin-left: 80px !important;
+        }
+        ion-icon{
+          left: 30px;
+        }
+        timeline-time{
+          font-size: 0.8em;
+          width: 100%;
+          left: 80px;
+          position: relative;
+          span{
+            text-align: left;
+          }
+
+        }
+      }
+    }
+  }
 
 }

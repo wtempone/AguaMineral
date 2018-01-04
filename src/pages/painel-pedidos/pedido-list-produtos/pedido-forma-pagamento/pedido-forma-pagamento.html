@@ -23,7 +23,7 @@
             <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
           </ion-avatar>
           <ion-label>{{formaPagamento.pag_descricao}}</ion-label>
-          <ion-radio value="{{formaPagamento.pag_descricao}}" (ionSelect)="changeFormaPagamento(formaPagamento.pag_descricao, iForma)"></ion-radio>          
+          <ion-radio value="{{formaPagamento.pag_descricao}}" (ionSelect)="changeFormaPagamento(formaPagamento.pag_descricao, iForma)"></ion-radio>
         </ion-item>
       </div>
     </ion-list>
@@ -85,7 +85,7 @@
       <span float-right ion-text color="customColor3"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </span>
     </p>
     <p text-center *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho.troco">
-      <span text-center ion-text > Troco para R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.troco}} </span>
+      <span text-center ion-text> Troco para R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.troco}} </span>
     </p>
   </ion-item>
   <div class="button-container" margin>
