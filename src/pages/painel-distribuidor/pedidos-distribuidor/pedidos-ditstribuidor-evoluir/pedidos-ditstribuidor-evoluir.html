@@ -1,4 +1,4 @@
-<ion-content class="content-desktop" *ngIf='pedido'>
+<ion-header class="content-desktop">
   <ion-toolbar color="primary">
     <ion-title>Evolução do pedido</ion-title>
   </ion-toolbar>
@@ -22,25 +22,42 @@
     </ion-item>
   </ion-navbar>
 
-  <h4 ion-text margin-left color="primary" (click)="detalhesPedido()"> Detalhes do Pedido </h4>
-  <div padding>
-    <timeline [prevision]="pedido.duracao_text">
-      <timeline-item *ngFor="let item of timeLineItens">
-        <timeline-time [time]="item.time"></timeline-time>
-        <ion-icon [name]="item.icon"></ion-icon>
-        <ion-card no-border>
-          {{item.content}}
-        </ion-card>
-      </timeline-item>
+</ion-header>
+<ion-content class="content-desktop" *ngIf='pedido'>
+  <div class="content-desktop-margin-bottom">
 
-    </timeline>
+    <h4 ion-text margin-left color="primary" (click)="detalhesPedido()"> Detalhes do Pedido </h4>
+    <div padding>
+      <timeline [prevision]="pedido.duracao_text">
+        <timeline-item *ngFor="let item of timeLineItens">
+          <timeline-time [time]="item.time"></timeline-time>
+          <ion-icon [name]="item.icon"></ion-icon>
+          <ion-card no-border>
+            {{item.content}}
+          </ion-card>
+        </timeline-item>
+
+      </timeline>
+    </div>
+
+    <div padding *ngIf="pedido.status==0">
+      <button ion-button block icon-right (click)="confirmarPedido()">
+        Confirmar Pedido
+        <ion-icon [name]="dicionarioStatusPedido[pedido.status+1].icon"></ion-icon>
+      </button>
+    </div>
+
+    <div padding *ngIf="pedido.status==1">
+      <button ion-button block icon-right (click)="concoluirMontagemPedido()">
+        Concluir Montagem do Pedido
+        <ion-icon [name]="dicionarioStatusPedido[pedido.status+1].icon"></ion-icon>
+      </button>
+    </div>
+    <div padding *ngIf="pedido.status==2">
+      <button ion-button block icon-right (click)="selecionarEntregador()">
+        Definir Entrega do Pedido
+        <ion-icon [name]="dicionarioStatusPedido[pedido.status+1].icon"></ion-icon>
+      </button>
+    </div>
   </div>
-
-  <div padding *ngIf="pedido.status==0">
-    <button ion-button block icon-right (click)="confirmarPedido()">
-      Confirmar Pedido
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </div>
-
 </ion-content>

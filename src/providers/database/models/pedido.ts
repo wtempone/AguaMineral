@@ -3,6 +3,7 @@ import { Usuario } from './usuario';
 import { Distribuidor } from "./distribuidor";
 import { DistribuidorProduto } from './distribuidor-produto';
 import { FormaPagamento } from './forma-pagamento';
+import { Funcionario } from './funcionario';
 
 export class StatusPedido{
   status: string;
@@ -15,37 +16,43 @@ export const DicionarioStatusPedido: StatusPedido[] = [
     status: 'Realizado',
     MensagemUsuario: 'Seu pedido foi realizado com sucesso',
     MensagemDistribuidor: 'Pedido recebido, aguardando confirmação',
-    icon: 'alert'
+    icon: 'clipboard' // clipboard, flag, 
   },
   {
     status: 'Confirmado',
     MensagemUsuario: 'O distribuidor está preparando o seu pedido',
     MensagemDistribuidor: 'Monte o pedido do cliente',
-    icon: 'alert'
+    icon: 'thumbs-up'
   },
   {
     status: 'Montado',
     MensagemUsuario: 'Seu peddido foi montado e está aguardando entrega',
     MensagemDistribuidor: 'Disponibilize o pedido para um entregador ',
-    icon: 'alert'
+    icon: 'basket' // cube
   },
   {
     status: 'Saiu para a entrega',
-    MensagemUsuario: 'Seu peddido saiu para entrega',
+    MensagemUsuario: 'Seu pedido saiu para entrega',
     MensagemDistribuidor: 'Pedido despachado aguardando entrega',
-    icon: 'alert'
+    icon: 'navigate' //exit
   },
   {
     status: 'Entrega Realizada',
     MensagemUsuario: 'Seu pedido entregue com sucesso.',
     MensagemDistribuidor: 'Pedido em mãos do cliente',
-    icon: 'alert'
+    icon: 'checkmark'
   },
   {
     status: 'Finalizado',
     MensagemUsuario: 'Seu pedido foi finalizado com sucesso.',
     MensagemDistribuidor: 'Pedido Finalizado',
-    icon: 'alert'
+    icon: 'done-all'
+  },
+  {
+    status: 'Cancelado',
+    MensagemUsuario: 'Seu pedido foi cancelado.',
+    MensagemDistribuidor: 'Pedido Cancelado',
+    icon: 'trash'
   },
 ]
 
@@ -68,6 +75,7 @@ export class Pedido {
   duracao_text: string;
   distribuidor?: Distribuidor;
   usuario?: Usuario;
+  entregador?: Usuario;
   produtos?: DistribuidorProduto[];
   taxa?: number;
   enderecoEntrega?: Endereco;

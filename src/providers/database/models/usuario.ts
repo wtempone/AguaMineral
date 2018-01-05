@@ -20,6 +20,6 @@ export class Usuario {
   usr_menus?: MenuAcesso[];
   usr_funcionalidades?: Funcionalidade[];
   usr_distribuidores?: string[];
-  usr_carrinho: Pedido;
-  _selecionado: boolean;
+  usr_carrinho?: Pedido;
+  _selecionado?: boolean;
 }

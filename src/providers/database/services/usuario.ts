@@ -74,7 +74,7 @@ export class UsuarioService {
 
                       }
 
-                      //Obtem funcionalidades e acoes do usuario pelo perfil                
+                      //Obtem funcionalidades e acoes do usuario pelo perfil
                       if (usr_perfil.per_funcionalidades) {
                         var per_funcionalidades = (<any>Object).entries(usr_perfil.per_funcionalidades);
                         if (per_funcionalidades) {

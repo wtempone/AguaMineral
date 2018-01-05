@@ -21,9 +21,12 @@ export class PedidoAcompanhamentoPage {
     if (this.navParams.data) {
       this.pedidoSrvc.get((<Pedido>this.navParams.data).$key).subscribe((pedido: Pedido) => {
         this.pedido = pedido;
+        this.timeLineItens = [];
+        
         this.pedido.historico.map((pedidoHistorico:PedidoHistorico) => {
           
           let dataHistorico = moment(pedidoHistorico.data);
+          let dataAtual = moment().format('DDMMYYYY')
           
           let itemHistorico = {
             title: '',
@@ -31,7 +34,7 @@ export class PedidoAcompanhamentoPage {
             icon: DicionarioStatusPedido[pedidoHistorico.status].icon,
             time: {
               title: DicionarioStatusPedido[pedidoHistorico.status].status,
-              subtitle: dataHistorico.format('HH:mm')
+              subtitle: dataAtual == dataHistorico.format('DDMMYYYY') ? `Hoje às ${dataHistorico.format('HH:mm')}` : `Em ${dataHistorico.format('DD/MM/YYYY')} às ${dataHistorico.format('HH:mm')}`
             }
           }                    
           this.timeLineItens.push(itemHistorico)
