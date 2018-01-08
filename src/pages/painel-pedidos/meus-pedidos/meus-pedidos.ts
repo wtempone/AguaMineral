@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UsuarioService } from '../../../providers/database/services/usuario';
 import { PedidoService } from '../../../providers/database/services/pedido';
 import { Distribuidor } from '../../../providers/database/models/distribuidor';
-import { Pedido } from '../../../providers/database/models/pedido';
+import { Pedido,DicionarioStatusPedido } from '../../../providers/database/models/pedido';
 
 @IonicPage()
 @Component({
@@ -13,6 +13,8 @@ import { Pedido } from '../../../providers/database/models/pedido';
 export class MeusPedidosPage {
 
   pedidos: Pedido[];
+  dicionarioStatusPedido = DicionarioStatusPedido;
+  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -27,6 +29,6 @@ export class MeusPedidosPage {
   }
 
   acompanharPedido(pedido) {
-    this.navCtrl.push('PedidoAcompanhamentoPage',pedido);
+    this.navCtrl.push('PedidoAcompanhamentoPage',pedido.$key);
   }
 }

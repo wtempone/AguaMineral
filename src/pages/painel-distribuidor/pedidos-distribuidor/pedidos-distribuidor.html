@@ -7,22 +7,61 @@
 <ion-content class="content-desktop">
   <div class="content-desktop-margin-bottom" *ngIf="distribuidor">
 
-    <ion-list>
-      <ion-item *ngFor='let pedido of pedidos'  (click)="evoluirPedido(pedido)">
-        <ion-avatar item-start>
-          <img *ngIf="pedido.usuario.usr_fb_foto" [src]="pedido.usuario.usr_fb_foto.data.url">
-        </ion-avatar>
-        <h2>{{pedido.usuario.usr_nome}}</h2>
-        <p text-no-wrap>
-          {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
-          pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado + '
-          - ' + pedido.enderecoEntrega.cep}}
-        </p>
-        <p text-right>Total do pedido: <span  ion-text color='customColor3'>R${{pedido.total}}</span></p>
-        <p text-right ion-text color='customColor1'>{{pedido.formaPagamento.pag_descricao}}</p>
-        <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>
-      </ion-item>
-    </ion-list>
+    <div>
+      <ion-segment [(ngModel)]="viewPedidos" padding>
+        <ion-segment-button value="EmAndamento">
+          Em Andamento
+        </ion-segment-button>
+        <ion-segment-button value="Encerrados">
+          Encerrados
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div [ngSwitch]="viewPedidos">
+      <div *ngSwitchCase="'EmAndamento'">
+        <ion-list>
+          <ion-item *ngFor='let pedido of pedidosEmAndamento' (click)="evoluirPedido(pedido)">
+            <ion-avatar item-start>
+              <img *ngIf="pedido.usuario.usr_fb_foto" [src]="pedido.usuario.usr_fb_foto.data.url">
+            </ion-avatar>
+            <h2>{{pedido.usuario.usr_nome}}</h2>
+            <p ion-text color='customColor2' text-right>{{dicionarioStatusPedido[pedido.status].status}}</p>
+            <p text-no-wrap>
+              {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
+              pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado
+              + ' - ' + pedido.enderecoEntrega.cep}}
+            </p>
+            <p text-right>Total do pedido:
+              <span ion-text color='customColor3'>R${{pedido.total}}</span>
+            </p>
+            <p text-right ion-text color='customColor1'>{{pedido.formaPagamento.pag_descricao}}</p>
+            <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>
+          </ion-item>
+        </ion-list>
+      </div>
+      <ion-card *ngSwitchCase="'Encerrados'">
+        <ion-list>
+          <ion-item *ngFor='let pedido of pedidosEncerrados' (click)="evoluirPedido(pedido)">
+            <ion-avatar item-start>
+              <img *ngIf="pedido.usuario.usr_fb_foto" [src]="pedido.usuario.usr_fb_foto.data.url">
+            </ion-avatar>
+            <h2>{{pedido.usuario.usr_nome}}</h2>
+            <p ion-text color='customColor2' text-right>{{dicionarioStatusPedido[pedido.status].status}}</p>
+            <p text-no-wrap>
+              {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
+              pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado
+              + ' - ' + pedido.enderecoEntrega.cep}}
+            </p>
+            <p text-right>Total do pedido:
+              <span ion-text color='customColor3'>R${{pedido.total}}</span>
+            </p>
+            <p text-right ion-text color='customColor1'>{{pedido.formaPagamento.pag_descricao}}</p>
+            <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>
+          </ion-item>
+        </ion-list>
+
+      </ion-card>
+    </div>
   </div>
 
 </ion-content>

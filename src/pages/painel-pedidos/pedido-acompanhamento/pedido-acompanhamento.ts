@@ -19,7 +19,7 @@ export class PedidoAcompanhamentoPage {
     public pedidoSrvc: PedidoService
   ) {
     if (this.navParams.data) {
-      this.pedidoSrvc.get((<Pedido>this.navParams.data).$key).subscribe((pedido: Pedido) => {
+      this.pedidoSrvc.get(this.navParams.data).subscribe((pedido: Pedido) => {
         this.pedido = pedido;
         this.timeLineItens = [];
         

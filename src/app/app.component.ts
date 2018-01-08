@@ -66,7 +66,7 @@ export class MyApp {
       if (usuario) {
         this.usuarioSrvc.usuarioAtual = usuario;
         this.pedidoSrvc.pedidos.subscribe((pedidos: Pedido[])=> {
-          this.meusPedidos = pedidos.filter(x => x.usuario.key == this.usuarioSrvc.usuarioAtual.key);
+          this.meusPedidos = pedidos.filter(x => x.usuario.key == this.usuarioSrvc.usuarioAtual.key && (x.status != 5 && x.status != 6));
 
         })
         if (this.usuarioSrvc.usuarioAtual.usr_endereco)

@@ -198,4 +198,72 @@ export class PedidosDitstribuidorEvoluirPage {
     })
     return this.pedidoSrvc.update(this.pedido.$key, this.pedido);
   }
+
+  encerrarEntrega() {
+    let alert = this.alertCtrl.create({
+      title: 'Entrega Realizada',
+      message: `Deseja finalizar entrega do pedido?
+                Voçe pode adicionar uma observação.`,
+      inputs: [
+        {
+          name: 'observacao',
+          type: 'text'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Confirmar',
+          handler: data => {
+            this.evoluirPedidoObservacaoBase(data.observacao,4);
+          }
+        }
+      ]
+    });
+    alert.present();
+    
+  }
+  
+  finalizarPedido() {
+    let alert = this.alertCtrl.create({
+      title: 'Pedido Finalizado',
+      message: `Deseja finalizar o pedido?
+                Voçe pode adicionar uma observação.`,
+      inputs: [
+        {
+          name: 'observacao',
+          type: 'text'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Confirmar',
+          handler: data => {
+            this.evoluirPedidoObservacaoBase(data.observacao,5);
+          }
+        }
+      ]
+    });
+    alert.present();
+    
+  }
+
+
+  evoluirPedidoObservacaoBase(observacao: string, status: number) {
+    let currentDate = firebase.database.ServerValue.TIMESTAMP;
+    this.pedido.status = status;
+    this.pedido.historico.push(<PedidoHistorico>{
+      status: status,
+      data: currentDate,
+      observacao: observacao
+    })
+    return this.pedidoSrvc.update(this.pedido.$key, this.pedido);    
+  }
+
+
 }

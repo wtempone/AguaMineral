@@ -34,7 +34,7 @@
     "angular2-resizing-cropping-image": "^1.0.0-final.4",
     "angularfire2": "^4.0.0-rc.2",
     "blueimp-canvas-to-blob": "^3.14.0",
-    "cordova-android": "^6.2.3",
+    "cordova-android": "^6.3.0",
     "cordova-browser": "~5.0.1",
     "cordova-plugin-camera": "^2.4.1",
     "cordova-plugin-compat": "^1.2.0",
@@ -81,8 +81,8 @@
       "ionic-plugin-keyboard": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

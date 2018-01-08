@@ -150,8 +150,8 @@ export class PedidoFormaPagamentoPage {
       this.showToastMessage('Informe um endereço de entrega.')
       return;      
     }
-    this.gerarPedido().then((pedido:Pedido) => {
-      this.navCtrl.setRoot('PedidoAcompanhamentoPage', pedido)
+    this.gerarPedido().then((pedido) => {
+      this.navCtrl.setRoot('PedidoAcompanhamentoPage', pedido.key)
     });
   }
 
@@ -170,8 +170,9 @@ export class PedidoFormaPagamentoPage {
     this.pedido.historico.push(<PedidoHistorico>{
       status: 0,
       data: currentDate
-    })    
-    return this.pedidoSrvc.create(this.pedido);
+    })
+    this.usuarioSrvc.removeCarrinho();
+    return this.pedidoSrvc.create(this.pedido);    
   }
 
   showToastMessage(message: string){

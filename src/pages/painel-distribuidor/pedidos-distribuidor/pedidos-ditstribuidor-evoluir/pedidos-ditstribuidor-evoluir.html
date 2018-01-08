@@ -59,5 +59,17 @@
         <ion-icon [name]="dicionarioStatusPedido[pedido.status+1].icon"></ion-icon>
       </button>
     </div>
+    <div padding *ngIf="pedido.status==3">
+      <button ion-button block icon-right (click)="encerrarEntrega()">
+        Encerrar entrega
+        <ion-icon [name]="dicionarioStatusPedido[pedido.status+1].icon"></ion-icon>
+      </button>
+    </div>
+    <div padding *ngIf="pedido.status==4">
+      <button ion-button block icon-right (click)="finalizarPedido()" color="secondary">
+        Finalizar Pedido
+        <ion-icon [name]="dicionarioStatusPedido[pedido.status+1].icon"></ion-icon>
+      </button>
+    </div>
   </div>
 </ion-content>
