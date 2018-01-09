@@ -1,9 +1,9 @@
-<ion-header class="content-desktop" *ngIf="usuarioSrvc.usuarioAtual.usr_distribuidores.length > 0">  
-  <ion-navbar>
+<ion-header class="content-desktop" *ngIf="usuarioSrvc.usuarioAtual">  
+  <ion-navbar *ngIf="usuarioSrvc.usuarioAtual.usr_distribuidores.length > 0">
     <ion-title>Painel do Distribuidor - {{distribuidor?.dist_nome}}</ion-title>
   </ion-navbar> 
 </ion-header>
-<ion-content class="tab-desktop">
+<ion-content class="tab-desktop" *ngIf="usuarioSrvc.usuarioAtual">
   <ion-tabs #tab color="customColor1" selectedIndex="0" *ngIf="distribuidor && usuarioSrvc.usuarioAtual.usr_distribuidores.length > 0">
       <ion-tab tabIcon="cart" tabTitle="Pedidos" [root]="pedidosDistribuidorPage" [rootParams]='distribuidor'></ion-tab>      
       <ion-tab tabIcon="bookmark" tabTitle="Catálogo" [root]="catalogoProdutoDistribuidorPage" [rootParams]='distribuidor'></ion-tab>

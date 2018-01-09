@@ -84,5 +84,6 @@ export class Pedido {
   troco?: number;
   status?: number;
   historico?: PedidoHistorico[];
+  dataCriacao?;  
   _selecionado: boolean;
 }

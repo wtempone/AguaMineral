@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-title>Acompanhamento do pedido</ion-title>
   </ion-toolbar>
-  
+
   <ion-navbar icon-only>
     <ion-item no-margin no-lines>
       <ion-thumbnail item-start>
@@ -11,20 +11,22 @@
       </ion-thumbnail>
       <h2> {{ pedido.distribuidor.dist_nome }} </h2>
       <p> {{ pedido.distribuidor.dist_endereco.bairro }}</p>
+      <p> {{pedido.dataCriacao | amDateFormat: 'DD/MM/YYYY'}}</p>
+
       <p text-right>
         <span *ngIf=' pedido.distribuidor.dist_distancia_text'> {{ pedido.distribuidor.dist_distancia_text }} - {{ pedido.distribuidor.dist_duracao_text }}
         </span>
       </p>
     </ion-item>
   </ion-navbar>
-  <h4  ion-text  margin-left color="primary" (click)="detalhesPedido()"> Detalhes do Pedido </h4> 
-  <div padding>
+  <h4 ion-text margin-left color="primary" (click)="detalhesPedido()"> Detalhes do Pedido </h4>
+  <div padding class="content-desktop-margin-bottom">
     <timeline [prevision]="pedido.duracao_text">
       <timeline-item *ngFor="let item of timeLineItens">
         <timeline-time [time]="item.time"></timeline-time>
         <ion-icon [name]="item.icon"></ion-icon>
         <ion-card no-border>
-            {{item.content}}
+          {{item.content}}
         </ion-card>
       </timeline-item>
 

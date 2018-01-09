@@ -61,8 +61,9 @@ export class AuthServiceProvider {
             usuario.usr_data = new Date(Date.now());
             this.usuarioSrvc.update(key, usuario).then((key) => {
               this.usuarioSrvc.usuarioAtual = usuario;
-              this.usuarioSrvc.loadPerfisAcesso(key)
-              resolve();
+              this.usuarioSrvc.loadPerfisAcesso(key).then(() => {
+                resolve();
+              })
             })
           } else {
 
@@ -74,8 +75,9 @@ export class AuthServiceProvider {
               usr_fb_foto: facebookUser.picture
             }
             this.usuarioSrvc.create(usuario).then((key) => {
-              this.usuarioSrvc.loadPerfisAcesso(key)
-              resolve();
+              this.usuarioSrvc.loadPerfisAcesso(key).then(()=>{
+                resolve();
+              })
             })
           }
 

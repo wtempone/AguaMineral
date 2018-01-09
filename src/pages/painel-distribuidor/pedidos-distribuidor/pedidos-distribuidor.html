@@ -26,6 +26,7 @@
             </ion-avatar>
             <h2>{{pedido.usuario.usr_nome}}</h2>
             <p ion-text color='customColor2' text-right>{{dicionarioStatusPedido[pedido.status].status}}</p>
+            <p text-right> {{pedido.dataCriacao | amDateFormat: 'DD/MM/YYYY'}}</p>            
             <p text-no-wrap>
               {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
               pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado

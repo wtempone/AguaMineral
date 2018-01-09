@@ -1,4 +1,4 @@
-<ion-header class="content-desktop">
+<ion-content class="content-desktop " *ngIf='pedido'>
   <ion-toolbar color="primary">
     <ion-title>Detalhes do pedido</ion-title>
   </ion-toolbar>
@@ -11,14 +11,13 @@
       </ion-thumbnail>
       <h2> {{ pedido.distribuidor.dist_nome }} </h2>
       <p> {{ pedido.distribuidor.dist_endereco.bairro }}</p>
+      <p> {{pedido.dataCriacao | amDateFormat: 'DD/MM/YYYY'}}</p>      
       <p text-right>
         <span *ngIf=' pedido.distribuidor.dist_distancia_text'> {{ pedido.distribuidor.dist_distancia_text }} - {{ pedido.distribuidor.dist_duracao_text }}
         </span>
       </p>
     </ion-item>
   </ion-navbar>
-</ion-header>
-<ion-content class="content-desktop " *ngIf='pedido'>
   <div class="content-desktop-margin-bottom">
     <ion-list no-padding>
       <ion-list-header *ngIf="pedido.entregador">

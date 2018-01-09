@@ -156,8 +156,10 @@ export class PedidoFormaPagamentoPage {
   }
 
   gerarPedido() {
-    this.pedido = this.usuarioSrvc.usuarioAtual.usr_carrinho;
+    let currentDate = firebase.database.ServerValue.TIMESTAMP;
+    this.pedido = this.usuarioSrvc.usuarioAtual.usr_carrinho;        
     this.pedido.status = 0;
+    this.pedido.dataCriacao = currentDate;
     let usuario = new Usuario();
     if (this.usuarioSrvc.usuarioAtual.key) usuario.key =  this.usuarioSrvc.usuarioAtual.key;
     if (this.usuarioSrvc.usuarioAtual.usr_fb_id) usuario.usr_fb_id =  this.usuarioSrvc.usuarioAtual.usr_fb_id;
@@ -166,7 +168,6 @@ export class PedidoFormaPagamentoPage {
     if (this.usuarioSrvc.usuarioAtual.usr_email) usuario.usr_email =  this.usuarioSrvc.usuarioAtual.usr_email;
     this.pedido.usuario = usuario;
     this.pedido.historico = [];
-    let currentDate = firebase.database.ServerValue.TIMESTAMP;
     this.pedido.historico.push(<PedidoHistorico>{
       status: 0,
       data: currentDate

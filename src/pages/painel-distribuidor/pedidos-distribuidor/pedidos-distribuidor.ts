@@ -26,8 +26,8 @@ export class PedidosDistribuidorPage {
       this.distribuidor = this.navParams.data;
       this.pedidoSrvc.pedidos.subscribe((pedidos: Pedido[]) => {
         this.pedidos = pedidos.filter(x => x.distribuidor.key == this.distribuidor.$key)
-        this.pedidosEmAndamento = this.pedidos.filter(x => x.status != 5 && x.status != 6)
-        this.pedidosEncerrados = this.pedidos.filter(x => !(x.status != 5 && x.status != 6))
+        this.pedidosEmAndamento = this.pedidos.filter(x => x.status != 5 && x.status != 6).reverse();
+        this.pedidosEncerrados = this.pedidos.filter(x => !(x.status != 5 && x.status != 6)).reverse();
       })
     }
   }

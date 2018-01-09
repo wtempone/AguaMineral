@@ -8,13 +8,14 @@
   <div class="content-desktop-margin-bottom">
 
     <ion-list>
-      <ion-item *ngFor='let pedido of pedidos' (click)="acompanharPedido(pedido)">
+      <ion-item *ngFor='let pedido of pedidos' (click)="acompanharPedido(pedido)" [ngClass]="{'item-finished': pedido.status == 5 || pedido.status == 6}">
         <ion-thumbnail item-start>
           <img *ngIf="!pedido.distribuidor.dist_img" src="assets/img/appicon.png">
           <img *ngIf="pedido.distribuidor.dist_img" [src]="pedido.distribuidor.dist_img">
         </ion-thumbnail>
         <h2>{{pedido.distribuidor.dist_nome}}</h2>
         <p ion-text color='customColor2' text-right>{{dicionarioStatusPedido[pedido.status].status}}</p>
+        <p text-right> {{pedido.dataCriacao | amDateFormat: 'DD/MM/YYYY'}}</p>
         <p text-right>Total do pedido: <span  ion-text color='customColor3'>R${{pedido.total}}</span></p>
         <p text-right ion-text color='customColor1'>{{pedido.formaPagamento.pag_descricao}}</p>
         <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>

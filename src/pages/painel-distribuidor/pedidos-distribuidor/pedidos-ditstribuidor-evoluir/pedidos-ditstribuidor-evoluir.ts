@@ -109,11 +109,19 @@ export class PedidosDitstribuidorEvoluirPage {
 
     let usuariosLista: Usuario[] = [];
     this.perfilService.getByMnemonico('DIST_ENTR').then((perfil: PerfilAcesso) => {
+      console.log(`perfil:`)
+      console.log(perfil)
       let keyPerfil = (<any>Object).keys(perfil)[0];
       this.distribuidorSrvc.get(this.pedido.distribuidor.key).take(1).subscribe((distribuidor: Distribuidor) => {
+        console.log(`distribuidor:`)        
+        console.log(distribuidor)        
         if ((<any>Object).keys(distribuidor.dist_perfis).filter(key => key == keyPerfil).length > 0) {
           (<any>Object).keys(distribuidor.dist_perfis).filter(key => key == keyPerfil).forEach(distKeyPerfil => {
+            console.log(`distKeyPerfil:`)                    
+            console.log(distKeyPerfil)                    
             this.usuarioSrvc.usuarios.take(1).subscribe((usuarios: Usuario[]) => {
+              console.log(`usuarios:`)                                  
+              console.log(usuarios)                                  
               usuariosLista = usuarios.filter(
                 usuario => (<any>Object).entries(usuario.usr_perfis).filter(([key, value]) => key == distKeyPerfil && value.per_distribuidora == true && value.per_keyDistribuidora == this.pedido.distribuidor.key
                 ).length > 0)

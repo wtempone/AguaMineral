@@ -1,4 +1,4 @@
-<ion-header class="content-desktop">
+<ion-content class="content-desktop " *ngIf='pedido'>
   <ion-toolbar color="primary">
     <ion-title>Detalhes do pedido</ion-title>
   </ion-toolbar>
@@ -9,6 +9,7 @@
         <img *ngIf="pedido.usuario.usr_fb_foto" [src]="pedido.usuario.usr_fb_foto.data.url">
       </ion-avatar>
       <h2>{{pedido.usuario.usr_nome}}</h2>
+      <p text-right> {{pedido.dataCriacao | amDateFormat: 'DD/MM/YYYY'}}</p>            
       <p text-no-wrap>
         {{pedido.enderecoEntrega.rua + ', ' + pedido.enderecoEntrega.complemento + ', ' + pedido.enderecoEntrega.numero + ', ' +
         pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ', ' + pedido.enderecoEntrega.estado + ' -
@@ -21,8 +22,6 @@
       <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>
     </ion-item>
   </ion-navbar>
-</ion-header>
-<ion-content class="content-desktop " *ngIf='pedido'>
   <div class="content-desktop-margin-bottom">
     <ion-list no-padding no-margin>
       <ion-list-header *ngIf="pedido.entregador">

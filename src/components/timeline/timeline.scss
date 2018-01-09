@@ -15,23 +15,23 @@ timeline {
         height: 110%;
         width: 10px;
         background: #afdcf8;
-        //left: 20%;
         margin-left: 20px;
       }
 
-      width: 100%;
-      
+      width: 100%;      
       position: relative;
       display: inline-block;
 
       timeline-time {
         display: block;
-        width: 20%;
         padding-right: 50px;
-        position: absolute;
+        font-size: 0.8em;
+        width: 100%;
+        left: 80px;
+        position: relative;
         span {
           display: block;
-          text-align: right;
+          text-align: left;
           font-size: 1.8em;
           color: #3594cb;
             &:last-child {
@@ -42,11 +42,11 @@ timeline {
       }
       /* Right content */
       ion-card {
-        margin-left: 25% !important;
         width: 75% !important;
         position: relative;
         border: none;
         box-shadow: white 0px 0px 0px;
+        margin-left: 80px !important;        
       }
       ion-icon {
         width: 40px;
@@ -58,7 +58,7 @@ timeline {
         border-radius: 50%;
         box-shadow: none;
         text-align: center;
-        left: 20%;
+        left: 30px;
         top: 0;
         margin: 0 0 0 -25px;
         line-height: 40px;
@@ -95,36 +95,6 @@ timeline {
             }
           }
         }
-    }
-    @media screen and (max-width: map-get($grid-breakpoints,'lg')){
-      timeline-item{
-        timeline-time{
-          font-size: 0.7em;
-        }
-      }
-    }
-    @media screen and (max-width: map-get($grid-breakpoints,'md')){
-      &:before{
-        left: 30px;
-      }
-      timeline-item{
-        ion-card{
-          margin-left: 80px !important;
-        }
-        ion-icon{
-          left: 30px;
-        }
-        timeline-time{
-          font-size: 0.8em;
-          width: 100%;
-          left: 80px;
-          position: relative;
-          span{
-            text-align: left;
-          }
-
-        }
-      }
     }
   }
 

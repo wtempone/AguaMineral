@@ -58,6 +58,10 @@ export class MyApp {
     this.splitPane = !this.platform.is('ios') && !this.platform.is('android');
   }
   ngOnInit() {
+    this.reloadMenu();
+  }
+
+  reloadMenu() {
     if(this.splitPane){
       this.menuCtrl.swipeEnable(false);      
     }    
@@ -73,12 +77,8 @@ export class MyApp {
           this.nav.setRoot('PainelPedidosPage');          
       }
     });
-
   }
 
-  reloadMenu() {
-    this.usuarioSrvc.loadPerfisAcesso(this.usuarioSrvc.usuarioAtual.$key);
-  }
   ionViewDidLoad() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -125,9 +125,11 @@ export class MyApp {
   login() {
     let modal = this.modalCtrl.create('LoginPage');
     modal.onDidDismiss(() => {
-      if (this.usuarioSrvc.usuarioAtual)
+      if (this.usuarioSrvc.usuarioAtual) {
+        this.reloadMenu();        
         if (this.usuarioSrvc.usuarioAtual.usr_endereco.length > 0)
           this.nav.setRoot('PainelPedidosPage');
+      }
     })
     modal.present()
   }

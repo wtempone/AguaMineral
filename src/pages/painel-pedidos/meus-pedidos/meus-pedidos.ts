@@ -4,6 +4,8 @@ import { UsuarioService } from '../../../providers/database/services/usuario';
 import { PedidoService } from '../../../providers/database/services/pedido';
 import { Distribuidor } from '../../../providers/database/models/distribuidor';
 import { Pedido,DicionarioStatusPedido } from '../../../providers/database/models/pedido';
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 
 @IonicPage()
 @Component({
@@ -23,7 +25,7 @@ export class MeusPedidosPage {
   ) {
     if (this.usuarioSrvc.usuarioAtual) {
       this.pedidoSrvc.pedidos.subscribe((pedidos: Pedido[]) => {
-        this.pedidos = pedidos.filter(x => x.usuario.key == this.usuarioSrvc.usuarioAtual.key)
+        this.pedidos = pedidos.filter(x => x.usuario.key == this.usuarioSrvc.usuarioAtual.key).reverse(); 
       })          
     }
   }
