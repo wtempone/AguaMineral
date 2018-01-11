@@ -49,6 +49,7 @@ import { DistribuidorCategoriaService } from '../providers/database/services/dis
 import { FormaPagamentoService } from '../providers/database/services/forma-pagamento';
 import { TipoPagamentoService } from '../providers/database/services/tipo-pagamento';
 import { PedidoService } from '../providers/database/services/pedido';
+import { WelcomePageModule } from '../pages/welcome/welcome.module';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -107,7 +108,8 @@ export function provideSettings(storage: Storage) {
     FacebookModule.forRoot(),
     DirectivesModule,
     ImageCropperModule,
-    ComponentsModule
+    ComponentsModule,
+    WelcomePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

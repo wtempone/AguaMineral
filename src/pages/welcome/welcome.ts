@@ -5,7 +5,6 @@ import { Endereco } from './../../providers/database/models/shared-models';
 import { UsuarioService } from './../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { MainPage } from '../pages'
 import { Http, Response } from '@angular/http';
 import { Usuario } from '../../providers/database/models/usuario';
 

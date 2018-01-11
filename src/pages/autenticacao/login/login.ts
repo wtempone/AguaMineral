@@ -1,4 +1,3 @@
-import { MainPage } from './../../pages';
 import { UsuarioService } from './../../../providers/database/services/usuario';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, LoadingController, ToastController, ModalController, IonicPage } from 'ionic-angular';

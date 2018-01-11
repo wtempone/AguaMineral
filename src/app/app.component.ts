@@ -9,7 +9,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform, MenuController, PopoverController } from 'ionic-angular';
 
-import { FirstRunPage } from '../pages/pages';
 import { Settings } from '../providers/providers';
 
 
@@ -23,6 +22,8 @@ import { MenuAcesso } from '../providers/database/models/menu-acesso';
 import { Storage } from '@ionic/storage';
 import { PedidoService } from '../providers/database/services/pedido';
 import { Pedido } from '../providers/database/models/pedido';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { WelcomePage } from '../pages/welcome/welcome';
 
 @Component({
   templateUrl: 'app.html'
@@ -34,8 +35,9 @@ export class MyApp {
   menu: boolean = true;
   menus: MenuAcesso[] = []
   exibeMenu = true;
-  rootPage = FirstRunPage;
+  rootPage = WelcomePage;
   meusPedidos: Pedido[];
+  numeroPedidos: number;
   constructor(private translate: TranslateService,
     private platform: Platform,
     settings: Settings,
@@ -52,7 +54,8 @@ export class MyApp {
     public popoverCtrl: PopoverController,
     public googleApis: GoogleApis,
     public storage: Storage,
-    public pedidoSrvc: PedidoService
+    public pedidoSrvc: PedidoService,
+    public alertCtrl: AlertController
   ) {
     this.initTranslate();
     this.splitPane = !this.platform.is('ios') && !this.platform.is('android');
@@ -62,19 +65,19 @@ export class MyApp {
   }
 
   reloadMenu() {
-    if(this.splitPane){
-      this.menuCtrl.swipeEnable(false);      
-    }    
+    if (this.splitPane) {
+      this.menuCtrl.swipeEnable(false);
+    }
     // Efetuar tratamento para pegar localizacao atual
     this.storage.get("_UsuarioAtual").then((usuario: Usuario) => {
       if (usuario) {
         this.usuarioSrvc.usuarioAtual = usuario;
-        this.pedidoSrvc.pedidos.subscribe((pedidos: Pedido[])=> {
+        this.pedidoSrvc.pedidos.subscribe((pedidos: Pedido[]) => {
           this.meusPedidos = pedidos.filter(x => x.usuario.key == this.usuarioSrvc.usuarioAtual.key && (x.status != 5 && x.status != 6));
-
+          this.numeroPedidos =  this.meusPedidos.length;
         })
         if (this.usuarioSrvc.usuarioAtual.usr_endereco)
-          this.nav.setRoot('PainelPedidosPage');          
+          this.nav.setRoot('PainelPedidosPage');
       }
     });
   }
@@ -88,8 +91,8 @@ export class MyApp {
 
   showMenu() {
     this.menu = !this.menu;
-    if (!this.splitPane){
-      this.menuCtrl.toggle() 
+    if (!this.splitPane) {
+      this.menuCtrl.toggle()
     }
   }
 
@@ -126,7 +129,7 @@ export class MyApp {
     let modal = this.modalCtrl.create('LoginPage');
     modal.onDidDismiss(() => {
       if (this.usuarioSrvc.usuarioAtual) {
-        this.reloadMenu();        
+        this.reloadMenu();
         if (this.usuarioSrvc.usuarioAtual.usr_endereco.length > 0)
           this.nav.setRoot('PainelPedidosPage');
       }
@@ -135,7 +138,7 @@ export class MyApp {
   }
 
   userOptions(event) {
-    let popover = this.popoverCtrl.create('MenuUsuarioPage',{numeroPedidos: this.meusPedidos.length});
+    let popover = this.popoverCtrl.create('MenuUsuarioPage', { numeroPedidos: this.meusPedidos.length }, { cssClass: 'menu-popover' });
     popover.present({
       ev: event,
     });
@@ -143,21 +146,40 @@ export class MyApp {
       if (data)
         if (data.option) {
           if (data.option == "meusPedidos")
-            this.nav.setRoot('MeusPedidosPage')            
+            this.nav.setRoot('MeusPedidosPage')
           if (data.option == "editarPerfil")
-          alert("Funcao não implementada!");
-      if (data.option == "sair") {
-            this.authServiceProvider.signOut();
-            this.nav.setRoot('WelcomePage')            
+            this.editarPerfil();
+          if (data.option == "sair") {
+            this.confirmarSaida();
           }
         }
     })
+  }
+  
+  confirmarSaida() {
+    let alert = this.alertCtrl.create({
+      title: 'Finalizar Sessão?',
+      message: `Deseja finalizar a seção?`,
+      buttons: [
+        {
+          text: 'Não'
+        },
+        {
+          text: 'Sim',
+          handler: data => {
+            this.authServiceProvider.signOut();
+            this.nav.setRoot('WelcomePage')
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   signupDistribuidora() {
     if (this.usuarioSrvc.usuarioAtual) {
       this.nav.setRoot('DistribuidorEditPage')
-    } else {      
+    } else {
       let modal = this.modalCtrl.create('LoginPage', { message: "NOT_AUTHENTICATED" });
       modal.onDidDismiss(() => {
         if (this.usuarioSrvc.usuarioAtual)
@@ -166,6 +188,19 @@ export class MyApp {
       modal.present();
     }
   }
+
+  verMeusPedidos() {
+    this.nav.setRoot('MeusPedidosPage')
+  }
+  
+  editarPerfil() {    
+    this.nav.setRoot('UsuarioEditPage')
+  }
+
+  sair(){
+    this.confirmarSaida();
+  }
+
   show() {
     if (1 == 1) return;
     this.http.get('assets/dados/aguamineralapp_full.json')
@@ -198,17 +233,17 @@ export class MyApp {
                     longitude: distribuidor.dist_longitude
                   }
                 }
-                if (!dist.dist_endereco.latitude || !dist.dist_endereco.longitude ){
+                if (!dist.dist_endereco.latitude || !dist.dist_endereco.longitude) {
                   this.googleApis.geocodeingEndereco(dist.dist_endereco).subscribe(dadosGoogle => {
                     //console.log(dadosGoogle);
                     if (dadosGoogle.results[0]) {
                       dist.dist_endereco.latitude = dadosGoogle.results[0].geometry.location.lat,
-                      dist.dist_endereco.longitude = dadosGoogle.results[0].geometry.location.lng                    
+                        dist.dist_endereco.longitude = dadosGoogle.results[0].geometry.location.lng
                     }
                     this.distribuidorSrvc.create(dist);
                   })
                 } else {
-                  this.distribuidorSrvc.create(dist);                  
+                  this.distribuidorSrvc.create(dist);
                 }
               })
             }

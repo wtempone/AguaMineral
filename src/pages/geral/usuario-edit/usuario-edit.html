@@ -1,0 +1,57 @@
+<ion-header class="content-desktop">
+
+  <ion-navbar>
+    <ion-title>Meus Dados</ion-title>
+    <ion-buttons end>
+      <button ion-button color="customColor2" (click)="salvarProduto()">Salvar</button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+<ion-content class="content-desktop">
+  <form [formGroup]="formulario" novalidate>
+    <ion-list>
+      <ion-list-header>
+        Dados Gerais
+      </ion-list-header>
+      <ion-item>
+        <img *ngIf="usuarioSrvc.usuarioAtual.usr_fb_foto" class="img-profile" [src]="usuarioSrvc.usuarioAtual.usr_fb_foto.data.url"
+          item-center />
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input [class.invalid]="verificaValidTouched('usr_nome')" formControlName="usr_nome" type="text" placeholder="Digite o nome do usuário"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="verificaValidTouched('usr_nome')">
+        <p class="error-message">O nome do usuário é obrigatório</p>
+      </ion-item>
+      <ion-list-header>
+        Endereços de Entrega
+        <button ion-button outline icon-only item-end (click)="adicionarEndereco()">
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+      </ion-list-header>
+      <ion-item *ngFor="let enderecoEntrega of usuarioSrvc.usuarioAtual.usr_endereco">
+        <p text-wrap>
+          {{enderecoEntrega.rua + ', ' + enderecoEntrega.complemento + ', ' + enderecoEntrega.numero + ', ' + enderecoEntrega.bairro
+          + ', ' + enderecoEntrega.cidade + ', ' + enderecoEntrega.estado + ' - ' + enderecoEntrega.cep}}
+        </p>
+        <button item-end ion-button outline icon-right (click)="excluirEndereco()">
+          Excluir
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item>
+      <ion-list-header>
+        Perfis de Acesso
+      </ion-list-header>
+      <ion-item *ngFor="let perfil of perfis">
+        <p text-wrap>
+          {{perfil.nome}}
+          <span *ngIf="perfil.distribuidor"> - {{perfil.distribuidor.nome}}</span>
+        </p>
+      </ion-item>
+
+    </ion-list>
+
+  </form>
+</ion-content>

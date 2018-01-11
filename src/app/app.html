@@ -2,11 +2,22 @@
     <ion-menu class="content-desktop" [content]="content" [enabled]="usuarioSrvc?.usuarioAtual">
         <ion-content class="item-menu">
             <ion-list class="menu-list" no-lines>
-                <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.usuarioAtual?.usr_menus" (click)="openPage(m)">
-                    <button class="item-menu-button" icon-left menuClose>
-                        <ion-icon name="{{m.mnu_icone}}"></ion-icon>
-                        {{m.mnu_nome}}
-                    </button>
+                <ion-item class="item-menu-base" *ngFor="let m of usuarioSrvc.usuarioAtual?.usr_menus" (click)="openPage(m)" menuClose>
+                    <ion-icon name="{{m.mnu_icone}}" item-start></ion-icon>
+                    {{m.mnu_nome}}
+                </ion-item>
+                <ion-item class="item-menu-base" (click)="verMeusPedidos()" menuClose>
+                    <ion-icon name="cart" item-start></ion-icon>
+                    Meus Pedidos
+                    <ion-badge item-end color="customColor1" *ngIf="numeroPedidos">{{numeroPedidos}}</ion-badge>
+                </ion-item>
+                <ion-item class="item-menu-base" (click)="editarPerfil()" menuClose>
+                    <ion-icon name="contact" item-start></ion-icon>
+                    Meus Dados
+                </ion-item>
+                <ion-item class="item-menu-base" (click)="sair()" menuClose>
+                    <ion-icon name="exit" item-start></ion-icon>
+                    Sair
                 </ion-item>
             </ion-list>
         </ion-content>
@@ -25,7 +36,7 @@
 <ion-header>
     <ion-navbar class="main-toolbar" color="customColor1">
         <ion-buttons>
-            <button ion-button icon-only (click)="showMenu()">
+            <button *ngIf="usuarioSrvc.usuarioAtual" ion-button icon-only (click)="showMenu()">
                 <ion-icon class="title-app" name="menu"></ion-icon>
             </button>
             <button ion-button icon-only>
