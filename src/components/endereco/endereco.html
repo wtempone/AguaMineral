@@ -67,7 +67,7 @@
         
         <ion-item>
           <ion-label stacked>{{ 'CEP' | translate }}</ion-label>
-          <ion-input type="text" mask="**.***-***"  maxlength="10" formControlName="cep" placeholder="{{ 'CEP_PLACEHOLDER' | translate }}"></ion-input>
+          <ion-input type="tel" mask="**.***-***"  maxlength="10" formControlName="cep" placeholder="{{ 'CEP_PLACEHOLDER' | translate }}"></ion-input>
         </ion-item>
         <ion-item *ngIf="verificaValidTouched('cep')">
             <p *ngIf="formulario.get('cep').hasError('required')" class="error-message">{{ 'CEP_MESSAGE_INVALID_REQUIRED' | translate }}</p>
