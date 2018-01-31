@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Pedido } from '../../../../providers/database/models/pedido';
 import { FirebaseObjectObservable } from 'angularfire2/database';
+import { Storage } from '@ionic/storage/es2015/storage';
+import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 
 @IonicPage()
 @Component({
@@ -11,12 +13,16 @@ import { FirebaseObjectObservable } from 'angularfire2/database';
   templateUrl: 'carrinho.html',
 })
 export class CarrinhoPage {
+  carrinho: Pedido;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public usuarioSrvc: UsuarioService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public storage: Storage,
+    public modalCtrl: ModalController,
   ) {
+    this.storage.get('_PedidoTemporario').then((pedido: Pedido) => { this.carrinho = pedido});
   }
   adicionarMaisProdutos() {
     this.navCtrl.pop();
@@ -31,15 +37,15 @@ export class CarrinhoPage {
           {
             text: 'Não',
             handler: () => {
-              this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_quantidade = 1
-              this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_total = this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_preco;
+              this.carrinho.produtos[index].dist_quantidade = 1
+              this.carrinho.produtos[index].dist_total = this.carrinho.produtos[index].dist_preco;
               this.atualizarCarrinho();
             }            
           },
           {
             text: 'Sim',
             handler: () => {
-              this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos.splice(index, 1);
+              this.carrinho.produtos.splice(index, 1);
               this.atualizarCarrinho();
             }
           }
@@ -47,8 +53,9 @@ export class CarrinhoPage {
       });
       confirm.present();
     } else {
-      this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_quantidade = ev;
-      this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_total = ev * this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos[index].dist_preco;
+      this.carrinho.produtos[index].dist_quantidade = ev;
+      this.carrinho.produtos[index].dist_total = ev * this.carrinho.produtos[index].dist_preco;
+      this.storage.set('_PedidoTemporario', this.carrinho)
       this.atualizarCarrinho();
     }
   }
@@ -73,23 +80,32 @@ export class CarrinhoPage {
   }
 
   excluirCarrinho() {
-    this.usuarioSrvc.usuarioAtual.usr_carrinho = null;
-    this.usuarioSrvc.removeCarrinho();
+    this.carrinho = null;
+    //this.usuarioSrvc.removeCarrinho();
+    this.storage.set('_PedidoTemporario', undefined)    
     this.navCtrl.pop();
   }
 
   atualizarCarrinho() {
-    this.usuarioSrvc.usuarioAtual.usr_carrinho.total = 0;    
-    this.usuarioSrvc.usuarioAtual.usr_carrinho.produtos.forEach(x => {
-      this.usuarioSrvc.usuarioAtual.usr_carrinho.total += x.dist_total;
+    this.carrinho.total = 0;    
+    this.carrinho.produtos.forEach(x => {
+      this.carrinho.total += x.dist_total;
     });
-    this.usuarioSrvc.usuarioAtual.usr_carrinho.total += Number(this.usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_taxa_entrega);
-
-    this.usuarioSrvc.updateCarrinho(this.usuarioSrvc.usuarioAtual.usr_carrinho);
+    this.carrinho.total += Number(this.carrinho.distribuidor.dist_taxa_entrega);
+    this.storage.set('_PedidoTemporario', this.carrinho)
+    //this.usuarioSrvc.updateCarrinho(this.carrinho);
   }
 
   escolherFormaPagamento() {
-    this.navCtrl.push('PedidoFormaPagamentoPage')
+    let modal = this.modalCtrl.create('PedidoFormaPagamentoPage')
+    modal.present({
+      ev: event
+    });
+    modal.onDidDismiss(() => {
+      this.storage.get('_PedidoTemporario').then((pedido: Pedido) => {
+        this.carrinho = pedido;
+      })
+    })    
   }
 
 }

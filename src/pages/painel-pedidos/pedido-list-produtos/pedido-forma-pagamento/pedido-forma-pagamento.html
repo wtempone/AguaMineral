@@ -1,97 +1,100 @@
 <ion-content class="content-desktop">
-  <div class="content-carrinho-margin-bottom">
-    <ion-navbar icon-only>
-      <ion-item no-margin no-lines>
-        <ion-thumbnail item-start>
-          <img *ngIf="!carrinho" src="assets/img/appicon.png">
-          <img *ngIf="carrinho" [src]="usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_img">
-        </ion-thumbnail>
-        <h2> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_nome }} </h2>
-        <p> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_endereco.bairro }}</p>
-        <!-- <p *ngIf='!usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
-      <p *ngIf='usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
-      </ion-item>
-    </ion-navbar>
-
-    <ion-list no-padding no-margin radio-group [(ngModel)]="formaPagamentoStr" class="list-padding-bottom">
-      <ion-list-header>
-        Forma de Pagamento
-      </ion-list-header>
-      <div *ngFor="let formaPagamento of formasPagamento; let iForma = index">
-        <ion-item>
-          <ion-avatar item-end>
-            <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
-          </ion-avatar>
-          <ion-label>{{formaPagamento.pag_descricao}}</ion-label>
-          <ion-radio value="{{formaPagamento.pag_descricao}}" (ionSelect)="changeFormaPagamento(formaPagamento.pag_descricao, iForma)"></ion-radio>
+  <div *ngIf="carrinho">
+    <div class="content-carrinho-margin-bottom">
+      <ion-navbar icon-only>
+        <ion-item no-margin no-lines>
+          <ion-thumbnail item-start>
+            <img *ngIf="!carrinho" src="assets/img/appicon.png">
+            <img *ngIf="carrinho" [src]="carrinho.distribuidor.dist_img">
+          </ion-thumbnail>
+          <h2> {{ carrinho.distribuidor.dist_nome }} </h2>
+          <p> {{ carrinho.distribuidor.dist_endereco.bairro }}</p>
+          <!-- <p *ngIf='!carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
+      <p *ngIf='carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
         </ion-item>
-      </div>
-    </ion-list>
+      </ion-navbar>
 
-    <ion-list no-padding no-margin class="list-padding-bottom">
-      <ion-list-header>
-        Endereço de Entrega
-      </ion-list-header>
-      <ion-item *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega">
-        <p text-wrap>
-          {{usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.rua + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.complemento
-          + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.numero + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.bairro
-          + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.cidade + ', ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.estado
-          + ' - ' + usuarioSrvc.usuarioAtual.usr_carrinho.enderecoEntrega.cep}}
-        </p>
-        <button item-end ion-button outline icon-right color="customColor2" (click)="alterarEndereco()">
-          Mudar
-          <ion-icon name="flag"></ion-icon>
+      <ion-list no-padding no-margin radio-group [(ngModel)]="formaPagamentoStr" class="list-padding-bottom">
+        <ion-list-header>
+          Forma de Pagamento
+        </ion-list-header>
+        <div *ngFor="let formaPagamento of formasPagamento; let iForma = index">
+          <ion-item>
+            <ion-avatar item-end>
+              <img *ngIf="formaPagamento.pag_img" [src]="formaPagamento.pag_img">
+            </ion-avatar>
+            <ion-label>{{formaPagamento.pag_descricao}}</ion-label>
+            <ion-radio value="{{formaPagamento.pag_descricao}}" (ionSelect)="changeFormaPagamento(formaPagamento.pag_descricao, iForma)"></ion-radio>
+          </ion-item>
+        </div>
+      </ion-list>
+
+      <ion-list no-padding no-margin class="list-padding-bottom">
+        <ion-list-header>
+          Endereço de Entrega
+        </ion-list-header>
+        <ion-item *ngIf="carrinho.enderecoEntrega">
+          <p text-wrap>
+            {{carrinho.enderecoEntrega.rua + ', ' + carrinho.enderecoEntrega.complemento + ', ' + carrinho.enderecoEntrega.numero + ',
+            ' + carrinho.enderecoEntrega.bairro + ', ' + carrinho.enderecoEntrega.cidade + ', ' + carrinho.enderecoEntrega.estado
+            + ' - ' + carrinho.enderecoEntrega.cep}}
+          </p>
+          <button item-end ion-button outline icon-right color="customColor2" (click)="alterarEndereco()">
+            Mudar
+            <ion-icon name="flag"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-list>
+
+
+      <ion-list no-padding no-margin class="list-padding-bottom">
+        <ion-list-header>
+          Lista de Produtos do Pedido
+        </ion-list-header>
+        <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of carrinho.produtos; let idx = index'>
+          <ion-thumbnail item-start>
+            <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
+          </ion-thumbnail>
+          <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
+          <p>
+            {{distribuidorProduto.produto?.pro_descricao}}
+          </p>
+          <p>
+            {{distribuidorProduto.dist_quantidade}}x
+            <span ion-text color="customColor3">R$ {{distribuidorProduto.dist_preco}}</span>
+          </p>
+          <span item-right ion-text color="customColor3">R$ {{distribuidorProduto.dist_total}} </span>
+        </ion-item>
+      </ion-list>
+      <div padding>
+        <button ion-button block icon-right (click)="modificarPedido()">
+          Modificar Pedido
+          <ion-icon name="cart"></ion-icon>
         </button>
-      </ion-item>
-    </ion-list>
-
-
-    <ion-list no-padding no-margin class="list-padding-bottom">
-      <ion-list-header>
-        Lista de Produtos do Pedido
-      </ion-list-header>
-      <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of usuarioSrvc.usuarioAtual.usr_carrinho.produtos; let idx = index'>
-        <ion-thumbnail item-start>
-          <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
-        </ion-thumbnail>
-        <h2>{{distribuidorProduto.produto?.pro_nome}}</h2>
-        <p>
-          {{distribuidorProduto.produto?.pro_descricao}}
-        </p>
-        <p>
-          {{distribuidorProduto.dist_quantidade}}x
-          <span ion-text color="customColor3">R$ {{distribuidorProduto.dist_preco}}</span>
-        </p>
-        <span item-right ion-text color="customColor3">R$ {{distribuidorProduto.dist_total}} </span>
-      </ion-item>
-    </ion-list>
-    <div padding>
-      <button ion-button block icon-right (click)="modificarPedido()">
-        Modificar Pedido
-        <ion-icon name="cart"></ion-icon>
-      </button>
+      </div>
     </div>
   </div>
 </ion-content>
-<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos">
-  <ion-item no-pading>
-    <p>
-      Entrega:
-      <span float-right ion-text color="customColor2"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_taxa_entrega}} </span>
-    </p>
-    <p>
-      <strong>Total: </strong>
-      <span float-right ion-text color="customColor3"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </span>
-    </p>
-    <p text-center *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho.troco">
-      <span text-center ion-text> Troco para R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.troco}} </span>
-    </p>
-  </ion-item>
-  <div class="button-container" margin>
-    <button ion-button block icon-right (click)="enviarPedido()">
-      Enviar Pedido
-      <ion-icon name="checkmark"></ion-icon>
-    </button>
+<ion-footer *ngIf="carrinho?.produtos">
+  <div *ngIf="carrinho">
+    <ion-item no-pading>
+      <p>
+        Entrega:
+        <span float-right ion-text color="customColor2"> R$ {{carrinho.distribuidor.dist_taxa_entrega}} </span>
+      </p>
+      <p>
+        <strong>Total: </strong>
+        <span float-right ion-text color="customColor3"> R$ {{carrinho.total}} </span>
+      </p>
+      <p text-center *ngIf="carrinho.troco">
+        <span text-center ion-text> Troco para R$ {{carrinho.troco}} </span>
+      </p>
+    </ion-item>
+    <div class="button-container" margin>
+      <button ion-button block icon-right (click)="enviarPedido()">
+        Enviar Pedido
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </div>
   </div>
 </ion-footer>

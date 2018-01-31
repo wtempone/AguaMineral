@@ -10,6 +10,7 @@ import { DistribuidorProduto } from '../../../providers/database/models/distribu
 import { DistribuidorCategoriaService } from '../../../providers/database/services/distribuidor-categoria';
 import { DistribuidorCategoria } from '../../../providers/database/models/distribuidor-categoria';
 import { FirebaseObjectObservable } from 'angularfire2/database';
+import { Storage } from '@ionic/storage/es2015/storage';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ import { FirebaseObjectObservable } from 'angularfire2/database';
 export class PedidoListProdutosPage {
   distribuidor: Distribuidor;
   configuracao = 'catalogo';
+  carrinho: Pedido;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -28,23 +30,41 @@ export class PedidoListProdutosPage {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public usuarioSrvc: UsuarioService
-
+    public usuarioSrvc: UsuarioService,
+    public storage: Storage
   ) {
     if (this.navParams.data) {
       this.distribuidor = this.navParams.data;
       this.refresh();
     }
+    this.storage.get('_PedidoTemporario').then((pedido: Pedido) => { this.carrinho = pedido })
   }
   verCarrinho() {
-    this.navCtrl.push('CarrinhoPage')
+    //this.navCtrl.push('CarrinhoPage')
+    let modal = this.modalCtrl.create('CarrinhoPage')
+    modal.present({
+      ev: event
+    });
+    modal.onDidDismiss(() => {
+      this.storage.get('_PedidoTemporario').then((pedido: Pedido) => {
+        this.carrinho = pedido;
+      })
+    })
   }
   adicionarAoCarrinho(distribuidorProduto) {
-    this.navCtrl.push('AdicionarProdutoCarrinhoPage', {
+    let modal = this.modalCtrl.create('AdicionarProdutoCarrinhoPage', {
       distribuidorProduto: distribuidorProduto,
       distribuidor: this.distribuidor,
-      carrinho: this.usuarioSrvc.usuarioAtual.usr_carrinho
-    }, { animate: true, direction: 'switch' })
+      carrinho: this.carrinho,
+    })
+    modal.present({
+      ev: event
+    });
+    modal.onDidDismiss(() => {
+      this.storage.get('_PedidoTemporario').then((pedido: Pedido) => {
+        this.carrinho = pedido;
+      })
+    })
   }
   refresh() {
     this.distribuidorProdutoSrvc.getAll(this.distribuidor.$key);

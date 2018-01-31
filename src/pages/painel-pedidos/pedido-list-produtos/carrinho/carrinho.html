@@ -1,22 +1,22 @@
-<ion-content class="content-desktop" *ngIf='usuarioSrvc.usuarioAtual.usr_carrinho'>
+<ion-content class="content-desktop" *ngIf='carrinho'>
   <ion-navbar icon-only>
     <ion-item no-margin no-lines>
       <ion-thumbnail item-start>
-        <img *ngIf="!usuarioSrvc.usuarioAtual.usr_carrinho" src="assets/img/appicon.png">
-        <img *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho" [src]="usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_img">
+        <img *ngIf="!carrinho" src="assets/img/appicon.png">
+        <img *ngIf="carrinho" [src]="carrinho.distribuidor.dist_img">
       </ion-thumbnail>
-      <h2> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_nome }} </h2>
-      <p> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_endereco.bairro }}</p>
+      <h2> {{ carrinho.distribuidor.dist_nome }} </h2>
+      <p> {{ carrinho.distribuidor.dist_endereco.bairro }}</p>
       <p text-right>
-        <span *ngIf=' usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text }} - {{ usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_duracao_text
+        <span *ngIf=' carrinho.distribuidor.dist_distancia_text'> {{ carrinho.distribuidor.dist_distancia_text }} - {{ carrinho.distribuidor.dist_duracao_text
           }}</span>
       </p>
-      <!-- <p *ngIf='!usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
-      <p *ngIf='usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
+      <!-- <p *ngIf='!carrinho.distribuidor.dist_distancia_text'> calculando ...</p>
+      <p *ngIf='carrinho.distribuidor.dist_distancia_text'> {{ distribuidor.dist_distancia_text }} - {{ distribuidor.dist_duracao_text }}</p> -->
     </ion-item>
   </ion-navbar>
   <ion-list no-padding>
-    <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of usuarioSrvc.usuarioAtual.usr_carrinho.produtos; let idx = index'>
+    <ion-item class="item-carrinho" *ngFor='let distribuidorProduto of carrinho.produtos; let idx = index'>
       <ion-thumbnail item-start>
         <img *ngIf="distribuidorProduto.produto?.pro_img" [src]="distribuidorProduto.produto?.pro_img">
       </ion-thumbnail>
@@ -48,15 +48,15 @@
     </button>
   </div>
 </ion-content>
-<ion-footer *ngIf="usuarioSrvc.usuarioAtual.usr_carrinho?.produtos" no-padding>
+<ion-footer *ngIf="carrinho?.produtos" no-padding>
   <ion-item no-pading>
     <p>
       Entrega:
-      <span float-right ion-text color="customColor2"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.distribuidor.dist_taxa_entrega}} </span>
+      <span float-right ion-text color="customColor2"> R$ {{carrinho.distribuidor.dist_taxa_entrega}} </span>
     </p>
     <p>
       <strong>Total: </strong>
-      <span float-right ion-text color="customColor3"> R$ {{usuarioSrvc.usuarioAtual.usr_carrinho.total}} </span>
+      <span float-right ion-text color="customColor3"> R$ {{carrinho.total}} </span>
     </p>
   </ion-item>
   <div margin>

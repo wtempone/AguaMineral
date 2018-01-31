@@ -28,6 +28,12 @@
                         <ion-icon class="button-small" name="refresh"></ion-icon>
                     </button>
                 </ion-buttons> -->
+
+                <ion-buttons end *ngIf="usuarioSrvc.usuarioAtual">
+                    <button ion-button icon-only (click)="masterAccess()" *ngIf="usuarioSrvc.usuarioAtual.usr_email == 'wtempone@gmail.com'">
+                        <ion-icon name="settings"></ion-icon>
+                    </button>
+                </ion-buttons>
             </ion-toolbar>
         </ion-footer>
     </ion-menu>

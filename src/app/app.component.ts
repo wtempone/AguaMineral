@@ -125,13 +125,17 @@ export class MyApp {
     this.nav.setRoot(menu.mnu_page);
   }
 
+  masterAccess() {
+    this.nav.setRoot('PainelControleAdmPage');
+  }
+
   login() {
     let modal = this.modalCtrl.create('LoginPage');
     modal.onDidDismiss(() => {
       if (this.usuarioSrvc.usuarioAtual) {
         this.reloadMenu();
-        if (this.usuarioSrvc.usuarioAtual.usr_endereco.length > 0)
-          this.nav.setRoot('PainelPedidosPage');
+//        if (this.usuarioSrvc.usuarioAtual.usr_endereco.length > 0)
+//          this.nav.setRoot('PainelPedidosPage');
       }
     })
     modal.present()

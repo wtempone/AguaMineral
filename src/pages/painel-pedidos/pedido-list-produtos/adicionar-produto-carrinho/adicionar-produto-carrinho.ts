@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { DistribuidorProduto } from '../../../../providers/database/models/distribuidor-produto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Storage } from '@ionic/storage/es2015/storage';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,8 @@ export class AdicionarProdutoCarrinhoPage {
     private formBuilder: FormBuilder,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private usuarioSrvc: UsuarioService
+    private usuarioSrvc: UsuarioService,
+    public storage: Storage,
   ) {
     if (this.navParams.data.distribuidorProduto) {
       this.distribuidorProduto = this.navParams.data.distribuidorProduto;
@@ -179,8 +181,9 @@ export class AdicionarProdutoCarrinhoPage {
       this.carrinho.total += x.dist_total;
     });
     this.carrinho.total += Number(this.carrinho.distribuidor.dist_taxa_entrega);
-    this.usuarioSrvc.usuarioAtual.usr_carrinho = this.carrinho;
-    this.usuarioSrvc.updateCarrinho(this.carrinho);
+    this.storage.set('_PedidoTemporario',this.carrinho);
+    // this.usuarioSrvc.usuarioAtual.usr_carrinho = this.carrinho;
+    // this.usuarioSrvc.updateCarrinho(this.carrinho);
   }
 
 

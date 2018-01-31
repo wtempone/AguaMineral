@@ -1,9 +1,11 @@
+import { Storage } from '@ionic/storage';
 import { Distribuidor } from './../../providers/database/models/distribuidor';
 import { GoogleApis } from './../../services/consulta-google-apis';
 import { UsuarioService } from './../../providers/database/services/usuario';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { DistribuidorService } from '../../providers/database/services/distribuidor';
+import { Endereco } from '../../providers/database/models/shared-models';
 declare var google;
 
 export interface Coord {
@@ -39,7 +41,8 @@ export class PainelPedidosPage {
     public distribuidorSrvc: DistribuidorService,
     public usuarioSrc: UsuarioService,
     public googleApis: GoogleApis,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public storage: Storage
 
   ) {
     this.address = {
@@ -65,55 +68,64 @@ export class PainelPedidosPage {
 
 
   refresh() {
-    if (this.usuarioSrc.usuarioAtual.usr_endereco) {
-      if (this.usuarioSrc.usuarioAtual.usr_endereco[0].latitude) {
-
-        this.origins = [];
-        this.origins.push(new google.maps.LatLng(this.usuarioSrc.usuarioAtual.usr_endereco[0].latitude, this.usuarioSrc.usuarioAtual.usr_endereco[0].longitude))
-        this.coordOrigin = <Coord>{
-          lat: this.usuarioSrc.usuarioAtual.usr_endereco[0].latitude,
-          lon: this.usuarioSrc.usuarioAtual.usr_endereco[0].longitude
-        }
-      }
-      this.distribuidorSrvc.distribuidores.subscribe((distribuidores: any[]) => {
-        distribuidores.map((distribuidor) => {
-          if (distribuidor.dist_endereco.latitude) {
-            let destinations = []
-            let coordDestination = <Coord>{
-              lat: distribuidor.dist_endereco.latitude,
-              lon: distribuidor.dist_endereco.longitude
-            }
-            distribuidor.dist_distancia = this.clacDistance(this.coordOrigin, coordDestination, 'K');
-          }
-        })
-
-        this.distribuidores = distribuidores.filter(dist => dist.dist_distancia < 10);
-        this.distribuidoresBack = distribuidores.filter(dist => dist.dist_distancia < 10);
-        
-        this.distribuidores.map((distribuidor) => {
-          if (distribuidor.dist_endereco.latitude) {
-            let destinations = []
-            let destination = new google.maps.LatLng(distribuidor.dist_endereco.latitude, distribuidor.dist_endereco.longitude);
-            destinations.push(destination)
-            this.distanceMatrixService.getDistanceMatrix(
-              {
-                origins: this.origins,
-                destinations: destinations,
-                travelMode: 'DRIVING'
-              }, (response, status) => {
-                if (status == 'OK') {
-                  if (response.rows[0].elements[0].status == 'OK') {
-                    distribuidor.dist_distancia_value = response.rows[0].elements[0].distance.value;
-                    distribuidor.dist_distancia_text = response.rows[0].elements[0].distance.text;
-                    distribuidor.dist_duracao_value = response.rows[0].elements[0].duration.value;
-                    distribuidor.dist_duracao_text = response.rows[0].elements[0].duration.text;
-                  }
-                }
-              });
-          }
-        })
+    if (this.usuarioSrc.usuarioAtual) {
+      this.getDistribuidoresProximos(this.usuarioSrc.usuarioAtual.usr_endereco[0]);
+    } else {
+      this.storage.get('_EnderecoTemporario').then((endereco: Endereco) => {
+        this.getDistribuidoresProximos(endereco);
       })
     }
+  }
+
+  getDistribuidoresProximos(endereco: Endereco){
+    if (endereco.latitude) {
+
+      this.origins = [];
+      this.origins.push(new google.maps.LatLng(endereco.latitude, endereco.longitude))
+      this.coordOrigin = <Coord>{
+        lat: endereco.latitude,
+        lon: endereco.longitude
+      }
+    }
+    this.distribuidorSrvc.distribuidores.subscribe((distribuidores: any[]) => {
+      distribuidores.map((distribuidor) => {
+        if (distribuidor.dist_endereco.latitude) {
+          let destinations = []
+          let coordDestination = <Coord>{
+            lat: distribuidor.dist_endereco.latitude,
+            lon: distribuidor.dist_endereco.longitude
+          }
+          distribuidor.dist_distancia = this.clacDistance(this.coordOrigin, coordDestination, 'K');
+        }
+      })
+
+      this.distribuidores = distribuidores.filter(dist => dist.dist_distancia < 10);
+      this.distribuidoresBack = distribuidores.filter(dist => dist.dist_distancia < 10);
+      
+      this.distribuidores.map((distribuidor) => {
+        if (distribuidor.dist_endereco.latitude) {
+          let destinations = []
+          let destination = new google.maps.LatLng(distribuidor.dist_endereco.latitude, distribuidor.dist_endereco.longitude);
+          destinations.push(destination)
+          this.distanceMatrixService.getDistanceMatrix(
+            {
+              origins: this.origins,
+              destinations: destinations,
+              travelMode: 'DRIVING'
+            }, (response, status) => {
+              if (status == 'OK') {
+                if (response.rows[0].elements[0].status == 'OK') {
+                  distribuidor.dist_distancia_value = response.rows[0].elements[0].distance.value;
+                  distribuidor.dist_distancia_text = response.rows[0].elements[0].distance.text;
+                  distribuidor.dist_duracao_value = response.rows[0].elements[0].duration.value;
+                  distribuidor.dist_duracao_text = response.rows[0].elements[0].duration.text;
+                }
+              }
+            });
+        }
+      })
+    })
+  
   }
 
   refreshMap() {

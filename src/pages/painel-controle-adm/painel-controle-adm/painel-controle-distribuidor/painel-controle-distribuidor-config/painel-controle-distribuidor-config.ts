@@ -211,7 +211,7 @@ export class PainelControleDistribuidorConfigPage {
   adicionarFuncionario() {
     let usuariosLista: Usuario[] = [];
     this.usuarioSrvc.usuarios.subscribe((usuarios: Usuario[]) => {
-      usuariosLista = usuarios.filter(x => this.funcionarios.filter(y => y.key == x.key).length == 0);
+      usuariosLista = usuarios.filter(x => this.funcionarios.filter(y => y.key == x.key).length > 0);
       if (usuariosLista.length == 0) {
         let toast = this.toastCtrl.create({
           message: 'Não há usuários para adicionar.',

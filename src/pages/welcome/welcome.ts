@@ -24,7 +24,7 @@ export class WelcomePage {
     public storage: Storage
   ) { }
   detail(event) {
-    console.log('event',event);
+    console.log('event', event);
 
   }
   selectEndereco(endereco) {
@@ -36,29 +36,37 @@ export class WelcomePage {
   }
 
   updateEndereco(endereco: Endereco) {
-    this.storage.get("_UsuarioAtual").then((usuario:Usuario) => {
+    this.storage.get("_UsuarioAtual").then((usuario: Usuario) => {
       console.log(usuario);
     })
 
-    if (!this.usuarioSrvc.usuarioAtual.usr_endereco) {
-      this.usuarioSrvc.usuarioAtual.usr_endereco = [];
+    if (this.usuarioSrvc.usuarioAtual) {
+      if (!this.usuarioSrvc.usuarioAtual.usr_endereco) this.usuarioSrvc.usuarioAtual.usr_endereco = [];
+      this.usuarioSrvc.usuarioAtual.usr_endereco.push(endereco);
+      const path = `${this.usuarioSrvc.basePath}/${this.usuarioSrvc.usuarioAtual.key}/usr_endereco`;
+      this.usuarioSrvc.db.object(path).set(this.usuarioSrvc.usuarioAtual.usr_endereco);
+      this.storage.set("_EnderecoTemporario", undefined);     
+      this.storage.set("_UsuarioAtual", this.usuarioSrvc.usuarioAtual);
+    } else {
+      this.storage.set("_EnderecoTemporario", endereco);     
     }
-    this.usuarioSrvc.usuarioAtual.usr_endereco.push(endereco);
-    const path = `${this.usuarioSrvc.basePath}/${this.usuarioSrvc.usuarioAtual.key}/usr_endereco`;
-    this.usuarioSrvc.db.object(path).set(this.usuarioSrvc.usuarioAtual.usr_endereco);
-    this.storage.set("_UsuarioAtual",this.usuarioSrvc.usuarioAtual);
-    
   }
 
   ngOnInit() {
-    if (this.usuarioSrvc.usuarioAtual) 
+    if (this.usuarioSrvc.usuarioAtual) {
       if (this.usuarioSrvc.usuarioAtual.usr_endereco)
-        this.navCtrl.setRoot('PainelPedidosPage') 
+        this.navCtrl.setRoot('PainelPedidosPage')
+    } else {
+      this.storage.get("_EnderecoTemporario").then((endereco: Endereco) => {
+        if (endereco )
+          this.navCtrl.setRoot('PainelPedidosPage')
+      });           
+    }
   }
 
   signupDistribuidora() {
     if (this.usuarioSrvc.usuarioAtual) {
-      this.navCtrl.setRoot  ('PainelPedidosPage')
+      this.navCtrl.setRoot('PainelPedidosPage')
     } else {
       this.modalCtrl.create('LoginPage', { message: "NOT_AUTHENTICATED" }).present();
     }
