@@ -18,6 +18,7 @@ import { Storage } from '@ionic/storage/es2015/storage';
 import { Endereco } from '../../../../providers/database/models/shared-models';
 import { take } from 'rxjs/operator/take';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
+import { App } from 'ionic-angular/components/app/app';
 
 @IonicPage()
 @Component({
@@ -42,6 +43,7 @@ export class PedidoFormaPagamentoPage {
     public pedidoSrvc: PedidoService,
     public storage: Storage,
     public modalCtrl: ModalController,
+    public app: App
   ) {
     this.storage.get('_PedidoTemporario').then((pedido: Pedido) => {
       this.carrinho = pedido;

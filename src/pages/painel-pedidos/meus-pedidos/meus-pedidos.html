@@ -7,7 +7,7 @@
 <ion-content class="content-desktop">
   <div class="content-desktop-margin-bottom">
 
-    <ion-list>
+    <ion-list *ngIf='pedidos.length' >
       <ion-item *ngFor='let pedido of pedidos' (click)="acompanharPedido(pedido)" [ngClass]="{'item-finished': pedido.status == 5 || pedido.status == 6}">
         <ion-thumbnail item-start>
           <img *ngIf="!pedido.distribuidor.dist_img" src="assets/img/appicon.png">
@@ -21,6 +21,10 @@
         <p text-right *ngIf="pedido.troco">Troco para R${{pedido.troco}}</p>
       </ion-item>
     </ion-list>
+    <div text-center *ngIf='!pedidos.length' >      
+        <p>Você ainda não realizou um pedido.</p>
+        <button ion-button (click)="facaSeuPedido()">Faça seu pedido</button>
+    </div>    
   </div>
 
 </ion-content>

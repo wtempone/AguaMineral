@@ -22,8 +22,12 @@ export class CarrinhoPage {
     public storage: Storage,
     public modalCtrl: ModalController,
   ) {
+  }
+
+  ionViewWillEnter() {
     this.storage.get('_PedidoTemporario').then((pedido: Pedido) => { this.carrinho = pedido});
   }
+
   adicionarMaisProdutos() {
     this.navCtrl.pop();
   }
@@ -97,15 +101,7 @@ export class CarrinhoPage {
   }
 
   escolherFormaPagamento() {
-    let modal = this.modalCtrl.create('PedidoFormaPagamentoPage')
-    modal.present({
-      ev: event
-    });
-    modal.onDidDismiss(() => {
-      this.storage.get('_PedidoTemporario').then((pedido: Pedido) => {
-        this.carrinho = pedido;
-      })
-    })    
+    this.navCtrl.push('PedidoFormaPagamentoPage');
   }
 
 }

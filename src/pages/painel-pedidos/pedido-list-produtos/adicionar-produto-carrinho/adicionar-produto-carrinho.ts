@@ -182,8 +182,6 @@ export class AdicionarProdutoCarrinhoPage {
     });
     this.carrinho.total += Number(this.carrinho.distribuidor.dist_taxa_entrega);
     this.storage.set('_PedidoTemporario',this.carrinho);
-    // this.usuarioSrvc.usuarioAtual.usr_carrinho = this.carrinho;
-    // this.usuarioSrvc.updateCarrinho(this.carrinho);
   }
 
 

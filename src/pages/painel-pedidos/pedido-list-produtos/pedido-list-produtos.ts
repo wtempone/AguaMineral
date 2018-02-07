@@ -39,17 +39,13 @@ export class PedidoListProdutosPage {
     }
     this.storage.get('_PedidoTemporario').then((pedido: Pedido) => { this.carrinho = pedido })
   }
+
+  ionViewWillEnter() {
+    this.storage.get('_PedidoTemporario').then((pedido: Pedido) => { this.carrinho = pedido })
+  }
+  
   verCarrinho() {
-    //this.navCtrl.push('CarrinhoPage')
-    let modal = this.modalCtrl.create('CarrinhoPage')
-    modal.present({
-      ev: event
-    });
-    modal.onDidDismiss(() => {
-      this.storage.get('_PedidoTemporario').then((pedido: Pedido) => {
-        this.carrinho = pedido;
-      })
-    })
+    this.navCtrl.push('CarrinhoPage')
   }
   adicionarAoCarrinho(distribuidorProduto) {
     let modal = this.modalCtrl.create('AdicionarProdutoCarrinhoPage', {
